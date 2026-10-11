@@ -388,7 +388,14 @@
   }
 
   .actions-row {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+  }
+  @media (max-width: 380px) {
+    .actions-row { gap: 8px; }
+    .big-btn { padding: 18px 8px; min-height: 124px; }
+    .big-btn .title { font-size: 15px; }
+    .big-btn .sub { font-size: 11px; }
+    .big-btn .icon-wrap { width: 56px; height: 56px; font-size: 30px; }
   }
   .big-btn {
     border: none;
@@ -445,6 +452,20 @@
   .big-btn.mejora {
     background: linear-gradient(135deg, #FFB6C1 0%, #F06B7E 50%, #D9485F 100%);
     box-shadow: 0 10px 24px rgba(217, 72, 95, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+  .big-btn.subs {
+    background: linear-gradient(135deg, #F8B7CE 0%, #F48FB1 50%, #E06A92 100%);
+    box-shadow: 0 10px 24px rgba(240, 107, 126, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+  .big-btn.subs .icon-wrap { position: relative; }
+  .big-btn.subs .icon-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 50%;
+    transform: translateX(-50%);
+    width: 22px; height: 3px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
   }
   .big-btn:disabled {
     opacity: 0.45;
@@ -1068,6 +1089,331 @@
   }
 
   /* ============================================================
+     🏆 MIS LOGROS
+     ============================================================ */
+  .logros-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px 18px 100px;
+  }
+  .logros-header {
+    margin-bottom: 18px;
+  }
+  .logros-title {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.1;
+  }
+  .logros-sub {
+    font-family: var(--font-soft);
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .logros-kid-selector {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 2px 14px;
+    scrollbar-width: thin;
+  }
+  .logros-kid-selector::-webkit-scrollbar { height: 4px; }
+  .logros-kid-selector::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+  .logros-kid-pill {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px 8px 8px;
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: var(--font-soft);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-2);
+    transition: all 0.15s;
+  }
+  .logros-kid-pill:hover { border-color: var(--teal-300); }
+  .logros-kid-pill.active {
+    background: linear-gradient(135deg, var(--teal-50), white);
+    border-color: var(--teal-400);
+    color: var(--teal-700);
+  }
+  .logros-kid-emoji {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  /* Podio */
+  .logros-podio-wrap { margin-bottom: 18px; }
+  .logros-podio-title {
+    font-family: var(--font-soft);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal-700);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+  .logros-podio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .logros-podio-card {
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 8px 12px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s;
+  }
+  .logros-podio-card:hover { transform: translateY(-2px); }
+  .logros-podio-card.oro {
+    background: linear-gradient(135deg, #FFE49C, white);
+    border-color: #FFCE5C;
+  }
+  .logros-podio-card.plata {
+    background: linear-gradient(135deg, #F0F0F0, white);
+    border-color: #CFD8DC;
+  }
+  .logros-podio-card.bronce {
+    background: linear-gradient(135deg, #FFCCBC, white);
+    border-color: #FFAB91;
+  }
+  .logros-podio-medal {
+    position: absolute;
+    top: -10px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    line-height: 1;
+    background: white;
+    border-radius: 50%;
+    padding: 2px 4px;
+  }
+  .logros-podio-emoji {
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .logros-podio-text {
+    font-family: var(--font-soft);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-2);
+    line-height: 1.2;
+    margin-bottom: 4px;
+    min-height: 28px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .logros-podio-date {
+    font-family: var(--font-soft);
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* Tabs y filtros */
+  .logros-tabs-bar {
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 18px;
+    padding: 8px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 12px rgba(13, 79, 74, 0.04);
+  }
+  .logros-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .logros-tab {
+    flex: 1;
+    padding: 10px 8px;
+    background: var(--bg);
+    border: none;
+    border-radius: 12px;
+    font-family: var(--font-soft);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .logros-tab:hover { color: var(--ink-2); }
+  .logros-tab.active {
+    background: linear-gradient(135deg, var(--teal-400), var(--teal-500));
+    color: white;
+    box-shadow: 0 4px 10px rgba(42, 140, 130, 0.3);
+  }
+  .logros-tab.active .logros-tab-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+  }
+  .logros-tab .ico { font-size: 16px; }
+  .logros-tab-count {
+    background: var(--teal-50);
+    color: var(--teal-700);
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 999px;
+    min-width: 22px;
+    text-align: center;
+  }
+  .logros-filters {
+    display: flex;
+    gap: 4px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--line);
+  }
+  .logros-filter {
+    flex: 1;
+    padding: 6px 8px;
+    background: transparent;
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    font-family: var(--font-soft);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .logros-filter:hover { color: var(--teal-700); }
+  .logros-filter.active {
+    background: var(--teal-50);
+    color: var(--teal-700);
+    border-color: var(--teal-300);
+  }
+
+  /* Lista de logros */
+  .logros-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .logro-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(13, 79, 74, 0.04);
+    animation: logroFadeIn 0.3s ease-out;
+  }
+  @keyframes logroFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .logro-card.like {
+    border-left: 4px solid var(--teal-400);
+  }
+  .logro-card.subsanada {
+    border-left: 4px solid #F48FB1;
+  }
+  .logro-card-icon {
+    font-size: 28px;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    background: var(--bg);
+  }
+  .logro-card.like .logro-card-icon {
+    background: linear-gradient(135deg, var(--teal-50), white);
+  }
+  .logro-card.subsanada .logro-card-icon {
+    background: linear-gradient(135deg, #FCE4EC, white);
+  }
+  .logro-card-body { flex: 1; min-width: 0; }
+  .logro-card-title {
+    font-family: var(--font-soft);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .logro-card-comment {
+    font-size: 13px;
+    color: var(--ink-2);
+    font-style: italic;
+    line-height: 1.4;
+    padding: 6px 10px;
+    background: var(--bg);
+    border-left: 3px solid var(--teal-300);
+    border-radius: 8px;
+    margin: 6px 0;
+  }
+  .logro-card-comment.subsanada {
+    border-left-color: #F48FB1;
+    background: linear-gradient(135deg, #FCE4EC, white);
+  }
+  .logro-card-meta {
+    font-family: var(--font-soft);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .logro-meta-row {
+    line-height: 1.5;
+  }
+  .logro-meta-label {
+    font-weight: 700;
+    color: var(--ink-2);
+  }
+
+  /* Mensaje motivador cuando no hay logros */
+  .logros-empty {
+    text-align: center;
+    padding: 40px 24px;
+    background: white;
+    border: 1.5px dashed var(--teal-300);
+    border-radius: 18px;
+  }
+  .logros-empty .ico {
+    font-size: 56px;
+    margin-bottom: 12px;
+    opacity: 0.85;
+  }
+  .logros-empty .msg {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--teal-700);
+    margin-bottom: 8px;
+  }
+  .logros-empty .sub {
+    font-family: var(--font-soft);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* ============================================================
      TOAST
      ============================================================ */
   .toast {
@@ -1251,6 +1597,456 @@
   }
 
   /* ============================================================
+     SUBSANAR PICKER
+     ============================================================ */
+  .subsanar-picker-modal {
+    max-width: 480px;
+    padding: 18px 16px 16px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .subsanar-picker-modal h2 { text-align: center; font-size: 20px; margin-bottom: 4px; }
+  .subsanar-picker-modal .sub { text-align: center; margin-bottom: 6px; }
+  .subsanar-picker-count {
+    text-align: center;
+    font-family: var(--font-soft);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .subsanar-picker-list {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0 -4px;
+    padding: 0 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .subsanar-picker-list::-webkit-scrollbar { width: 6px; }
+  .subsanar-picker-list::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+  .subsanar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-soft);
+    transition: all 0.15s;
+    width: 100%;
+  }
+  .subsanar-item:hover { border-color: #F48FB1; background: linear-gradient(135deg, #FCE4EC, white); transform: translateY(-1px); }
+  .subsanar-item:active { transform: scale(0.98); }
+  .subsanar-item-icon {
+    font-size: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #FFB6C1, #F06B7E);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    color: white;
+  }
+  .subsanar-item-body { flex: 1; min-width: 0; }
+  .subsanar-item-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-2);
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .subsanar-item-comment {
+    font-size: 12px;
+    color: var(--ink-2);
+    font-style: italic;
+    margin-bottom: 3px;
+    opacity: 0.85;
+    line-height: 1.2;
+  }
+  .subsanar-item-meta {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .subsanar-item-arrow {
+    font-size: 26px;
+    color: var(--muted);
+    flex: none;
+    line-height: 1;
+  }
+
+  .subsanar-empty {
+    text-align: center;
+    padding: 32px 20px;
+  }
+  .subsanar-empty .ico { font-size: 56px; margin-bottom: 12px; }
+  .subsanar-empty .msg {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teal-700);
+    margin-bottom: 8px;
+  }
+  .subsanar-empty .sub-msg {
+    font-family: var(--font-soft);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* ============================================================
+     CATÁLOGO DE MOTIVOS
+     ============================================================ */
+  .motivo-picker-modal {
+    max-width: 520px;
+    padding: 18px 16px 16px;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .motivo-picker-modal h2 { font-size: 20px; margin-bottom: 4px; text-align: center; }
+  .motivo-picker-modal .sub { text-align: center; margin-bottom: 14px; }
+  .motivo-search-wrap {
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .motivo-search-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    opacity: 0.6;
+  }
+  .motivo-search-wrap input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    font-size: 15px;
+    font-family: var(--font-soft);
+    background: var(--bg);
+    transition: border-color 0.15s;
+  }
+  .motivo-search-wrap input:focus { outline: none; border-color: var(--teal-400); background: white; }
+
+  .motivo-cat-chips {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 2px 8px;
+    margin-bottom: 8px;
+    scrollbar-width: thin;
+  }
+  .motivo-cat-chips::-webkit-scrollbar { height: 4px; }
+  .motivo-cat-chips::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+  .motivo-cat-chip {
+    flex: none;
+    padding: 7px 12px;
+    border: 1.5px solid var(--line);
+    background: white;
+    border-radius: 999px;
+    font-family: var(--font-soft);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ink-2);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .motivo-cat-chip:hover { border-color: var(--teal-300); }
+  .motivo-cat-chip.active {
+    background: var(--teal-400);
+    color: white;
+    border-color: var(--teal-500);
+  }
+
+  .motivo-grid-wrap {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0 -4px;
+    padding: 0 4px;
+    scrollbar-width: thin;
+  }
+  .motivo-grid-wrap::-webkit-scrollbar { width: 6px; }
+  .motivo-grid-wrap::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+  .motivo-section-title {
+    font-family: var(--font-soft);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 12px 4px 8px;
+  }
+  .motivo-section-title:first-child { margin-top: 4px; }
+
+  .motivo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  @media (min-width: 480px) {
+    .motivo-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .motivo-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 6px 10px;
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    min-height: 86px;
+    position: relative;
+  }
+  .motivo-btn:hover { border-color: var(--teal-300); background: var(--teal-50); transform: translateY(-1px); }
+  .motivo-btn:active { transform: scale(0.97); }
+  .motivo-btn.custom { border-style: dashed; }
+  .motivo-btn .motivo-emoji { font-size: 30px; line-height: 1; margin-bottom: 6px; }
+  .motivo-btn .motivo-name {
+    font-family: var(--font-soft);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-2);
+    line-height: 1.2;
+  }
+  .motivo-custom-badge {
+    position: absolute;
+    top: 6px; right: 6px;
+    background: var(--gold-400);
+    color: var(--ink);
+    font-family: var(--font-soft);
+    font-size: 9px;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 6px;
+    text-transform: uppercase;
+  }
+  .motivo-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 24px 12px;
+    color: var(--muted);
+    font-family: var(--font-soft);
+    font-size: 13px;
+  }
+  .motivo-custom-btn {
+    margin-top: 12px;
+    padding: 12px;
+    width: 100%;
+    background: var(--gold-300);
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  /* Preview del motivo dentro del register modal */
+  .reg-motivo-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--teal-50);
+    border: 1.5px solid var(--teal-200);
+    border-radius: 14px;
+    margin: 0 0 14px;
+    font-family: var(--font-soft);
+    font-weight: 600;
+    color: var(--teal-700);
+  }
+  .reg-motivo-preview .motivo-emoji { font-size: 24px; }
+
+  /* ============================================================
+     SUBSANADA
+     ============================================================ */
+  .entry.subsanada { opacity: 0.92; }
+  .entry-icon.subsanada {
+    background: linear-gradient(135deg, #F8B7CE, #F48FB1) !important;
+    color: white !important;
+  }
+  .summary-card.subsanada {
+    background: linear-gradient(135deg, #FCE4EC, white);
+    border-color: rgba(244, 143, 177, 0.2);
+  }
+  .summary-card.subsanada .num { color: #C25628; }
+  .summary-card.subsanada .icon { background: linear-gradient(135deg, #F8B7CE, #F48FB1); }
+  .fill-subsanada {
+    background: linear-gradient(180deg, #F8B7CE 0%, #F48FB1 100%);
+    border-radius: 6px 6px 0 0;
+  }
+  .entry-subsanada {
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: linear-gradient(135deg, #FCE4EC, white);
+    border-radius: 10px;
+    border: 1px solid rgba(244, 143, 177, 0.2);
+  }
+  .subsanada-tag {
+    font-family: var(--font-soft);
+    font-size: 11px;
+    font-weight: 700;
+    color: #C25628;
+    margin-bottom: 4px;
+  }
+  .subsanada-comment {
+    background: white;
+    border-left-color: #F48FB1;
+  }
+  .entry-btn.subs {
+    color: #F48FB1;
+  }
+  .entry-btn.subs:hover {
+    background: rgba(244, 143, 177, 0.12);
+  }
+  .entry-btn.subs-undo {
+    color: var(--coral-500);
+  }
+  .entry-btn.subs-undo:hover {
+    background: rgba(242, 148, 100, 0.1);
+  }
+
+  .subsanada-original {
+    text-align: left;
+    padding: 12px 14px;
+    background: var(--bg);
+    border-radius: 12px;
+    margin-top: 12px;
+    font-family: var(--font-soft);
+    font-size: 13px;
+  }
+  .subsanada-original-label {
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .subsanada-original-text {
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+
+  .kids-stat.subsanada::before {
+    background: linear-gradient(90deg, #F8B7CE, #F48FB1);
+  }
+  .kids-stat.subsanada .num { color: #C25628; }
+
+  /* ============================================================
+     GESTIÓN DE MOTIVOS
+     ============================================================ */
+  .motivos-manager-modal {
+    max-width: 540px;
+    padding: 18px 16px 16px;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .motivos-manager-modal h2 { text-align: center; font-size: 20px; margin-bottom: 4px; }
+  .motivos-manager-modal .sub { text-align: center; margin-bottom: 14px; font-size: 12px; }
+  .motivos-manager-list {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0 -4px;
+    padding: 0 4px;
+  }
+  .motivos-cat-section {
+    margin-bottom: 16px;
+  }
+  .motivos-cat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 4px;
+    margin-bottom: 6px;
+  }
+  .motivos-cat-title {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .motivos-cat-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .motivo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+  }
+  .motivo-item.inactive { opacity: 0.55; }
+  .motivo-item-emoji { font-size: 22px; flex: none; }
+  .motivo-item-name {
+    flex: 1;
+    font-family: var(--font-soft);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .motivo-item-actions {
+    display: flex;
+    gap: 4px;
+  }
+  .motivo-item-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px 6px;
+    border-radius: 8px;
+    transition: background 0.12s;
+  }
+  .motivo-item-actions button:hover { background: var(--bg); }
+  .motivos-add-btn {
+    margin-top: 6px;
+    width: 100%;
+    padding: 8px;
+    background: var(--teal-50);
+    color: var(--teal-700);
+    border: 1.5px dashed var(--teal-300);
+    font-size: 12px;
+  }
+  .motivos-add-cat {
+    width: 100%;
+    padding: 10px;
+    background: var(--bg);
+    color: var(--ink-2);
+    border: 1.5px dashed var(--line);
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 10px;
+  }
+  .btn-tiny {
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+  }
+
+  /* ============================================================
      UTIL
      ============================================================ */
   .hidden { display: none !important; }
@@ -1293,6 +2089,45 @@
   </div>
 
   <!-- VISTA PAPÁS -->
+  <!-- VISTA: LOGROS -->
+  <div id="logrosView" class="view">
+    <div class="logros-wrap" id="logrosWrap">
+      <!-- Header -->
+      <div class="logros-header">
+        <div>
+          <h1 class="logros-title">🏆 Mis logros</h1>
+          <div class="logros-sub" id="logrosSub">Celebremos todo lo bueno y lo que has mejorado</div>
+        </div>
+      </div>
+
+      <!-- Selector de niño -->
+      <div class="logros-kid-selector" id="logrosKidSelector"></div>
+
+      <!-- Podio de logros (top 3) -->
+      <div class="logros-podio-wrap" id="logrosPodioWrap"></div>
+
+      <!-- Tabs y filtros -->
+      <div class="logros-tabs-bar">
+        <div class="logros-tabs">
+          <button class="logros-tab active" data-tab="directos" onclick="switchLogrosTab('directos')">
+            <span class="ico">👍</span>Directos <span class="logros-tab-count" id="logrosCountDirectos">0</span>
+          </button>
+          <button class="logros-tab" data-tab="superados" onclick="switchLogrosTab('superados')">
+            <span class="ico">❤️</span>Superados <span class="logros-tab-count" id="logrosCountSuperados">0</span>
+          </button>
+        </div>
+        <div class="logros-filters">
+          <button class="logros-filter active" data-filter="all" onclick="setLogrosFilter('all')">Todo</button>
+          <button class="logros-filter" data-filter="month" onclick="setLogrosFilter('month')">Mes</button>
+          <button class="logros-filter" data-filter="week" onclick="setLogrosFilter('week')">Semana</button>
+        </div>
+      </div>
+
+      <!-- Lista de logros -->
+      <div class="logros-list" id="logrosList"></div>
+    </div>
+  </div>
+
   <div id="parentsView" class="view active">
 
     <!-- Selección de hijo -->
@@ -1318,9 +2153,15 @@
         </button>
         <button class="big-btn mejora" onclick="openRegisterModal('mejora')" id="btnMejora" disabled>
           <span class="sheen"></span>
-          <div class="icon-wrap">❤️</div>
+          <div class="icon-wrap">🩹</div>
           <div class="title">Marcar mejora</div>
-          <div class="sub">Algo para trabajar</div>
+          <div class="sub">A trabajar</div>
+        </button>
+        <button class="big-btn subs" onclick="openSubsanarPicker()" id="btnSubsanar" disabled>
+          <span class="sheen"></span>
+          <div class="icon-wrap">❤️</div>
+          <div class="title">Subsanar</div>
+          <div class="sub">Ya lo hizo</div>
         </button>
       </div>
       <div class="quick-cats" id="quickCats"></div>
@@ -1339,9 +2180,14 @@
           <div class="label">Likes</div>
         </div>
         <div class="summary-card mejora">
-          <div class="icon">❤️</div>
+          <div class="icon">🩹</div>
           <div class="num" id="totalMejoras">0</div>
-          <div class="label">Mejoras</div>
+          <div class="label">Mejoras pendientes</div>
+        </div>
+        <div class="summary-card subsanada">
+          <div class="icon">❤️</div>
+          <div class="num" id="totalSubsanadas">0</div>
+          <div class="label">Mejoras subsanadas</div>
         </div>
       </div>
       <div class="week-chart" id="weekChart"></div>
@@ -1371,6 +2217,9 @@
 <nav class="bottom-nav">
   <button class="nav-btn active" data-view="parents" onclick="switchView('parents')">
     <span class="ico">🏠</span>Inicio
+  </button>
+  <button class="nav-btn" data-view="logros" onclick="switchView('logros')">
+    <span class="ico">🏆</span>Logros
   </button>
   <button class="nav-btn" data-view="history" onclick="scrollToHistory()">
     <span class="ico">📋</span>Historial
@@ -1404,8 +2253,10 @@
     <h2 id="regTitle">👍 Registrar like</h2>
     <p class="sub" id="regSub">Para: <b id="regKid">—</b></p>
 
-    <div class="field">
-      <label>Elige una categoría</label>
+    <div class="reg-motivo-preview" id="regMotivoPreview" style="display:none;"></div>
+
+    <div class="field" id="regCatsField">
+      <label id="regCatsLabel">Elige una categoría</label>
       <div class="cat-picker" id="regCats"></div>
     </div>
 
@@ -1477,7 +2328,7 @@
         <select id="newCatType" style="width:130px;">
           <option value="both">Ambas</option>
           <option value="like">Solo 👍</option>
-          <option value="mejora">Solo ❤️</option>
+          <option value="mejora">Solo 🩹</option>
         </select>
         <button class="btn btn-primary" style="flex:none; padding:14px 18px;" onclick="addCategory()">+</button>
       </div>
@@ -1507,7 +2358,7 @@
       <select id="filterType">
         <option value="all">Todos</option>
         <option value="like">👍 Solo likes</option>
-        <option value="mejora">❤️ Solo mejoras</option>
+        <option value="mejora">🩹 Solo mejoras</option>
       </select>
     </div>
 
@@ -1574,9 +2425,23 @@
 
 <script>
 // ============================================================
-// STATE
+// NAMESPACE & STORAGE
+// Detección por URL para aislar preview de producción.
+// Preview usa prefijo "preview_" en localStorage y base IndexedDB propia.
+// Producción mantiene las claves originales (compat con respaldos v1-v3).
 // ============================================================
-const STORAGE_KEY = '***';
+const APP_NAMESPACE = (function() {
+  try {
+    const path = (typeof location !== 'undefined' && location.pathname) || '';
+    return /\/likes-en-casa-preview\//.test(path) ? 'preview' : 'prod';
+  } catch (e) { return 'prod'; }
+})();
+
+const STORAGE_KEY = APP_NAMESPACE === 'preview' ? 'preview:***' : '***';
+const DB_NAME     = APP_NAMESPACE === 'preview' ? 'likes_en_casa_db_preview' : 'likes_en_casa_db';
+const DB_VERSION  = 1;
+const PHOTOS_STORE = 'photos';
+
 const DEFAULT_PIN = '1234';
 
 const DEFAULT_CATEGORIES = [
@@ -1586,6 +2451,47 @@ const DEFAULT_CATEGORIES = [
   { id: 'responsib',  name: 'Responsabilidad',       icon: '⏰', type: 'both' },
   { id: 'respect',    name: 'Respeto y convivencia', icon: '💚', type: 'both' },
   { id: 'habits',     name: 'Hábitos personales',    icon: '🦷', type: 'both' }
+];
+
+// ============================================================
+// MOTIVOS PARA LIKES (catálogo)
+// Recuperado del proyecto original EnseñandoLuk (sin montos de dinero).
+// Personalizables desde Ajustes de papás.
+// ============================================================
+const DEFAULT_MOTIVO_CATEGORIES = [
+  { id: 'mc1', name: 'Escuela',                   icon: '🏫', isCustom: false, order: 1 },
+  { id: 'mc2', name: 'Orden y limpieza',          icon: '🧹', isCustom: false, order: 2 },
+  { id: 'mc3', name: 'Higiene y cuidado personal', icon: '🪥', isCustom: false, order: 3 },
+  { id: 'mc4', name: 'Ayuda en casa',             icon: '🍽️', isCustom: false, order: 4 },
+  { id: 'mc5', name: 'Convivencia',               icon: '🤝', isCustom: false, order: 5 },
+  { id: 'mc6', name: 'Actividades',               icon: '⚽', isCustom: false, order: 6 }
+];
+
+const DEFAULT_MOTIVOS = [
+  // Escuela
+  { id: 'm1',  name: 'Hacer las tareas escolares',         emoji: '📚', categoryId: 'mc1' },
+  { id: 'm2',  name: 'Hacer la tarea sin que se lo pidan', emoji: '⭐', categoryId: 'mc1' },
+  { id: 'm3',  name: 'Preparar su mochila para el colegio', emoji: '🎒', categoryId: 'mc1' },
+  { id: 'm4',  name: 'Limpiar su escritorio',              emoji: '📖', categoryId: 'mc1' },
+  // Orden y limpieza
+  { id: 'm5',  name: 'Tender la cama',                     emoji: '🛏️', categoryId: 'mc2' },
+  { id: 'm6',  name: 'Recoger y ordenar juguetes',         emoji: '🧸', categoryId: 'mc2' },
+  { id: 'm7',  name: 'Recoger ropa y zapatos',             emoji: '👕', categoryId: 'mc2' },
+  { id: 'm8',  name: 'Organizar su habitación',            emoji: '🏠', categoryId: 'mc2' },
+  // Higiene y cuidado personal
+  { id: 'm9',  name: 'Lavarse los dientes por la mañana',  emoji: '🦷', categoryId: 'mc3' },
+  { id: 'm10', name: 'Lavarse los dientes por la noche',   emoji: '🦷', categoryId: 'mc3' },
+  { id: 'm11', name: 'Bañarse',                            emoji: '🛁', categoryId: 'mc3' },
+  // Ayuda en casa
+  { id: 'm12', name: 'Regar las plantas',                  emoji: '🌱', categoryId: 'mc4' },
+  { id: 'm13', name: 'Lavar los platos',                   emoji: '🍽️', categoryId: 'mc4' },
+  { id: 'm14', name: 'Sacar la basura',                    emoji: '🗑️', categoryId: 'mc4' },
+  { id: 'm15', name: 'Ayudar con las compras',             emoji: '🛒', categoryId: 'mc4' },
+  // Convivencia
+  { id: 'm16', name: 'Ayudar a un hermano o hermana',       emoji: '🤝', categoryId: 'mc5' },
+  // Actividades
+  { id: 'm17', name: 'Practicar un instrumento musical',   emoji: '🎵', categoryId: 'mc6' },
+  { id: 'm18', name: 'Hacer ejercicio o actividad física', emoji: '🏃', categoryId: 'mc6' }
 ];
 
 const EMOJI_OPTIONS = ['👦','👧','🧒','👶','🦸','🧙','🦊','🐱','🐶','🐼','🐨','🦄','🐯','🐸','🐵','🐰','🦁','🐺','🌟','⭐','🌈','🚀','🎨','🎮','⚽','🎵','📚','🌻'];
@@ -1605,6 +2511,9 @@ const COLOR_OPTIONS = [
 let state = {
   kids: [],
   categories: [],
+  motivoCategories: [],
+  motivos: [],
+  motivoRecents: [],  // IDs de motivos usados recientemente (más recientes primero)
   entries: [],
   pin: DEFAULT_PIN,
   lastSelectedKid: null,
@@ -1620,14 +2529,17 @@ let editingEntry = null; // null = creating, otherwise editing existing entry
 let pinBuffer = '';
 let pendingMode = 'parents';
 let audioCtx = null;
+let pendingMotivoId = null;
+let pendingMotivoText = null;
+let pendingMotivoEmoji = null;
+let motivoPickerFilter = { catId: 'all', query: '' };
+let editingMotivo = null; // motivo siendo editado (null = nuevo)
+let editingMotivoCat = null; // categoría de motivo siendo editada
+let motivoFormState = { id: null, name: '', emoji: '', categoryId: null, isCustom: true, active: true };
 
 // ============================================================
-// INDEXED DB (para fotos)
+// INDEXED DB (para fotos) — DB_NAME definido arriba según namespace
 // ============================================================
-const DB_NAME = 'likes_en_casa_db';
-const DB_VERSION = 1;
-const PHOTOS_STORE = 'photos';
-
 function openDB() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
@@ -1732,6 +2644,10 @@ function loadState() {
 
   if (!state.categories || state.categories.length === 0) state.categories = [...DEFAULT_CATEGORIES];
 
+  if (!state.motivoCategories || state.motivoCategories.length === 0) state.motivoCategories = [...DEFAULT_MOTIVO_CATEGORIES];
+  if (!state.motivos || state.motivos.length === 0) state.motivos = DEFAULT_MOTIVOS.map(m => ({ ...m, isCustom: false, active: true, createdAt: 0 }));
+  if (!state.motivoRecents) state.motivoRecents = [];
+
   if (!state.kids || state.kids.length === 0) {
     state.kids = [
       { id: 'k1', name: 'Luke',  emoji: '👦', color: '#4DB6AC' },
@@ -1748,6 +2664,9 @@ function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
     kids: state.kids,
     categories: state.categories,
+    motivoCategories: state.motivoCategories,
+    motivos: state.motivos,
+    motivoRecents: state.motivoRecents,
     entries: state.entries,
     pin: state.pin
   }));
@@ -1844,6 +2763,9 @@ function render() {
   renderQuickCats();
   renderSummary();
   renderHistory();
+  if (typeof renderLogros === 'function' && $('logrosView')?.classList.contains('active')) {
+    renderLogros();
+  }
 }
 
 function renderHero() {
@@ -1895,7 +2817,7 @@ function renderKids() {
         <div class="kid-name">${escapeHTML(k.name)}</div>
         <div class="kid-stats">
           <span class="like">👍 ${stats.likesToday}</span>
-          <span class="dis">❤️ ${stats.mejorasToday}</span>
+          <span class="dis">🩹 ${stats.mejorasToday}</span>
         </div>
       </div>
       <span class="kid-badge">Sem: ${stats.likesWeek}</span>
@@ -1930,16 +2852,21 @@ function renderActions() {
   const title = $('actionsTitle');
   const btnLike = $('btnLike');
   const btnMejora = $('btnMejora');
+  const btnSubsanar = $('btnSubsanar');
   if (!title || !btnLike || !btnMejora) return;
   const kid = state.kids.find(k => k.id === state.lastSelectedKid);
   if (kid) {
     title.textContent = `Para: ${kid.emoji} ${kid.name}`;
     btnLike.disabled = false;
     btnMejora.disabled = false;
+    // Subsanar solo si el niño tiene mejoras pendientes
+    const hasPending = state.entries.some(e => e.kidId === kid.id && e.type === 'mejora' && !e.subsanada);
+    if (btnSubsanar) btnSubsanar.disabled = !hasPending;
   } else {
     title.textContent = 'Elige un hijo para empezar';
     btnLike.disabled = true;
     btnMejora.disabled = true;
+    if (btnSubsanar) btnSubsanar.disabled = true;
   }
 }
 
@@ -1957,14 +2884,16 @@ function renderQuickCats() {
 }
 
 function renderSummary() {
-  const el1 = $('totalLikes'); const el2 = $('totalMejoras');
+  const el1 = $('totalLikes'); const el2 = $('totalMejoras'); const el3 = $('totalSubsanadas');
   if (!el1 || !el2) return;
   const weekStart = getWeekStart(new Date());
   const ws = weekStart.toISOString().split('T')[0];
   const likes = state.entries.filter(e => e.date >= ws && e.type === 'like').length;
-  const mejoras = state.entries.filter(e => e.date >= ws && e.type === 'mejora').length;
+  const mejoras = state.entries.filter(e => e.date >= ws && e.type === 'mejora' && !e.subsanada).length;
+  const subsanadas = state.entries.filter(e => e.date >= ws && e.type === 'mejora' && e.subsanada).length;
   el1.textContent = likes;
   el2.textContent = mejoras;
+  if (el3) el3.textContent = subsanadas;
 
   $('rangeLabel').textContent = `${weekStart.getDate()} – ${new Date(weekStart.getTime() + 6*86400000).getDate()} ${new Date(weekStart.getTime() + 6*86400000).toLocaleDateString('es-MX', { month: 'short' })}`;
 
@@ -1980,10 +2909,11 @@ function renderSummary() {
     const key = d.toISOString().split('T')[0];
     const dayEntries = state.entries.filter(e => e.date === key);
     const lk = dayEntries.filter(e => e.type === 'like').length;
-    const dk = dayEntries.filter(e => e.type === 'mejora').length;
-    const total = lk + dk;
+    const dk = dayEntries.filter(e => e.type === 'mejora' && !e.subsanada).length;
+    const sk = dayEntries.filter(e => e.type === 'mejora' && e.subsanada).length;
+    const total = lk + dk + sk;
     if (total > maxTotal) maxTotal = total;
-    dayData.push({ key, lk, dk, total, label: days[i], isToday: key === todayKey });
+    dayData.push({ key, lk, dk, sk, total, label: days[i], isToday: key === todayKey });
   }
   if (maxTotal === 0) maxTotal = 1;
 
@@ -1992,9 +2922,11 @@ function renderSummary() {
     day.className = 'day-bar' + (d.isToday ? ' today' : '');
     const lkPct = d.lk > 0 ? Math.max((d.lk / maxTotal) * 90, 8) : 0;
     const dkPct = d.dk > 0 ? Math.max((d.dk / maxTotal) * 90, 8) : 0;
+    const skPct = d.sk > 0 ? Math.max((d.sk / maxTotal) * 90, 8) : 0;
     day.innerHTML = `
       <div class="bar">
-        <div class="fill-mejoras" style="height:${dkPct}%; order:2;"></div>
+        <div class="fill-mejoras" style="height:${dkPct}%; order:3;"></div>
+        <div class="fill-subsanada" style="height:${skPct}%; order:2;"></div>
         <div class="fill-likes" style="height:${lkPct}%; order:1;"></div>
       </div>
       <div class="label">${d.label}</div>
@@ -2028,21 +2960,41 @@ function renderHistory() {
     const kid = state.kids.find(k => k.id === e.kidId);
     const cat = state.categories.find(c => c.id === e.catId);
     const div = document.createElement('div');
-    div.className = 'entry';
+    div.className = 'entry' + (e.subsanada ? ' subsanada' : '');
     const isLike = e.type === 'like';
+    const isMejora = e.type === 'mejora';
+    const isSubsanada = !!e.subsanada;
+    // Icono: 👍 like, 🩹 mejora pendiente, ❤️ mejora subsanada
+    const entryIcon = isLike ? '👍' : (isSubsanada ? '❤️' : '🩹');
+    const iconClass = isLike ? 'like' : (isSubsanada ? 'subsanada' : 'mejora');
     const authorEmoji = e.author === 'papá' ? '👨' : e.author === 'ambos' ? '👨‍👩‍👧' : '👩';
     const authorLabel = e.author === 'papá' ? 'Papá' : e.author === 'ambos' ? 'Ambos' : 'Mamá';
+    // Motivo: preferir snapshot del texto (motivoText) si existe; si no, categoría
+    const motivoEmoji = e.motivoEmoji || (cat ? cat.icon : '');
+    const motivoName = e.motivoText || (cat ? cat.name : '');
+    const subsanadaBlock = isSubsanada ? `
+      <div class="entry-subsanada">
+        <div class="subsanada-tag">❤️ Subsanada · ${authorEmoji} ${authorLabel === 'Mamá' ? (e.subsanada.by === 'papá' ? 'Papá' : (e.subsanada.by === 'ambos' ? 'Ambos' : 'Mamá')) : authorLabel} · ${fmtTime(e.subsanada.at)}</div>
+        ${e.subsanada.comment ? `<div class="entry-comment subsanada-comment">"${escapeHTML(e.subsanada.comment)}"</div>` : ''}
+      </div>` : '';
+    const subsanadaAction = (isMejora && !isSubsanada) ?
+      `<button class="entry-btn subs" onclick="openSubsanadaModal('${e.id}')" title="Marcar como subsanada">❤️</button>` : '';
+    const deshacerAction = (isMejora && isSubsanada) ?
+      `<button class="entry-btn subs-undo" onclick="unmarkSubsanada('${e.id}')" title="Deshacer subsanación">↩️</button>` : '';
     div.innerHTML = `
-      <div class="entry-icon ${isLike ? 'like' : 'mejora'}">${isLike ? '👍' : '❤️'}</div>
+      <div class="entry-icon ${iconClass}">${entryIcon}</div>
       <div class="entry-body">
         <div class="entry-top">
           <span class="entry-kid">${kid ? kid.emoji + ' ' + escapeHTML(kid.name) : 'Sin nombre'}</span>
-          ${cat ? `<span class="entry-cat">· ${cat.icon} ${escapeHTML(cat.name)}</span>` : ''}
+          ${motivoName ? `<span class="entry-cat">· ${motivoEmoji} ${escapeHTML(motivoName)}</span>` : ''}
         </div>
         ${e.comment ? `<div class="entry-comment">"${escapeHTML(e.comment)}"</div>` : ''}
+        ${subsanadaBlock}
         <div class="entry-time">${fmtTime(e.ts)} · ${authorEmoji} ${authorLabel}</div>
       </div>
       <div class="entry-actions">
+        ${subsanadaAction}
+        ${deshacerAction}
         <button class="entry-btn" onclick="editEntry('${e.id}')" title="Editar">✏️</button>
         <button class="entry-btn del" onclick="deleteEntry('${e.id}')" title="Eliminar">🗑️</button>
       </div>
@@ -2068,7 +3020,7 @@ function renderFilterChips() {
     const k = state.kids.find(x => x.id === f.kidId);
     if (k) chips.push({ label: `${k.emoji} ${k.name}`, key: 'kidId' });
   }
-  if (f.type !== 'all') chips.push({ label: f.type === 'like' ? '👍 Likes' : '❤️ Mejoras', key: 'type' });
+  if (f.type !== 'all') chips.push({ label: f.type === 'like' ? '👍 Likes' : '🩹 Mejoras', key: 'type' });
   if (f.catId !== 'all') {
     const c = state.categories.find(x => x.id === f.catId);
     if (c) chips.push({ label: `${c.icon} ${c.name}`, key: 'catId' });
@@ -2123,8 +3075,11 @@ function renderKidsView() {
   const recentHtml = recent.map(e => {
     const cat = state.categories.find(c => c.id === e.catId);
     const isLike = e.type === 'like';
+    const isSubsanada = !!e.subsanada;
+    const entryIcon = isLike ? '👍' : (isSubsanada ? '❤️' : '🩹');
+    const iconClass = isLike ? 'like' : (isSubsanada ? 'subsanada' : 'mejora');
     return `<div class="entry">
-      <div class="entry-icon ${isLike ? 'like' : 'mejora'}">${isLike ? '👍' : '❤️'}</div>
+      <div class="entry-icon ${iconClass}">${entryIcon}</div>
       <div class="entry-body">
         <div class="entry-top"><span class="entry-cat">${cat ? cat.icon + ' ' + escapeHTML(cat.name) : 'Sin categoría'}</span></div>
         ${e.comment ? `<div class="entry-comment">"${escapeHTML(e.comment)}"</div>` : ''}
@@ -2156,6 +3111,11 @@ function renderKidsView() {
         <div class="emoji">💪</div>
         <div class="num">${stats.mejorasWeek}</div>
         <div class="label">Por mejorar</div>
+      </div>
+      <div class="kids-stat subsanada">
+        <div class="emoji">❤️</div>
+        <div class="num">${stats.subsanadasWeek || 0}</div>
+        <div class="label">Ya lo lograste</div>
       </div>
     </div>
     <div class="kids-recent">
@@ -2193,9 +3153,11 @@ function computeStats(kidId) {
   const ofKid = state.entries.filter(e => e.kidId === kidId);
   return {
     likesToday: ofKid.filter(e => e.date === t && e.type === 'like').length,
-    mejorasToday: ofKid.filter(e => e.date === t && e.type === 'mejora').length,
+    mejorasToday: ofKid.filter(e => e.date === t && e.type === 'mejora' && !e.subsanada).length,
+    subsanadasToday: ofKid.filter(e => e.date === t && e.type === 'mejora' && e.subsanada).length,
     likesWeek: ofKid.filter(e => e.date >= ws && e.type === 'like').length,
-    mejorasWeek: ofKid.filter(e => e.date >= ws && e.type === 'mejora').length
+    mejorasWeek: ofKid.filter(e => e.date >= ws && e.type === 'mejora' && !e.subsanada).length,
+    subsanadasWeek: ofKid.filter(e => e.date >= ws && e.type === 'mejora' && e.subsanada).length
   };
 }
 
@@ -2225,27 +3187,57 @@ function openRegisterModal(type, preCatId, entry) {
     currentRegType = entry.type;
     currentRegKid = state.kids.find(k => k.id === entry.kidId);
     if (!currentRegKid) { showToast('El hijo ya no existe', 'mejora'); return; }
-    $('regTitle').textContent = entry.type === 'like' ? '✏️ Editar like' : '✏️ Editar mejora';
+    $('regTitle').textContent = entry.type === 'like' ? '✏️ Editar like' : (entry.subsanada ? '✏️ Editar mejora subsanada' : '✏️ Editar mejora');
     $('regSub').innerHTML = `Para: <b>${currentRegKid.emoji} ${escapeHTML(currentRegKid.name)}</b>`;
     $('regComment').value = entry.comment || '';
     $('regSaveBtn').textContent = 'Guardar cambios';
     preCatId = entry.catId;
+    // Cargar motivo si existe
+    pendingMotivoId = entry.motivoId || null;
+    pendingMotivoText = entry.motivoText || null;
+    pendingMotivoEmoji = entry.motivoEmoji || null;
+    const prev = $('regMotivoPreview');
+    if (prev && entry.motivoEmoji && entry.motivoText) {
+      prev.innerHTML = `<span class="motivo-emoji">${entry.motivoEmoji}</span><span>${escapeHTML(entry.motivoText)}</span>`;
+      prev.style.display = 'flex';
+    } else if (prev) {
+      prev.style.display = 'none';
+      prev.innerHTML = '';
+    }
     // Marcar autor
     document.querySelectorAll('.author-opt').forEach(b => b.classList.toggle('active', b.dataset.author === (entry.author || 'mamá')));
   } else {
     if (!state.lastSelectedKid) { showToast('Selecciona un hijo primero', 'like'); return; }
+    // Si es un LIKE nuevo, abrir primero el catálogo de motivos
+    if (type === 'like') {
+      editingEntry = null;
+      currentRegType = type;
+      currentRegKid = state.kids.find(k => k.id === state.lastSelectedKid);
+      openMotivoPicker();
+      return;
+    }
     editingEntry = null;
     currentRegType = type;
     currentRegKid = state.kids.find(k => k.id === state.lastSelectedKid);
-    $('regTitle').textContent = type === 'like' ? '👍 Dar un like' : '❤️ Marcar mejora';
+    $('regTitle').textContent = type === 'like' ? '👍 Dar un like' : '🩹 Marcar mejora';
     $('regSub').innerHTML = `Para: <b>${currentRegKid.emoji} ${escapeHTML(currentRegKid.name)}</b>`;
     $('regComment').value = '';
     $('regSaveBtn').textContent = 'Guardar';
+    // Reset motivo preview
+    const prev = $('regMotivoPreview'); if (prev) { prev.style.display = 'none'; prev.innerHTML = ''; }
+    pendingMotivoId = null; pendingMotivoText = null; pendingMotivoEmoji = null;
     document.querySelectorAll('.author-opt').forEach(b => b.classList.toggle('active', b.dataset.author === 'mamá'));
   }
 
   const catPicker = $('regCats');
   catPicker.innerHTML = '';
+  // Si es LIKE y ya hay motivo seleccionado, ocultar categorías (motivo ya provee el "qué")
+  const catsField = $('regCatsField');
+  if (currentRegType === 'like' && pendingMotivoId) {
+    if (catsField) catsField.style.display = 'none';
+  } else {
+    if (catsField) catsField.style.display = '';
+  }
   const cats = state.categories.filter(c => c.type === 'both' || c.type === currentRegType);
   cats.forEach((cat, i) => {
     const b = document.createElement('button');
@@ -2295,11 +3287,22 @@ function saveRegister() {
     kidId: currentRegKid.id,
     type: currentRegType,
     catId,
+    motivoId: pendingMotivoId || null,
+    motivoText: pendingMotivoText || null,
+    motivoEmoji: pendingMotivoEmoji || null,
     comment,
     author,
     ts: Date.now(),
-    date: today()
+    date: today(),
+    subsanada: null
   };
+  // Si es un LIKE, registrar el motivo en recientes
+  if (currentRegType === 'like' && pendingMotivoId) {
+    addMotivoToRecents(pendingMotivoId);
+  }
+  pendingMotivoId = null;
+  pendingMotivoText = null;
+  pendingMotivoEmoji = null;
   state.entries.push(entry);
   saveState();
   closeModal('registerModal');
@@ -2605,6 +3608,16 @@ function switchView(view) {
   if (view === 'parents') {
     $('parentsView').classList.add('active');
     $('kidsView').classList.remove('active');
+    $('logrosView').classList.remove('active');
+  } else if (view === 'logros') {
+    $('logrosView').classList.add('active');
+    $('parentsView').classList.remove('active');
+    $('kidsView').classList.remove('active');
+    if (typeof renderLogros === 'function') renderLogros();
+  } else if (view === 'kids') {
+    $('kidsView').classList.add('active');
+    $('parentsView').classList.remove('active');
+    $('logrosView').classList.remove('active');
   }
 }
 function scrollToHistory() {
@@ -2629,6 +3642,11 @@ function showSettings() {
       <div class="field">
         <label>Categorías</label>
         <button class="add-kid-btn" onclick="openCatModal()">⚙️ Personalizar categorías</button>
+      </div>
+
+      <div class="field">
+        <label>Motivos para likes</label>
+        <button class="add-kid-btn" onclick="openMotivosManager()">📚 Gestionar motivos (crear, editar, activar)</button>
       </div>
 
       <div class="field">
@@ -2719,7 +3737,7 @@ function showToast(msg, type) {
   const t = $('toast');
   t.className = 'toast ' + (type === 'mejora' ? 'mejora' : 'like');
   $('toastText').textContent = msg;
-  t.querySelector('.badge').textContent = type === 'mejora' ? '❤️' : '👍';
+  t.querySelector('.badge').textContent = type === 'mejora' ? '🩹' : '👍';
   t.classList.add('show');
   clearTimeout(t._timer);
   t._timer = setTimeout(() => t.classList.remove('show'), 2500);
@@ -2930,6 +3948,692 @@ async function removeKidPhoto() {
 }
 
 // ============================================================
+// CATÁLOGO DE MOTIVOS PARA LIKES
+// Modal con buscador, categorías, motivos recientes y personalizados.
+// ============================================================
+function openMotivoPicker() {
+  motivoPickerFilter = { catId: 'all', query: '' };
+  $('motivoSearch').value = '';
+  renderMotivoPicker();
+  $('motivoPickerModal').classList.add('show');
+  // Foco en buscador tras animación
+  setTimeout(() => $('motivoSearch').focus(), 200);
+}
+
+function closeMotivoPicker() {
+  closeModal('motivoPickerModal');
+}
+
+function renderMotivoPicker() {
+  const q = (motivoPickerFilter.query || '').toLowerCase().trim();
+  const activeCat = motivoPickerFilter.catId;
+
+  // Categorías como chips horizontales
+  const catChips = $('motivoCatChips');
+  catChips.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'motivo-cat-chip' + (activeCat === 'all' ? ' active' : '');
+  allBtn.textContent = '✨ Todas';
+  allBtn.onclick = () => { motivoPickerFilter.catId = 'all'; renderMotivoPicker(); playSound('click'); };
+  catChips.appendChild(allBtn);
+  state.motivoCategories
+    .filter(c => c.active !== false)
+    .sort((a, b) => (a.order || 0) - (b.order || 0))
+    .forEach(cat => {
+      const b = document.createElement('button');
+      b.className = 'motivo-cat-chip' + (activeCat === cat.id ? ' active' : '');
+      b.textContent = `${cat.icon} ${cat.name}`;
+      b.onclick = () => { motivoPickerFilter.catId = cat.id; renderMotivoPicker(); playSound('click'); };
+      catChips.appendChild(b);
+    });
+
+  // Motivos filtrados
+  const grid = $('motivoGrid');
+  grid.innerHTML = '';
+  let motivos = state.motivos.filter(m => m.active !== false);
+
+  // Si hay query, buscar en todas las categorías
+  if (q) {
+    motivos = motivos.filter(m => m.name.toLowerCase().includes(q));
+  } else if (activeCat !== 'all') {
+    motivos = motivos.filter(m => m.categoryId === activeCat);
+  }
+
+  // Sección de recientes (solo si no hay query ni filtro de categoría)
+  if (!q && activeCat === 'all' && state.motivoRecents && state.motivoRecents.length > 0) {
+    const recentsTitle = document.createElement('div');
+    recentsTitle.className = 'motivo-section-title';
+    recentsTitle.textContent = '⭐ Recientes';
+    grid.appendChild(recentsTitle);
+    const recentsWrap = document.createElement('div');
+    recentsWrap.className = 'motivo-grid';
+    const recentMotivos = state.motivoRecents
+      .map(id => state.motivos.find(m => m.id === id))
+      .filter(m => m && m.active !== false)
+      .slice(0, 6);
+    if (recentMotivos.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'motivo-empty';
+      empty.textContent = 'Aún no hay motivos recientes. Selecciona uno abajo para empezar.';
+      recentsWrap.appendChild(empty);
+    } else {
+      recentMotivos.forEach(m => recentsWrap.appendChild(buildMotivoBtn(m)));
+    }
+    grid.appendChild(recentsWrap);
+  }
+
+  // Sección principal
+  const mainTitle = document.createElement('div');
+  mainTitle.className = 'motivo-section-title';
+  if (q) {
+    mainTitle.textContent = `🔍 Resultados para "${motivoPickerFilter.query}"`;
+  } else if (activeCat !== 'all') {
+    const cat = state.motivoCategories.find(c => c.id === activeCat);
+    mainTitle.textContent = `${cat ? cat.icon : ''} ${cat ? cat.name : 'Categoría'}`;
+  } else {
+    mainTitle.textContent = '📚 Todos los motivos';
+  }
+  grid.appendChild(mainTitle);
+
+  const mainWrap = document.createElement('div');
+  mainWrap.className = 'motivo-grid';
+  if (motivos.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'motivo-empty';
+    if (q) {
+      empty.innerHTML = `Sin resultados para "<b>${escapeHTML(motivoPickerFilter.query)}</b>".<br>Prueba con "Otro motivo" abajo.`;
+    } else {
+      empty.textContent = 'No hay motivos en esta categoría. Crea uno desde Ajustes.';
+    }
+    mainWrap.appendChild(empty);
+  } else {
+    motivos.forEach(m => mainWrap.appendChild(buildMotivoBtn(m)));
+  }
+  grid.appendChild(mainWrap);
+}
+
+function buildMotivoBtn(m) {
+  const b = document.createElement('button');
+  b.className = 'motivo-btn' + (m.isCustom ? ' custom' : '');
+  b.dataset.motivoId = m.id;
+  b.innerHTML = `
+    <span class="motivo-emoji">${m.emoji || '⭐'}</span>
+    <span class="motivo-name">${escapeHTML(m.name)}</span>
+    ${m.isCustom ? '<span class="motivo-custom-badge">mío</span>' : ''}
+  `;
+  b.onclick = () => selectMotivo(m.id);
+  return b;
+}
+
+function selectMotivo(motivoId) {
+  const m = state.motivos.find(x => x.id === motivoId);
+  if (!m) return;
+  pendingMotivoId = m.id;
+  pendingMotivoText = m.name;
+  pendingMotivoEmoji = m.emoji;
+  playSound('success');
+  // Cerrar catálogo y abrir registro normal con motivo preseleccionado
+  closeMotivoPicker();
+  // Mostrar el motivo seleccionado arriba del formulario
+  const preview = $('regMotivoPreview');
+  if (preview) {
+    preview.innerHTML = `<span class="motivo-emoji">${m.emoji}</span><span>${escapeHTML(m.name)}</span>`;
+    preview.style.display = 'flex';
+  }
+  $('registerModal').classList.add('show');
+}
+
+function selectCustomMotivo() {
+  // Preguntar texto con un mini prompt
+  const text = prompt('Escribe el motivo del like:');
+  if (!text || !text.trim()) return;
+  const cleanText = text.trim().slice(0, 80);
+  // Crear o reutilizar motivo personalizado con el mismo texto
+  let custom = state.motivos.find(m => m.isCustom && m.name.toLowerCase() === cleanText.toLowerCase());
+  if (!custom) {
+    const cat = state.motivoCategories.find(c => c.name === 'Personalizadas') || state.motivoCategories[state.motivoCategories.length - 1];
+    const catId = cat ? cat.id : 'mc1';
+    custom = {
+      id: 'mc' + Date.now(),
+      name: cleanText,
+      emoji: '✨',
+      categoryId: catId,
+      isCustom: true,
+      active: true,
+      createdAt: Date.now()
+    };
+    state.motivos.push(custom);
+    saveState();
+  }
+  selectMotivo(custom.id);
+}
+
+function onMotivoSearchInput(ev) {
+  motivoPickerFilter.query = ev.target.value;
+  renderMotivoPicker();
+}
+
+function addMotivoToRecents(motivoId) {
+  if (!state.motivoRecents) state.motivoRecents = [];
+  state.motivoRecents = [motivoId, ...state.motivoRecents.filter(id => id !== motivoId)].slice(0, 10);
+  saveState();
+}
+
+// ============================================================
+// SUBSANACIÓN DE MEJORAS
+// Una mejora pendiente (🩹) puede marcarse como subsanada (❤️).
+// ============================================================
+let subsanadaEntry = null;
+let subsanadaAuthorBuffer = 'mamá';
+
+function openSubsanadaModal(entryId) {
+  const e = state.entries.find(x => x.id === entryId);
+  if (!e || e.type !== 'mejora') return;
+  if (e.subsanada) return; // ya está subsanada
+  const kid = state.kids.find(k => k.id === e.kidId);
+  if (!kid) return;
+  subsanadaEntry = e;
+  subsanadaAuthorBuffer = 'mamá';
+  $('subsanadaKidName').innerHTML = `Para: <b>${kid.emoji} ${escapeHTML(kid.name)}</b>`;
+  $('subsanadaOriginal').textContent = e.motivoText || (state.categories.find(c => c.id === e.catId)?.name) || 'Mejora registrada';
+  $('subsanadaComment').value = '';
+  document.querySelectorAll('#subsanadaModal .author-opt').forEach(b => b.classList.toggle('active', b.dataset.author === 'mamá'));
+  $('subsanadaModal').classList.add('show');
+}
+
+function closeSubsanadaModal() {
+  subsanadaEntry = null;
+  closeModal('subsanadaModal');
+}
+
+function selectSubsanadaAuthor(btn) {
+  document.querySelectorAll('#subsanadaModal .author-opt').forEach(x => x.classList.remove('active'));
+  btn.classList.add('active');
+  playSound('click');
+}
+
+function confirmSubsanada() {
+  if (!subsanadaEntry) return;
+  const authorBtn = document.querySelector('#subsanadaModal .author-opt.active');
+  const author = authorBtn ? authorBtn.dataset.author : 'mamá';
+  const authorName = author === 'papá' ? 'Papá' : author === 'ambos' ? 'Ambos' : 'Mamá';
+  const comment = $('subsanadaComment').value.trim();
+  subsanadaEntry.subsanada = {
+    by: author,
+    byName: authorName,
+    at: Date.now(),
+    comment: comment || null
+  };
+  saveState();
+  closeSubsanadaModal();
+  render();
+  showToast('Mejora subsanada ❤️', 'like');
+  playSound('success');
+}
+
+function unmarkSubsanada(entryId) {
+  const e = state.entries.find(x => x.id === entryId);
+  if (!e || !e.subsanada) return;
+  if (!confirm('¿Deshacer la subsanación? La mejora volverá a estar pendiente.')) return;
+  e.subsanada = null;
+  saveState();
+  render();
+  showToast('Subsanación deshecha', 'mejora');
+  playSound('click');
+}
+
+// ============================================================
+// GESTIÓN DE MOTIVOS (Ajustes de papás)
+// Crear, editar, activar/desactivar motivos y categorías.
+// ============================================================
+function openMotivosManager() {
+  renderMotivosManager();
+  $('motivosManagerModal').classList.add('show');
+}
+
+function closeMotivosManager() {
+  closeModal('motivosManagerModal');
+}
+
+function renderMotivosManager() {
+  const list = $('motivosManagerList');
+  if (!list) return;
+  list.innerHTML = '';
+
+  // Agrupar por categoría
+  const cats = [...state.motivoCategories].sort((a, b) => (a.order || 0) - (b.order || 0));
+  cats.forEach(cat => {
+    const motivos = state.motivos.filter(m => m.categoryId === cat.id);
+    if (motivos.length === 0 && cat.isCustom) return; // ocultar categorías personalizadas vacías
+    const section = document.createElement('div');
+    section.className = 'motivos-cat-section';
+    section.innerHTML = `
+      <div class="motivos-cat-header">
+        <span class="motivos-cat-title">${cat.icon} ${escapeHTML(cat.name)}</span>
+        <button class="btn btn-ghost btn-tiny" onclick="openMotivoCategoryForm('${cat.id}')">✏️</button>
+      </div>
+      <div class="motivos-cat-items"></div>
+      <button class="btn btn-ghost btn-tiny motivos-add-btn" onclick="openMotivoForm(null, '${cat.id}')">+ Añadir motivo</button>
+    `;
+    const itemsWrap = section.querySelector('.motivos-cat-items');
+    motivos.forEach(m => {
+      const item = document.createElement('div');
+      item.className = 'motivo-item' + (m.active === false ? ' inactive' : '');
+      item.innerHTML = `
+        <span class="motivo-item-emoji">${m.emoji}</span>
+        <span class="motivo-item-name">${escapeHTML(m.name)}</span>
+        <div class="motivo-item-actions">
+          <button class="motivo-toggle" onclick="toggleMotivo('${m.id}')" title="${m.active === false ? 'Activar' : 'Desactivar'}">${m.active === false ? '🚫' : '✅'}</button>
+          <button class="motivo-edit" onclick="openMotivoForm('${m.id}', null)" title="Editar">✏️</button>
+          ${m.isCustom ? `<button class="motivo-del" onclick="deleteMotivo('${m.id}')" title="Eliminar">🗑️</button>` : ''}
+        </div>
+      `;
+      itemsWrap.appendChild(item);
+    });
+    list.appendChild(section);
+  });
+
+  // Botón para añadir categoría
+  const addCatBtn = document.createElement('button');
+  addCatBtn.className = 'btn btn-ghost motivos-add-cat';
+  addCatBtn.textContent = '+ Añadir categoría';
+  addCatBtn.onclick = () => openMotivoCategoryForm(null);
+  list.appendChild(addCatBtn);
+}
+
+function toggleMotivo(id) {
+  const m = state.motivos.find(x => x.id === id);
+  if (!m) return;
+  m.active = m.active === false ? true : false;
+  saveState();
+  renderMotivosManager();
+  showToast(m.active ? 'Motivo activado' : 'Motivo desactivado', 'mejora');
+}
+
+function deleteMotivo(id) {
+  const m = state.motivos.find(x => x.id === id);
+  if (!m || !m.isCustom) return;
+  if (!confirm(`¿Eliminar el motivo "${m.name}"?\n\nLos registros históricos que lo usan conservarán el texto original.`)) return;
+  state.motivos = state.motivos.filter(x => x.id !== id);
+  state.motivoRecents = (state.motivoRecents || []).filter(x => x !== id);
+  saveState();
+  renderMotivosManager();
+  showToast('Motivo eliminado', 'mejora');
+}
+
+function openMotivoForm(motivoId, defaultCatId) {
+  const m = motivoId ? state.motivos.find(x => x.id === motivoId) : null;
+  motivoFormState = m ? { ...m } : { id: null, name: '', emoji: '⭐', categoryId: defaultCatId || (state.motivoCategories[0] ? state.motivoCategories[0].id : null), isCustom: true, active: true };
+  editingMotivo = motivoId;
+  $('motivoFormTitle').textContent = m ? 'Editar motivo' : 'Nuevo motivo';
+  $('motivoFormName').value = m ? m.name : '';
+  $('motivoFormEmoji').value = m ? m.emoji : '⭐';
+  // Llenar select de categorías
+  const sel = $('motivoFormCat');
+  sel.innerHTML = '';
+  state.motivoCategories.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = `${c.icon} ${c.name}`;
+    if (c.id === motivoFormState.categoryId) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  $('motivoFormModal').classList.add('show');
+}
+
+function closeMotivoForm() {
+  closeModal('motivoFormModal');
+  editingMotivo = null;
+}
+
+function saveMotivoForm() {
+  const name = $('motivoFormName').value.trim();
+  const emoji = $('motivoFormEmoji').value.trim() || '⭐';
+  const catId = $('motivoFormCat').value;
+  if (!name) { alert('Escribe un nombre para el motivo.'); return; }
+  if (editingMotivo) {
+    const m = state.motivos.find(x => x.id === editingMotivo);
+    if (m) {
+      m.name = name.slice(0, 80);
+      m.emoji = emoji.slice(0, 4);
+      m.categoryId = catId;
+    }
+  } else {
+    const newM = {
+      id: 'mc' + Date.now(),
+      name: name.slice(0, 80),
+      emoji: emoji.slice(0, 4),
+      categoryId: catId,
+      isCustom: true,
+      active: true,
+      createdAt: Date.now()
+    };
+    state.motivos.push(newM);
+  }
+  saveState();
+  closeMotivoForm();
+  renderMotivosManager();
+  showToast(editingMotivo ? 'Motivo actualizado' : 'Motivo creado', 'like');
+}
+
+function openMotivoCategoryForm(catId) {
+  editingMotivoCat = catId;
+  const cat = catId ? state.motivoCategories.find(c => c.id === catId) : null;
+  $('motivoCatFormTitle').textContent = cat ? 'Editar categoría' : 'Nueva categoría';
+  $('motivoCatFormName').value = cat ? cat.name : '';
+  $('motivoCatFormIcon').value = cat ? cat.icon : '📁';
+  $('motivoCatFormModal').classList.add('show');
+}
+
+function closeMotivoCatForm() {
+  closeModal('motivoCatFormModal');
+  editingMotivoCat = null;
+}
+
+function saveMotivoCatForm() {
+  const name = $('motivoCatFormName').value.trim();
+  const icon = $('motivoCatFormIcon').value.trim() || '📁';
+  if (!name) { alert('Escribe un nombre para la categoría.'); return; }
+  if (editingMotivoCat) {
+    const c = state.motivoCategories.find(x => x.id === editingMotivoCat);
+    if (c) { c.name = name.slice(0, 30); c.icon = icon.slice(0, 4); }
+  } else {
+    const newC = {
+      id: 'mc' + Date.now(),
+      name: name.slice(0, 30),
+      icon: icon.slice(0, 4),
+      isCustom: true,
+      order: state.motivoCategories.length + 1
+    };
+    state.motivoCategories.push(newC);
+  }
+  saveState();
+  closeMotivoCatForm();
+  renderMotivosManager();
+  showToast(editingMotivoCat ? 'Categoría actualizada' : 'Categoría creada', 'like');
+}
+
+// ============================================================
+// SUBSANAR DESDE BOTÓN PRINCIPAL
+// Lista las mejoras pendientes del niño seleccionado y deja elegir cuál subsanar.
+// ============================================================
+function openSubsanarPicker() {
+  if (!state.lastSelectedKid) { showToast('Selecciona un hijo primero', 'like'); return; }
+  const kid = state.kids.find(k => k.id === state.lastSelectedKid);
+  if (!kid) return;
+  const pendientes = state.entries
+    .filter(e => e.kidId === kid.id && e.type === 'mejora' && !e.subsanada)
+    .sort((a, b) => b.ts - a.ts);
+  $('subsanarPickerKidName').innerHTML = `Para: <b>${kid.emoji} ${escapeHTML(kid.name)}</b>`;
+  $('subsanarPickerCount').textContent = pendientes.length === 0
+    ? 'Sin mejoras pendientes'
+    : (pendientes.length === 1 ? '1 mejora pendiente' : `${pendientes.length} mejoras pendientes`);
+  const list = $('subsanarPickerList');
+  list.innerHTML = '';
+  if (pendientes.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'subsanar-empty';
+    empty.innerHTML = `
+      <div class="ico">✨</div>
+      <div class="msg">¡No tienes mejoras pendientes!</div>
+      <div class="sub-msg">Cuando registres una mejora con 🩹, aparecerá aquí para que la marques como subsanada.</div>
+    `;
+    list.appendChild(empty);
+  } else {
+    pendientes.forEach(e => {
+      const cat = state.categories.find(c => c.id === e.catId);
+      const motivoEmoji = e.motivoEmoji || (cat ? cat.icon : '🩹');
+      const motivoText = e.motivoText || (cat ? cat.name : 'Mejora registrada');
+      const authorEmoji = e.author === 'papá' ? '👨' : e.author === 'ambos' ? '👨‍👩‍👧' : '👩';
+      const authorLabel = e.author === 'papá' ? 'Papá' : e.author === 'ambos' ? 'Ambos' : 'Mamá';
+      const card = document.createElement('button');
+      card.className = 'subsanar-item';
+      card.onclick = () => {
+        closeSubsanarPicker();
+        openSubsanadaModal(e.id);
+      };
+      card.innerHTML = `
+        <div class="subsanar-item-icon">🩹</div>
+        <div class="subsanar-item-body">
+          <div class="subsanar-item-title">${motivoEmoji} ${escapeHTML(motivoText)}</div>
+          ${e.comment ? `<div class="subsanar-item-comment">"${escapeHTML(e.comment)}"</div>` : ''}
+          <div class="subsanar-item-meta">${authorEmoji} ${authorLabel} · ${fmtTime(e.ts)}</div>
+        </div>
+        <div class="subsanar-item-arrow">›</div>
+      `;
+      list.appendChild(card);
+    });
+  }
+  $('subsanarPickerModal').classList.add('show');
+  playSound('click');
+}
+
+function closeSubsanarPicker() {
+  closeModal('subsanarPickerModal');
+}
+
+// ============================================================
+// 🏆 MIS LOGROS
+// Sección que muestra:
+//   - Logros directos: likes recibidos (👍)
+//   - Logros superados: mejoras marcadas como subsanadas (❤️)
+//   - Podio: top 3 logros más recientes del niño seleccionado
+//   - Filtros: semana / mes / todo
+//   - Navegación por tabs
+// NO crea registros: solo lee state.entries.
+// ============================================================
+let logrosState = {
+  selectedKidId: null,
+  activeTab: 'directos',  // 'directos' | 'superados'
+  filter: 'all'           // 'all' | 'month' | 'week'
+};
+
+function renderLogros() {
+  // Si no hay niños, mostrar mensaje
+  if (state.kids.length === 0) {
+    $('logrosKidSelector').innerHTML = '';
+    $('logrosPodioWrap').innerHTML = '';
+    $('logrosList').innerHTML = `<div class="logros-empty"><span class="ico">👶</span><div class="msg">Agrega un hijo o hija desde Inicio para ver sus logros.</div></div>`;
+    $('logrosCountDirectos').textContent = '0';
+    $('logrosCountSuperados').textContent = '0';
+    return;
+  }
+  // Seleccionar kid: si no hay seleccionado o el actual no existe, tomar el primero
+  if (!logrosState.selectedKidId || !state.kids.find(k => k.id === logrosState.selectedKidId)) {
+    logrosState.selectedKidId = state.kids[0].id;
+  }
+  renderLogrosKidSelector();
+  renderLogrosPodio();
+  renderLogrosList();
+}
+
+function renderLogrosKidSelector() {
+  const wrap = $('logrosKidSelector');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  state.kids.forEach(kid => {
+    const stats = computeStats(kid.id);
+    const total = (stats.likesWeek || 0) + (stats.subsanadasWeek || 0);
+    const b = document.createElement('button');
+    b.className = 'logros-kid-pill' + (logrosState.selectedKidId === kid.id ? ' active' : '');
+    b.innerHTML = `
+      <span class="logros-kid-emoji">${kid.emoji}</span>
+      <span class="logros-kid-name">${escapeHTML(kid.name)}</span>
+    `;
+    b.onclick = () => {
+      logrosState.selectedKidId = kid.id;
+      renderLogrosKidSelector();
+      renderLogrosPodio();
+      renderLogrosList();
+      playSound('click');
+    };
+    wrap.appendChild(b);
+  });
+}
+
+function filterLogrosByDate(entries) {
+  if (logrosState.filter === 'all') return entries;
+  const now = new Date();
+  let cutoff;
+  if (logrosState.filter === 'month') {
+    cutoff = new Date(now.getFullYear(), now.getMonth(), 1);
+  } else if (logrosState.filter === 'week') {
+    cutoff = getWeekStart(new Date());
+    cutoff.setHours(0, 0, 0, 0);
+  } else {
+    return entries;
+  }
+  return entries.filter(e => new Date(e.ts) >= cutoff);
+}
+
+function getLogrosDirectos(kidId) {
+  return filterLogrosByDate(
+    state.entries
+      .filter(e => e.kidId === kidId && e.type === 'like')
+      .sort((a, b) => b.ts - a.ts)
+  );
+}
+
+function getLogrosSuperados(kidId) {
+  return filterLogrosByDate(
+    state.entries
+      .filter(e => e.kidId === kidId && e.type === 'mejora' && e.subsanada)
+      .sort((a, b) => b.ts - a.ts)
+  );
+}
+
+function getLogrosAll(kidId) {
+  // Combina likes + mejoras subsanadas para el podio
+  const all = [
+    ...state.entries.filter(e => e.kidId === kidId && e.type === 'like').map(e => ({ ...e, _kind: 'like' })),
+    ...state.entries.filter(e => e.kidId === kidId && e.type === 'mejora' && e.subsanada).map(e => ({ ...e, _kind: 'subsanada' }))
+  ];
+  return all.sort((a, b) => b.ts - a.ts);
+}
+
+function renderLogrosPodio() {
+  const wrap = $('logrosPodioWrap');
+  if (!wrap) return;
+  const kid = state.kids.find(k => k.id === logrosState.selectedKidId);
+  if (!kid) { wrap.innerHTML = ''; return; }
+  const total = getLogrosDirectos(kid.id).length + getLogrosSuperados(kid.id).length;
+  if (total === 0) {
+    wrap.innerHTML = '';
+    return;
+  }
+  const top = getLogrosAll(kid.id).slice(0, 3);
+  const medals = ['🥇', '🥈', '🥉'];
+  const positions = ['oro', 'plata', 'bronce'];
+  const html = `
+    <div class="logros-podio-title">🏆 Podio de ${escapeHTML(kid.name)}</div>
+    <div class="logros-podio">
+      ${top.map((e, i) => {
+        const cat = state.categories.find(c => c.id === e.catId);
+        const emoji = e.motivoEmoji || (cat ? cat.icon : (e._kind === 'subsanada' ? '❤️' : '👍'));
+        const text = e.motivoText || (cat ? cat.name : (e._kind === 'subsanada' ? 'Mejora subsanada' : 'Like'));
+        return `
+          <div class="logros-podio-card ${positions[i]}">
+            <div class="logros-podio-medal">${medals[i]}</div>
+            <div class="logros-podio-emoji">${emoji}</div>
+            <div class="logros-podio-text">${escapeHTML(text)}</div>
+            <div class="logros-podio-date">${fmtTime(e.ts)}</div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+  wrap.innerHTML = html;
+}
+
+function renderLogrosList() {
+  const list = $('logrosList');
+  if (!list) return;
+  const kid = state.kids.find(k => k.id === logrosState.selectedKidId);
+  if (!kid) return;
+  const directos = getLogrosDirectos(kid.id);
+  const superados = getLogrosSuperados(kid.id);
+  $('logrosCountDirectos').textContent = directos.length;
+  $('logrosCountSuperados').textContent = superados.length;
+  const items = logrosState.activeTab === 'directos' ? directos : superados;
+  // Mensaje motivador
+  const motivadoresDirectos = [
+    '¡Sigue reconociendo lo bueno! Cada detalle cuenta 🌟',
+    'Tus papás están orgullosos de ti 🌻',
+    '¡Vas genial! Cada día aprendes algo nuevo 🚀'
+  ];
+  const motivadoresSuperados = [
+    '¡Cuando un hábito se supera, se nota! 💪',
+    'Tus papás reconocen tu esfuerzo 🌈',
+    '¡Sigue así! Lo que cuesta, se logra ❤️'
+  ];
+  if (items.length === 0) {
+    const motivador = logrosState.activeTab === 'directos'
+      ? motivadoresDirectos[Math.floor(Math.random() * motivadoresDirectos.length)]
+      : motivadoresSuperados[Math.floor(Math.random() * motivadoresSuperados.length)];
+    list.innerHTML = `
+      <div class="logros-empty">
+        <span class="ico">${logrosState.activeTab === 'directos' ? '🌱' : '🏅'}</span>
+        <div class="msg">${logrosState.activeTab === 'directos' ? 'Aún no hay likes registrados' : 'Aún no hay mejoras subsanadas'}</div>
+        <div class="sub">${motivador}</div>
+      </div>
+    `;
+    return;
+  }
+  list.innerHTML = items.map(e => renderLogroCard(e)).join('');
+}
+
+function renderLogroCard(e) {
+  const cat = state.categories.find(c => c.id === e.catId);
+  const motivoEmoji = e.motivoEmoji || (cat ? cat.icon : '👍');
+  const motivoText = e.motivoText || (cat ? cat.name : 'Logro');
+  const authorEmoji = e.author === 'papá' ? '👨' : e.author === 'ambos' ? '👨‍👩‍👧' : '👩';
+  const authorLabel = e.author === 'papá' ? 'Papá' : e.author === 'ambos' ? 'Ambos' : 'Mamá';
+  if (e.type === 'like') {
+    return `
+      <div class="logro-card like">
+        <div class="logro-card-icon">👍</div>
+        <div class="logro-card-body">
+          <div class="logro-card-title">${motivoEmoji} ${escapeHTML(motivoText)}</div>
+          ${e.comment ? `<div class="logro-card-comment">"${escapeHTML(e.comment)}"</div>` : ''}
+          <div class="logro-card-meta">${authorEmoji} ${authorLabel} · ${fmtTime(e.ts)}</div>
+        </div>
+      </div>
+    `;
+  } else {
+    // mejora subsanada
+    const subAuthor = e.subsanada.by === 'papá' ? '👨 Papá' : e.subsanada.by === 'ambos' ? '👨‍👩‍👧 Ambos' : '👩 Mamá';
+    return `
+      <div class="logro-card subsanada">
+        <div class="logro-card-icon">❤️</div>
+        <div class="logro-card-body">
+          <div class="logro-card-title">${motivoEmoji} ${escapeHTML(motivoText)}</div>
+          <div class="logro-card-meta">
+            <div class="logro-meta-row"><span class="logro-meta-label">📝 Registrada:</span> ${fmtTime(e.ts)}</div>
+            <div class="logro-meta-row"><span class="logro-meta-label">❤️ Subsanada:</span> ${fmtTime(e.subsanada.at)} por ${subAuthor}</div>
+          </div>
+          ${e.subsanada.comment ? `<div class="logro-card-comment subsanada">"${escapeHTML(e.subsanada.comment)}"</div>` : ''}
+        </div>
+      </div>
+    `;
+  }
+}
+
+function switchLogrosTab(tab) {
+  logrosState.activeTab = tab;
+  document.querySelectorAll('.logros-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  renderLogrosList();
+  playSound('click');
+}
+
+function setLogrosFilter(filter) {
+  logrosState.filter = filter;
+  document.querySelectorAll('.logros-filter').forEach(t => t.classList.toggle('active', t.dataset.filter === filter));
+  renderLogrosList();
+  renderLogrosPodio();
+  playSound('click');
+}
+
+// ============================================================
 // INIT
 // ============================================================
 loadState();
@@ -2962,5 +4666,138 @@ render();
   </div>
 </div>
 
+<!-- ============================================================
+     CATÁLOGO DE MOTIVOS (al dar LIKE)
+     ============================================================ -->
+<div class="modal-bg" id="motivoPickerModal">
+  <div class="modal motivo-picker-modal">
+    <div class="modal-grabber"></div>
+    <h2>👍 ¿Por qué se lo gana?</h2>
+    <p class="sub" id="motivoPickerSub">Elige el motivo del reconocimiento</p>
+
+    <div class="motivo-search-wrap">
+      <span class="motivo-search-icon">🔍</span>
+      <input type="text" id="motivoSearch" placeholder="Buscar motivo..." oninput="onMotivoSearchInput(event)" autocomplete="off">
+    </div>
+
+    <div class="motivo-cat-chips" id="motivoCatChips"></div>
+
+    <div class="motivo-grid-wrap">
+      <div id="motivoGrid"></div>
+    </div>
+
+    <button class="btn btn-ghost motivo-custom-btn" onclick="selectCustomMotivo()">✏️ Otro motivo (escríbelo)</button>
+    <button class="btn btn-ghost simple-editor-close" onclick="closeMotivoPicker()">Cancelar</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SUBSANADA (modal para marcar mejora como subsanada)
+     ============================================================ -->
+<div class="modal-bg" id="subsanadaModal">
+  <div class="modal" style="max-width: 420px; text-align: center; padding: 22px;">
+    <div class="modal-grabber"></div>
+    <h2>❤️ Marcar como subsanada</h2>
+    <p class="sub" id="subsanadaKidName">—</p>
+
+    <div class="subsanada-original">
+      <span class="subsanada-original-label">Motivo original:</span>
+      <span class="subsanada-original-text" id="subsanadaOriginal">—</span>
+    </div>
+
+    <div class="field" style="text-align: left; margin-top: 14px;">
+      <label>¿Quién confirma la subsanación?</label>
+      <div class="author-pick">
+        <button class="author-opt" data-author="mamá" onclick="selectSubsanadaAuthor(this)">👩 Mamá</button>
+        <button class="author-opt" data-author="papá" onclick="selectSubsanadaAuthor(this)">👨 Papá</button>
+        <button class="author-opt" data-author="ambos" onclick="selectSubsanadaAuthor(this)">👨‍👩‍👧 Ambos</button>
+      </div>
+    </div>
+
+    <div class="field" style="text-align: left; margin-top: 10px;">
+      <label>Comentario <span style="text-transform:none; opacity:0.7;">(opcional)</span></label>
+      <textarea id="subsanadaComment" rows="2" maxlength="200" placeholder="¿Cómo lo logró?"></textarea>
+    </div>
+
+    <div style="display:flex; gap:8px; margin-top: 18px;">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeSubsanadaModal()">Cancelar</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="confirmSubsanada()">❤️ Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GESTIÓN DE MOTIVOS (Ajustes de papás)
+     ============================================================ -->
+<div class="modal-bg" id="motivosManagerModal">
+  <div class="modal motivos-manager-modal">
+    <div class="modal-grabber"></div>
+    <h2>📚 Motivos para likes</h2>
+    <p class="sub">Activa, desactiva o crea motivos. Los registros históricos conservan su texto aunque edites el motivo.</p>
+    <div id="motivosManagerList" class="motivos-manager-list"></div>
+    <button class="btn btn-ghost simple-editor-close" onclick="closeMotivosManager()">Cerrar</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     FORMULARIO DE MOTIVO
+     ============================================================ -->
+<div class="modal-bg" id="motivoFormModal">
+  <div class="modal" style="max-width: 420px; padding: 22px;">
+    <div class="modal-grabber"></div>
+    <h2 id="motivoFormTitle">Nuevo motivo</h2>
+    <div class="field" style="margin-top: 14px;">
+      <label>Emoji</label>
+      <input type="text" id="motivoFormEmoji" maxlength="4" placeholder="⭐" style="font-size: 24px; text-align: center; width: 80px;">
+    </div>
+    <div class="field" style="margin-top: 10px;">
+      <label>Nombre</label>
+      <input type="text" id="motivoFormName" maxlength="60" placeholder="Ej: Lavarse los dientes">
+    </div>
+    <div class="field" style="margin-top: 10px;">
+      <label>Categoría</label>
+      <select id="motivoFormCat"></select>
+    </div>
+    <div style="display:flex; gap:8px; margin-top: 18px;">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeMotivoForm()">Cancelar</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="saveMotivoForm()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     FORMULARIO DE CATEGORÍA
+     ============================================================ -->
+<div class="modal-bg" id="motivoCatFormModal">
+  <div class="modal" style="max-width: 380px; padding: 22px;">
+    <div class="modal-grabber"></div>
+    <h2 id="motivoCatFormTitle">Nueva categoría</h2>
+    <div class="field" style="margin-top: 14px;">
+      <label>Icono</label>
+      <input type="text" id="motivoCatFormIcon" maxlength="4" placeholder="📁" style="font-size: 24px; text-align: center; width: 80px;">
+    </div>
+    <div class="field" style="margin-top: 10px;">
+      <label>Nombre</label>
+      <input type="text" id="motivoCatFormName" maxlength="30" placeholder="Ej: Hobbies">
+    </div>
+    <div style="display:flex; gap:8px; margin-top: 18px;">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeMotivoCatForm()">Cancelar</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="saveMotivoCatForm()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="subsanarPickerModal">
+  <div class="modal subsanar-picker-modal">
+    <div class="modal-grabber"></div>
+    <h2>❤️ Subsanar mejora</h2>
+    <p class="sub" id="subsanarPickerKidName">—</p>
+    <div class="subsanar-picker-count" id="subsanarPickerCount">—</div>
+    <div class="subsanar-picker-list" id="subsanarPickerList"></div>
+    <button class="btn btn-ghost simple-editor-close" onclick="closeSubsanarPicker()">Cerrar</button>
+  </div>
+</div>
+
 </body>
+</html></body>
 </html>
