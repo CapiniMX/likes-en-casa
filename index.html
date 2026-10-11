@@ -1743,6 +1743,15 @@
     margin: 12px 4px 8px;
   }
   .motivo-section-title:first-child { margin-top: 4px; }
+  .motivo-section-title-custom {
+    margin-top: 14px;
+    color: var(--teal-700);
+    font-size: 11px;
+  }
+  .motivo-grid-custom { grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 0; }
+  .motivo-btn-custom-quick { min-height: 64px; padding: 8px 6px; }
+  .motivo-btn-custom-quick .motivo-emoji { font-size: 22px; margin-bottom: 2px; }
+  .motivo-btn-custom-quick .motivo-name { font-size: 11.5px; line-height: 1.1; }
 
   .motivo-grid {
     display: grid;
@@ -3966,6 +3975,28 @@ function renderMotivoPicker() {
   GENERAL_MOTIVOS.forEach(m => grid.appendChild(buildQuickMotivoBtn(m)));
   // 8ª opción: Otro motivo
   grid.appendChild(buildQuickOtroBtn());
+  // Sección compacta de motivos personalizados activos (si hay)
+  const customMotivos = (state.motivos || []).filter(m => m.isCustom && m.active !== false);
+  if (customMotivos.length > 0) {
+    const title = document.createElement('div');
+    title.className = 'motivo-section-title motivo-section-title-custom';
+    title.textContent = '⭐ Mis motivos';
+    grid.appendChild(title);
+    const customWrap = document.createElement('div');
+    customWrap.className = 'motivo-grid motivo-grid-custom';
+    customMotivos.slice(0, 6).forEach(m => {
+      const btn = document.createElement('button');
+      btn.className = 'motivo-btn motivo-btn-quick motivo-btn-custom-quick';
+      btn.dataset.motivoId = m.id;
+      btn.innerHTML = `
+        <span class="motivo-emoji">${m.emoji || '✨'}</span>
+        <span class="motivo-name">${escapeHTML(m.name)}</span>
+      `;
+      btn.onclick = () => selectMotivo(m.id);
+      customWrap.appendChild(btn);
+    });
+    grid.appendChild(customWrap);
+  }
 }
 
 function buildQuickMotivoBtn(m) {
