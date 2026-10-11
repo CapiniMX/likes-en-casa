@@ -442,9 +442,9 @@
     background: linear-gradient(135deg, #6BBFBA 0%, var(--teal-500) 50%, var(--teal-600) 100%);
     box-shadow: 0 10px 24px rgba(42, 140, 130, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
   }
-  .big-btn.dislike {
-    background: linear-gradient(135deg, #FFB088 0%, var(--coral-400) 50%, var(--coral-500) 100%);
-    box-shadow: 0 10px 24px rgba(228, 113, 66, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  .big-btn.mejora {
+    background: linear-gradient(135deg, #FFB6C1 0%, #F06B7E 50%, #D9485F 100%);
+    box-shadow: 0 10px 24px rgba(217, 72, 95, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.2);
   }
   .big-btn:disabled {
     opacity: 0.45;
@@ -491,9 +491,9 @@
     background: linear-gradient(135deg, var(--teal-50) 0%, color-mix(in srgb, var(--teal-400) 12%, white) 100%);
     border: 1.5px solid color-mix(in srgb, var(--teal-400) 20%, transparent);
   }
-  .summary-card.dislike {
-    background: linear-gradient(135deg, var(--coral-50) 0%, color-mix(in srgb, var(--coral-400) 12%, white) 100%);
-    border: 1.5px solid color-mix(in srgb, var(--coral-400) 25%, transparent);
+  .summary-card.mejora {
+    background: linear-gradient(135deg, #FFF0F2 0%, color-mix(in srgb, #F06B7E 12%, white) 100%);
+    border: 1.5px solid color-mix(in srgb, #F06B7E 25%, transparent);
   }
   .summary-card .icon {
     width: 36px; height: 36px;
@@ -511,7 +511,7 @@
     line-height: 1;
   }
   .summary-card.like .num { color: var(--teal-600); }
-  .summary-card.dislike .num { color: var(--coral-600); }
+  .summary-card.mejora .num { color: #C73A52; }
   .summary-card .label {
     font-family: var(--font-soft);
     font-size: 11px;
@@ -541,8 +541,8 @@
     background: linear-gradient(180deg, var(--teal-300) 0%, var(--teal-500) 100%);
     transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .day-bar .fill-dislikes {
-    background: linear-gradient(180deg, var(--coral-200) 0%, var(--coral-400) 100%);
+  .day-bar .fill-mejoras {
+    background: linear-gradient(180deg, #FFB6C1 0%, #F06B7E 100%);
     transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .day-bar .label {
@@ -590,8 +590,8 @@
   .entry-icon.like {
     background: linear-gradient(135deg, var(--teal-100), var(--teal-200));
   }
-  .entry-icon.dislike {
-    background: linear-gradient(135deg, var(--coral-100), var(--coral-200));
+  .entry-icon.mejora {
+    background: linear-gradient(135deg, #FFD0D8, #FFB6C1);
   }
   .entry-body { flex: 1; min-width: 0; }
   .entry-top { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
@@ -752,13 +752,13 @@
     border-color: var(--teal-500);
     box-shadow: 0 6px 14px rgba(42, 140, 130, 0.3);
   }
-  .cat-pick.dislike-mode { background: var(--coral-50); color: var(--coral-600); }
-  .cat-pick.dislike-mode:hover { border-color: var(--coral-400); }
-  .cat-pick.dislike-mode.active {
-    background: linear-gradient(135deg, var(--coral-400) 0%, var(--coral-500) 100%);
+  .cat-pick.mejora-mode { background: #FFF0F2; color: #C73A52; }
+  .cat-pick.mejora-mode:hover { border-color: #F06B7E; }
+  .cat-pick.mejora-mode.active {
+    background: linear-gradient(135deg, #F06B7E 0%, #D9485F 100%);
     color: white;
-    border-color: var(--coral-500);
-    box-shadow: 0 6px 14px rgba(228, 113, 66, 0.3);
+    border-color: #D9485F;
+    box-shadow: 0 6px 14px rgba(217, 72, 95, 0.3);
   }
 
   .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
@@ -959,14 +959,14 @@
     height: 4px;
   }
   .kids-stat.like::before { background: linear-gradient(90deg, var(--teal-300), var(--teal-500)); }
-  .kids-stat.dislike::before { background: linear-gradient(90deg, var(--coral-200), var(--coral-400)); }
+  .kids-stat.mejora::before { background: linear-gradient(90deg, #FFB6C1, #F06B7E); }
   .kids-stat .num {
     font-family: var(--font-display);
     font-size: 42px;
     line-height: 1;
   }
   .kids-stat.like .num { color: var(--teal-600); }
-  .kids-stat.dislike .num { color: var(--coral-600); }
+  .kids-stat.mejora .num { color: #C73A52; }
   .kids-stat .label {
     font-family: var(--font-soft);
     font-size: 11px;
@@ -1080,10 +1080,87 @@
     color: white;
   }
   .toast.like .badge { background: linear-gradient(135deg, var(--teal-400), var(--teal-500)); }
-  .toast.dislike .badge { background: linear-gradient(135deg, var(--coral-400), var(--coral-500)); }
+  .toast.mejora .badge { background: linear-gradient(135deg, #F06B7E, #D9485F); }
 
   .confetti-canvas {
     position: fixed; inset: 0; pointer-events: none; z-index: 199;
+  }
+
+  /* ============================================================
+     AUTHOR PICKER (registrado por)
+     ============================================================ */
+  .author-picker { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .author-opt {
+    background: var(--bg);
+    color: var(--ink-2);
+    border: 2px solid transparent;
+    padding: 10px 8px;
+    border-radius: 14px;
+    font-family: var(--font-soft);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .author-opt:hover { background: var(--teal-50); border-color: var(--teal-300); }
+  .author-opt.active {
+    background: linear-gradient(135deg, var(--teal-400) 0%, var(--teal-500) 100%);
+    color: white;
+    border-color: var(--teal-500);
+    box-shadow: 0 4px 12px rgba(42, 140, 130, 0.3);
+  }
+
+  /* ============================================================
+     FILTER BAR
+     ============================================================ */
+  .filter-bar { margin-bottom: 14px; }
+  .filter-chips {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  }
+  .filter-btn {
+    background: var(--teal-50);
+    color: var(--teal-600);
+    border: 1.5px solid transparent;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-family: var(--font-soft);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--teal-400); }
+  .filter-chip {
+    background: white;
+    border: 1.5px solid var(--teal-300);
+    color: var(--teal-700);
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-family: var(--font-soft);
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .filter-chip button {
+    background: transparent;
+    border: none;
+    color: var(--teal-600);
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 0 0 2px;
+  }
+  .filter-clear {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: var(--font-soft);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
   }
 
   /* ============================================================
@@ -1101,13 +1178,6 @@
 </style>
 </head>
 <body>
-
-<div class="bg-canvas">
-  <div class="blob b1"></div>
-  <div class="blob b2"></div>
-  <div class="blob b3"></div>
-  <div class="blob b4"></div>
-</div>
 
 <div class="app">
 
@@ -1154,13 +1224,14 @@
       <div class="actions-row">
         <button class="big-btn like" onclick="openRegisterModal('like')" id="btnLike" disabled>
           <span class="sheen"></span>
+          <span class="sheen"></span>
           <div class="icon-wrap">👍</div>
           <div class="title">Dar like</div>
           <div class="sub">Algo bueno</div>
         </button>
-        <button class="big-btn dislike" onclick="openRegisterModal('dislike')" id="btnDislike" disabled>
+        <button class="big-btn mejora" onclick="openRegisterModal('mejora')" id="btnMejora" disabled>
           <span class="sheen"></span>
-          <div class="icon-wrap">👎</div>
+          <div class="icon-wrap">❤️</div>
           <div class="title">Marcar mejora</div>
           <div class="sub">Algo para trabajar</div>
         </button>
@@ -1180,9 +1251,9 @@
           <div class="num" id="totalLikes">0</div>
           <div class="label">Likes</div>
         </div>
-        <div class="summary-card dislike">
-          <div class="icon">👎</div>
-          <div class="num" id="totalDislikes">0</div>
+        <div class="summary-card mejora">
+          <div class="icon">❤️</div>
+          <div class="num" id="totalMejoras">0</div>
           <div class="label">Mejoras</div>
         </div>
       </div>
@@ -1193,7 +1264,10 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title">Historial reciente</div>
-        <div class="card-meta" id="historyCount">0 registros</div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="card-meta" onclick="openFilterModal()" style="background:none;border:none;color:var(--teal-600);cursor:pointer;font-size:12px;font-weight:700;">🔍 Filtrar</button>
+          <div class="card-meta" id="historyCount">0 registros</div>
+        </div>
       </div>
       <div id="historyList"></div>
     </div>
@@ -1242,6 +1316,7 @@
     <div class="modal-grabber"></div>
     <h2 id="regTitle">👍 Registrar like</h2>
     <p class="sub" id="regSub">Para: <b id="regKid">—</b></p>
+    <p class="sub" id="regSub">Para: <b id="regKid">—</b></p>
 
     <div class="field">
       <label>Elige una categoría</label>
@@ -1253,6 +1328,14 @@
       <textarea id="regComment" placeholder="Ej: 'Sin que se lo pidieran'"></textarea>
     </div>
 
+    <div class="field" id="regAuthorField" style="margin-top:14px;">
+      <label>Registrado por</label>
+      <div class="author-picker" id="regAuthorPicker">
+        <button type="button" class="author-opt active" data-author="mamá">👩 Mamá</button>
+        <button type="button" class="author-opt" data-author="papá">👨 Papá</button>
+        <button type="button" class="author-opt" data-author="ambos">👨‍👩‍👧 Ambos</button>
+      </div>
+    </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('registerModal')">Cancelar</button>
       <button class="btn btn-primary" id="regSaveBtn" onclick="saveRegister()">Guardar</button>
@@ -1303,13 +1386,89 @@
         <select id="newCatType" style="width:130px;">
           <option value="both">Ambas</option>
           <option value="like">Solo 👍</option>
-          <option value="dislike">Solo 👎</option>
+          <option value="mejora">Solo ❤️</option>
         </select>
         <button class="btn btn-primary" style="flex:none; padding:14px 18px;" onclick="addCategory()">+</button>
       </div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('catModal')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: FILTROS -->
+<div class="modal-bg" id="filterModal">
+  <div class="modal">
+    <div class="modal-grabber"></div>
+    <h2>🔍 Filtrar historial</h2>
+    <p class="sub">Encuentra registros por hijo, tipo, categoría o fecha</p>
+
+    <div class="field">
+      <label>Hijo o hija</label>
+      <select id="filterKid">
+        <option value="all">Todos</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Tipo</label>
+      <select id="filterType">
+        <option value="all">Todos</option>
+        <option value="like">👍 Solo likes</option>
+        <option value="mejora">❤️ Solo mejoras</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Categoría</label>
+      <select id="filterCat">
+        <option value="all">Todas</option>
+      </select>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div class="field">
+        <label>Desde</label>
+        <input type="date" id="filterFrom">
+      </div>
+      <div class="field">
+        <label>Hasta</label>
+        <input type="date" id="filterTo">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="clearFilters(); closeModal('filterModal');">Limpiar</button>
+      <button class="btn btn-primary" onclick="applyFilters()">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: RESPALDO -->
+<div class="modal-bg" id="backupModal">
+  <div class="modal">
+    <div class="modal-grabber"></div>
+    <h2>🛡️ Respaldo y restauración</h2>
+    <p class="sub">Descarga o restaura todos los datos de la familia</p>
+
+    <div style="background:var(--teal-50); border-radius:18px; padding:16px; margin-bottom:16px;">
+      <div style="font-family:var(--font-serif); font-size:15px; color:var(--teal-700); margin-bottom:4px;">📤 Exportar</div>
+      <div style="font-family:var(--font-soft); font-size:12px; color:var(--muted); margin-bottom:12px;">Descarga un archivo JSON con todos los datos. Guárdalo en un lugar seguro.</div>
+      <button class="btn btn-primary" style="width:100%;" onclick="exportData()">Descargar respaldo</button>
+    </div>
+
+    <div style="background:#FFF0F2; border-radius:18px; padding:16px; margin-bottom:8px;">
+      <div style="font-family:var(--font-serif); font-size:15px; color:#C73A52; margin-bottom:4px;">📥 Restaurar</div>
+      <div style="font-family:var(--font-soft); font-size:12px; color:var(--muted); margin-bottom:12px;">Sube un archivo de respaldo. <b>Reemplazará</b> los datos actuales. Haz un respaldo antes.</div>
+      <label class="btn btn-primary" style="display:block; text-align:center; background: linear-gradient(135deg, #F06B7E 0%, #D9485F 100%); box-shadow: 0 6px 16px rgba(217, 72, 95, 0.3); cursor:pointer;">
+        Seleccionar archivo
+        <input type="file" id="restoreFile" accept=".json" style="display:none;" onchange="restoreData(event)">
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('backupModal')">Cerrar</button>
     </div>
   </div>
 </div>
@@ -1358,12 +1517,14 @@ let state = {
   entries: [],
   pin: DEFAULT_PIN,
   lastSelectedKid: null,
-  mode: 'parents'
+  mode: 'parents',
+  filters: { kidId: 'all', type: 'all', from: null, to: null, catId: 'all' }
 };
 
 let currentRegType = 'like';
 let currentRegKid = null;
 let editingKid = null;
+let editingEntry = null; // null = creating, otherwise editing existing entry
 let pinBuffer = '';
 let pendingMode = 'parents';
 let audioCtx = null;
@@ -1380,6 +1541,14 @@ function loadState() {
     }
   } catch(e) { console.warn('Error loading state', e); }
 
+  // Migración: dislike → mejora (compatibilidad con datos antiguos)
+  if (state.entries && state.entries.length) {
+    state.entries.forEach(e => {
+      if (e.type === 'dislike') e.type = 'mejora';
+      if (!e.author) e.author = 'mamá';
+    });
+  }
+
   if (!state.categories || state.categories.length === 0) state.categories = [...DEFAULT_CATEGORIES];
 
   if (!state.kids || state.kids.length === 0) {
@@ -1391,6 +1560,7 @@ function loadState() {
   }
   if (!state.entries) state.entries = [];
   if (!state.pin) state.pin = DEFAULT_PIN;
+  if (!state.filters) state.filters = { kidId: 'all', type: 'all', from: null, to: null, catId: 'all' };
 }
 
 function saveState() {
@@ -1423,7 +1593,7 @@ function playSound(type) {
       g.gain.exponentialRampToValueAtTime(0.15, now + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
       o.start(now); o.stop(now + 0.5);
-    } else if (type === 'dislike') {
+    } else if (type === 'mejora') {
       // soft descending
       o.type = 'sine';
       o.frequency.setValueAtTime(440, now);
@@ -1530,7 +1700,7 @@ function renderKids() {
         <div class="kid-name">${escapeHTML(k.name)}</div>
         <div class="kid-stats">
           <span class="like">👍 ${stats.likesToday}</span>
-          <span class="dis">👎 ${stats.dislikesToday}</span>
+          <span class="dis">❤️ ${stats.mejorasToday}</span>
         </div>
       </div>
       <span class="kid-badge">Sem: ${stats.likesWeek}</span>
@@ -1543,15 +1713,15 @@ function renderActions() {
   const kid = state.kids.find(k => k.id === state.lastSelectedKid);
   const title = $('actionsTitle');
   const btnLike = $('btnLike');
-  const btnDislike = $('btnDislike');
+  const btnMejora = $('btnMejora');
   if (kid) {
     title.textContent = `Para: ${kid.emoji} ${kid.name}`;
     btnLike.disabled = false;
-    btnDislike.disabled = false;
+    btnMejora.disabled = false;
   } else {
     title.textContent = 'Elige un hijo para empezar';
     btnLike.disabled = true;
-    btnDislike.disabled = true;
+    btnMejora.disabled = true;
   }
 }
 
@@ -1571,9 +1741,9 @@ function renderSummary() {
   const weekStart = getWeekStart(new Date());
   const ws = weekStart.toISOString().split('T')[0];
   const likes = state.entries.filter(e => e.date >= ws && e.type === 'like').length;
-  const dislikes = state.entries.filter(e => e.date >= ws && e.type === 'dislike').length;
+  const mejoras = state.entries.filter(e => e.date >= ws && e.type === 'mejora').length;
   $('totalLikes').textContent = likes;
-  $('totalDislikes').textContent = dislikes;
+  $('totalMejoras').textContent = mejoras;
 
   $('rangeLabel').textContent = `${weekStart.getDate()} – ${new Date(weekStart.getTime() + 6*86400000).getDate()} ${new Date(weekStart.getTime() + 6*86400000).toLocaleDateString('es-MX', { month: 'short' })}`;
 
@@ -1589,7 +1759,7 @@ function renderSummary() {
     const key = d.toISOString().split('T')[0];
     const dayEntries = state.entries.filter(e => e.date === key);
     const lk = dayEntries.filter(e => e.type === 'like').length;
-    const dk = dayEntries.filter(e => e.type === 'dislike').length;
+    const dk = dayEntries.filter(e => e.type === 'mejora').length;
     const total = lk + dk;
     if (total > maxTotal) maxTotal = total;
     dayData.push({ key, lk, dk, total, label: days[i], isToday: key === todayKey });
@@ -1603,7 +1773,7 @@ function renderSummary() {
     const dkPct = d.dk > 0 ? Math.max((d.dk / maxTotal) * 90, 8) : 0;
     day.innerHTML = `
       <div class="bar">
-        <div class="fill-dislikes" style="height:${dkPct}%; order:2;"></div>
+        <div class="fill-mejoras" style="height:${dkPct}%; order:2;"></div>
         <div class="fill-likes" style="height:${lkPct}%; order:1;"></div>
       </div>
       <div class="label">${d.label}</div>
@@ -1616,10 +1786,20 @@ function renderSummary() {
 function renderHistory() {
   const list = $('historyList');
   list.innerHTML = '';
-  const sorted = [...state.entries].sort((a, b) => b.ts - a.ts).slice(0, 30);
-  $('historyCount').textContent = `${state.entries.length} registro${state.entries.length === 1 ? '' : 's'}`;
+  // Aplicar filtros
+  let filtered = [...state.entries];
+  const f = state.filters;
+  if (f.kidId !== 'all') filtered = filtered.filter(e => e.kidId === f.kidId);
+  if (f.type !== 'all')  filtered = filtered.filter(e => e.type === f.type);
+  if (f.catId !== 'all') filtered = filtered.filter(e => e.catId === f.catId);
+  if (f.from)            filtered = filtered.filter(e => e.date >= f.from);
+  if (f.to)              filtered = filtered.filter(e => e.date <= f.to);
+  const sorted = filtered.sort((a, b) => b.ts - a.ts).slice(0, 100);
+
+  $('historyCount').textContent = `${filtered.length} de ${state.entries.length} registros`;
+  renderFilterChips();
   if (sorted.length === 0) {
-    list.innerHTML = `<div class="empty"><span class="ico">📝</span><div class="msg">Aún no hay registros.<br>Toca un botón de arriba para empezar.</div></div>`;
+    list.innerHTML = `<div class="empty"><span class="ico">📝</span><div class="msg">${state.entries.length === 0 ? 'Aún no hay registros.<br>Toca un botón de arriba para empezar.' : 'Sin resultados con esos filtros.'}</div></div>`;
     return;
   }
   sorted.forEach(e => {
@@ -1628,22 +1808,86 @@ function renderHistory() {
     const div = document.createElement('div');
     div.className = 'entry';
     const isLike = e.type === 'like';
+    const authorEmoji = e.author === 'papá' ? '👨' : e.author === 'ambos' ? '👨‍👩‍👧' : '👩';
+    const authorLabel = e.author === 'papá' ? 'Papá' : e.author === 'ambos' ? 'Ambos' : 'Mamá';
     div.innerHTML = `
-      <div class="entry-icon ${isLike ? 'like' : 'dislike'}">${isLike ? '👍' : '👎'}</div>
+      <div class="entry-icon ${isLike ? 'like' : 'mejora'}">${isLike ? '👍' : '❤️'}</div>
       <div class="entry-body">
         <div class="entry-top">
           <span class="entry-kid">${kid ? kid.emoji + ' ' + escapeHTML(kid.name) : 'Sin nombre'}</span>
           ${cat ? `<span class="entry-cat">· ${cat.icon} ${escapeHTML(cat.name)}</span>` : ''}
         </div>
         ${e.comment ? `<div class="entry-comment">"${escapeHTML(e.comment)}"</div>` : ''}
-        <div class="entry-time">${fmtTime(e.ts)}</div>
+        <div class="entry-time">${fmtTime(e.ts)} · ${authorEmoji} ${authorLabel}</div>
       </div>
       <div class="entry-actions">
+        <button class="entry-btn" onclick="editEntry('${e.id}')" title="Editar">✏️</button>
         <button class="entry-btn del" onclick="deleteEntry('${e.id}')" title="Eliminar">🗑️</button>
       </div>
     `;
     list.appendChild(div);
   });
+}
+
+function renderFilterChips() {
+  let bar = $('filterBar');
+  if (!bar) {
+    const card = $('historyList')?.parentElement;
+    if (!card) return;
+    bar = document.createElement('div');
+    bar.id = 'filterBar';
+    bar.className = 'filter-bar';
+    card.querySelector('.card-header').after(bar);
+  }
+  const f = state.filters;
+  const hasFilter = f.kidId !== 'all' || f.type !== 'all' || f.catId !== 'all' || f.from || f.to;
+  const chips = [];
+  if (f.kidId !== 'all') {
+    const k = state.kids.find(x => x.id === f.kidId);
+    if (k) chips.push({ label: `${k.emoji} ${k.name}`, key: 'kidId' });
+  }
+  if (f.type !== 'all') chips.push({ label: f.type === 'like' ? '👍 Likes' : '❤️ Mejoras', key: 'type' });
+  if (f.catId !== 'all') {
+    const c = state.categories.find(x => x.id === f.catId);
+    if (c) chips.push({ label: `${c.icon} ${c.name}`, key: 'catId' });
+  }
+  if (f.from) chips.push({ label: `Desde ${f.from}`, key: 'from' });
+  if (f.to)   chips.push({ label: `Hasta ${f.to}`, key: 'to' });
+  bar.innerHTML = `
+    <div class="filter-chips">
+      <button class="filter-btn" onclick="openFilterModal()">🔍 Filtrar</button>
+      ${chips.map(c => `<span class="filter-chip">${c.label} <button onclick="clearFilter('${c.key}')">×</button></span>`).join('')}
+      ${hasFilter ? `<button class="filter-clear" onclick="clearFilters()">Limpiar</button>` : ''}
+    </div>
+  `;
+}
+
+function clearFilter(key) { state.filters[key] = (key === 'from' || key === 'to') ? null : 'all'; saveState(); renderHistory(); }
+function clearFilters() { state.filters = { kidId: 'all', type: 'all', from: null, to: null, catId: 'all' }; saveState(); renderHistory(); }
+
+function openFilterModal() {
+  const f = state.filters;
+  const kidSel = $('filterKid');
+  kidSel.innerHTML = '<option value="all">Todos</option>' + state.kids.map(k => `<option value="${k.id}">${k.emoji} ${escapeHTML(k.name)}</option>`).join('');
+  kidSel.value = f.kidId;
+  $('filterType').value = f.type;
+  const catSel = $('filterCat');
+  catSel.innerHTML = '<option value="all">Todas</option>' + state.categories.map(c => `<option value="${c.id}">${c.icon} ${escapeHTML(c.name)}</option>`).join('');
+  catSel.value = f.catId;
+  $('filterFrom').value = f.from || '';
+  $('filterTo').value = f.to || '';
+  $('filterModal').classList.add('show');
+}
+
+function applyFilters() {
+  state.filters.kidId = $('filterKid').value;
+  state.filters.type = $('filterType').value;
+  state.filters.catId = $('filterCat').value;
+  state.filters.from = $('filterFrom').value || null;
+  state.filters.to = $('filterTo').value || null;
+  saveState();
+  closeModal('filterModal');
+  renderHistory();
 }
 
 function renderKidsView() {
@@ -1658,7 +1902,7 @@ function renderKidsView() {
     const cat = state.categories.find(c => c.id === e.catId);
     const isLike = e.type === 'like';
     return `<div class="entry">
-      <div class="entry-icon ${isLike ? 'like' : 'dislike'}">${isLike ? '👍' : '👎'}</div>
+      <div class="entry-icon ${isLike ? 'like' : 'mejora'}">${isLike ? '👍' : '❤️'}</div>
       <div class="entry-body">
         <div class="entry-top"><span class="entry-cat">${cat ? cat.icon + ' ' + escapeHTML(cat.name) : 'Sin categoría'}</span></div>
         ${e.comment ? `<div class="entry-comment">"${escapeHTML(e.comment)}"</div>` : ''}
@@ -1680,9 +1924,9 @@ function renderKidsView() {
         <div class="num">${stats.likesWeek}</div>
         <div class="label">Likes esta semana</div>
       </div>
-      <div class="kids-stat dislike">
+      <div class="kids-stat mejora">
         <div class="emoji">💪</div>
-        <div class="num">${stats.dislikesWeek}</div>
+        <div class="num">${stats.mejorasWeek}</div>
         <div class="label">Por mejorar</div>
       </div>
     </div>
@@ -1713,9 +1957,9 @@ function computeStats(kidId) {
   const ofKid = state.entries.filter(e => e.kidId === kidId);
   return {
     likesToday: ofKid.filter(e => e.date === t && e.type === 'like').length,
-    dislikesToday: ofKid.filter(e => e.date === t && e.type === 'dislike').length,
+    mejorasToday: ofKid.filter(e => e.date === t && e.type === 'mejora').length,
     likesWeek: ofKid.filter(e => e.date >= ws && e.type === 'like').length,
-    dislikesWeek: ofKid.filter(e => e.date >= ws && e.type === 'dislike').length
+    mejorasWeek: ofKid.filter(e => e.date >= ws && e.type === 'mejora').length
   };
 }
 
@@ -1738,20 +1982,38 @@ function selectKid(id) {
   render();
 }
 
-function openRegisterModal(type, preCatId) {
-  if (!state.lastSelectedKid) { showToast('Selecciona un hijo primero', 'like'); return; }
-  currentRegType = type;
-  currentRegKid = state.kids.find(k => k.id === state.lastSelectedKid);
-  $('regTitle').textContent = type === 'like' ? '👍 Dar un like' : '👎 Marcar mejora';
-  $('regSub').innerHTML = `Para: <b>${currentRegKid.emoji} ${escapeHTML(currentRegKid.name)}</b>`;
-  $('regComment').value = '';
+function openRegisterModal(type, preCatId, entry) {
+  // Modo edición: si se pasa entry, precargar
+  if (entry) {
+    editingEntry = entry;
+    currentRegType = entry.type;
+    currentRegKid = state.kids.find(k => k.id === entry.kidId);
+    if (!currentRegKid) { showToast('El hijo ya no existe', 'mejora'); return; }
+    $('regTitle').textContent = entry.type === 'like' ? '✏️ Editar like' : '✏️ Editar mejora';
+    $('regSub').innerHTML = `Para: <b>${currentRegKid.emoji} ${escapeHTML(currentRegKid.name)}</b>`;
+    $('regComment').value = entry.comment || '';
+    $('regSaveBtn').textContent = 'Guardar cambios';
+    preCatId = entry.catId;
+    // Marcar autor
+    document.querySelectorAll('.author-opt').forEach(b => b.classList.toggle('active', b.dataset.author === (entry.author || 'mamá')));
+  } else {
+    if (!state.lastSelectedKid) { showToast('Selecciona un hijo primero', 'like'); return; }
+    editingEntry = null;
+    currentRegType = type;
+    currentRegKid = state.kids.find(k => k.id === state.lastSelectedKid);
+    $('regTitle').textContent = type === 'like' ? '👍 Dar un like' : '❤️ Marcar mejora';
+    $('regSub').innerHTML = `Para: <b>${currentRegKid.emoji} ${escapeHTML(currentRegKid.name)}</b>`;
+    $('regComment').value = '';
+    $('regSaveBtn').textContent = 'Guardar';
+    document.querySelectorAll('.author-opt').forEach(b => b.classList.toggle('active', b.dataset.author === 'mamá'));
+  }
 
   const catPicker = $('regCats');
   catPicker.innerHTML = '';
-  const cats = state.categories.filter(c => c.type === 'both' || c.type === type);
+  const cats = state.categories.filter(c => c.type === 'both' || c.type === currentRegType);
   cats.forEach((cat, i) => {
     const b = document.createElement('button');
-    b.className = 'cat-pick' + (type === 'dislike' ? ' dislike-mode' : '') + ((preCatId === cat.id || (!preCatId && i === 0)) ? ' active' : '');
+    b.className = 'cat-pick' + (currentRegType === 'mejora' ? ' mejora-mode' : '') + ((preCatId === cat.id || (!preCatId && i === 0)) ? ' active' : '');
     b.textContent = `${cat.icon} ${cat.name}`;
     b.onclick = () => {
       playSound('click');
@@ -1760,6 +2022,14 @@ function openRegisterModal(type, preCatId) {
     };
     catPicker.appendChild(b);
   });
+  // Vincular autor
+  document.querySelectorAll('.author-opt').forEach(b => {
+    b.onclick = () => {
+      playSound('click');
+      document.querySelectorAll('.author-opt').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+    };
+  });
   $('registerModal').classList.add('show');
 }
 
@@ -1767,12 +2037,30 @@ function saveRegister() {
   const activeCat = $('regCats').querySelector('.active');
   const catId = activeCat ? state.categories.find(c => activeCat.textContent.includes(c.name))?.id : null;
   const comment = $('regComment').value.trim();
+  const authorBtn = document.querySelector('.author-opt.active');
+  const author = authorBtn ? authorBtn.dataset.author : 'mamá';
+
+  if (editingEntry) {
+    // Modo edición
+    editingEntry.catId = catId;
+    editingEntry.comment = comment;
+    editingEntry.author = author;
+    editingEntry.updatedAt = Date.now();
+    saveState();
+    closeModal('registerModal');
+    render();
+    showToast('Registro actualizado', 'like');
+    editingEntry = null;
+    return;
+  }
+
   const entry = {
     id: 'e' + Date.now() + Math.random().toString(36).slice(2, 7),
     kidId: currentRegKid.id,
     type: currentRegType,
     catId,
     comment,
+    author,
     ts: Date.now(),
     date: today()
   };
@@ -1785,8 +2073,8 @@ function saveRegister() {
     showToast(`¡${currentRegKid.name} recibió un like!`, 'like');
     fireConfetti(currentRegKid.color);
   } else {
-    playSound('dislike');
-    showToast(`Mejora registrada para ${currentRegKid.name}`, 'dislike');
+    playSound('mejora');
+    showToast(`Mejora registrada para ${currentRegKid.name}`, 'mejora');
   }
 }
 
@@ -1796,6 +2084,66 @@ function deleteEntry(id) {
   saveState();
   render();
 }
+
+function editEntry(id) {
+  const entry = state.entries.find(e => e.id === id);
+  if (!entry) return;
+  openRegisterModal(entry.type, entry.catId, entry);
+}
+
+// Backup / Restore
+function exportData() {
+  const data = {
+    version: 2,
+    exportedAt: new Date().toISOString(),
+    kids: state.kids,
+    categories: state.categories,
+    entries: state.entries,
+    pin: state.pin
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `likes-en-casa-${today()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Respaldo descargado ✓', 'like');
+  closeModal('backupModal');
+}
+
+function restoreData(ev) {
+  const file = ev.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data || !Array.isArray(data.kids) || !Array.isArray(data.entries)) {
+        alert('El archivo no parece un respaldo válido.');
+        return;
+      }
+      if (!confirm(`Vas a reemplazar ${state.entries.length} registros actuales con ${data.entries.length} del respaldo. ¿Continuar?`)) return;
+      // Respaldo de seguridad antes de sobrescribir
+      const safety = JSON.stringify({ kids: state.kids, categories: state.categories, entries: state.entries, pin: state.pin });
+      localStorage.setItem(STORAGE_KEY + '_backup_pre_restore', safety);
+      state.kids = data.kids;
+      state.categories = data.categories || [...DEFAULT_CATEGORIES];
+      state.entries = data.entries.map(x => ({ ...x, type: x.type === 'dislike' ? 'mejora' : x.type }));
+      state.pin = data.pin || DEFAULT_PIN;
+      saveState();
+      closeModal('backupModal');
+      render();
+      showToast('Datos restaurados ✓', 'like');
+    } catch(err) {
+      alert('Error al leer el archivo: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  ev.target.value = '';
+}
+
+function openBackupModal() { $('backupModal').classList.add('show'); }
 
 function openKidModal(kid) {
   editingKid = kid || null;
@@ -1936,8 +2284,8 @@ function pinPress(n) {
         setModeUI();
         playSound('success');
       } else {
-        showToast('PIN incorrecto', 'dislike');
-        playSound('dislike');
+        showToast('PIN incorrecto', 'mejora');
+        playSound('mejora');
         $('pinDisplay').classList.add('shake');
         setTimeout(() => $('pinDisplay').classList.remove('shake'), 400);
         pinBuffer = '';
@@ -2012,14 +2360,18 @@ function showSettings() {
       </div>
 
       <div class="field">
-        <label>Datos</label>
-        <button class="add-kid-btn" onclick="exportData()">📤 Exportar datos (JSON)</button>
-        <button class="add-kid-btn" style="margin-top:8px; color:#E55050; border-color:rgba(229,80,80,0.3);" onclick="resetData()">🗑️ Borrar todo</button>
+        <label>Respaldo y restauración</label>
+        <button class="add-kid-btn" onclick="openBackupModal()">🛡️ Exportar / restaurar datos</button>
+      </div>
+
+      <div class="field">
+        <label>Zona peligrosa</label>
+        <button class="add-kid-btn" style="color:#E55050; border-color:rgba(229,80,80,0.3);" onclick="resetData()">🗑️ Borrar todos los datos</button>
       </div>
 
       <div style="margin-top:18px; padding:16px; background:linear-gradient(135deg, var(--teal-50), white); border-radius:18px; font-size:12px; color:var(--muted); font-family:var(--font-soft);">
-        <b style="color:var(--teal-700); font-family:var(--font-serif); font-size:14px;">💡 Aviso:</b><br>
-        Los datos se guardan solo en este dispositivo (localStorage). Para sincronizar entre celulares, se necesita una versión futura.
+        <b style="color:var(--teal-700); font-family:var(--font-serif); font-size:14px;">💡 Sincronización entre dispositivos:</b><br>
+        Por ahora, cada celular guarda sus propios datos. <b>Comparte el archivo de respaldo</b> por WhatsApp o email entre mamá y papá para mantener los registros iguales. La sincronización automática está en desarrollo.
       </div>
     </div>
   `;
@@ -2066,20 +2418,14 @@ function deleteKid(id) {
 }
 
 function exportData() {
-  const data = { kids: state.kids, categories: state.categories, entries: state.entries, exportedAt: new Date().toISOString() };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `likes-en-casa-${today()}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('Datos exportados ✓', 'like');
+  // Legacy: ya está manejado arriba. Mantener por compatibilidad.
 }
 
 function resetData() {
   if (!confirm('¿Borrar TODOS los datos? Esta acción no se puede deshacer.')) return;
+  if (!confirm('¿Estás seguro? No hay vuelta atrás.')) return;
   localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(STORAGE_KEY + '_backup_pre_restore');
   location.reload();
 }
 
@@ -2090,9 +2436,9 @@ function closeModal(id) { $(id).classList.remove('show'); }
 
 function showToast(msg, type) {
   const t = $('toast');
-  t.className = 'toast ' + (type === 'dislike' ? 'dislike' : 'like');
+  t.className = 'toast ' + (type === 'mejora' ? 'mejora' : 'like');
   $('toastText').textContent = msg;
-  t.querySelector('.badge').textContent = type === 'dislike' ? '👎' : '👍';
+  t.querySelector('.badge').textContent = type === 'mejora' ? '❤️' : '👍';
   t.classList.add('show');
   clearTimeout(t._timer);
   t._timer = setTimeout(() => t.classList.remove('show'), 2500);
