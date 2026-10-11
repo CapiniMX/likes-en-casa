@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0d4f4a">
+<title>Likes en Casa · Creciendo juntos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     TOKENS
+     ============================================================ */
+  :root {
+    --teal-50:  #E8F5F3;
+    --teal-100: #C7E8E3;
+    --teal-200: #9DD6CE;
+    --teal-300: #6BBFBA;
+    --teal-400: #4DB6AC;
+    --teal-500: #2A8C82;
+    --teal-600: #1F6B63;
+    --teal-700: #0d4f4a;
+
+    --coral-50:  #FFF1EC;
+    --coral-100: #FFD9C8;
+    --coral-200: #FFB088;
+    --coral-400: #F29464;
+    --coral-500: #E47142;
+    --coral-600: #C25628;
+
+    --pink-100: #FCE4EC;
+    --pink-300: #F8B7CE;
+    --pink-400: #F48FB1;
+    --pink-500: #E06A92;
+
+    --gold-300: #FFE49C;
+    --gold-400: #FFCE5C;
+    --gold-500: #F4B53F;
+
+    --ink: #11201E;
+    --ink-2: #324947;
+    --muted: #7A8A88;
+    --line: #E8ECEB;
+    --bg: #F4F8F7;
+
+    --card: #FFFFFF;
+    --card-tint: rgba(255, 255, 255, 0.75);
+
+    --radius-xs: 10px;
+    --radius-sm: 14px;
+    --radius: 22px;
+    --radius-lg: 28px;
+    --radius-xl: 36px;
+
+    --shadow-xs: 0 2px 8px rgba(13, 79, 74, 0.05);
+    --shadow-sm: 0 6px 18px rgba(13, 79, 74, 0.08);
+    --shadow:    0 14px 34px rgba(13, 79, 74, 0.10);
+    --shadow-lg: 0 24px 60px rgba(13, 79, 74, 0.18);
+    --shadow-glow: 0 0 0 6px rgba(77, 182, 172, 0.15);
+
+    --font-display: 'Bubblegum Sans', 'Fraunces', cursive;
+    --font-serif:   'Fraunces', 'Times New Roman', serif;
+    --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-soft:    'Quicksand', 'Plus Jakarta Sans', sans-serif;
+  }
+
+  /* ============================================================
+     RESET
+     ============================================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button { font: inherit; color: inherit; }
+  input, select, textarea { font: inherit; }
+
+  /* ============================================================
+     BACKGROUND CANVAS (animated blobs)
+     ============================================================ */
+  .bg-canvas {
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse 60% 50% at 10% 0%, rgba(77, 182, 172, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 100% 10%, rgba(244, 143, 177, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255, 206, 92, 0.14) 0%, transparent 60%),
+      linear-gradient(180deg, #F4F8F7 0%, #ECF3F1 100%);
+    overflow: hidden;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.55;
+    animation: blob-float 18s ease-in-out infinite;
+  }
+  .blob.b1 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(77, 182, 172, 0.55), transparent 70%); top: -80px; left: -60px; }
+  .blob.b2 { width: 280px; height: 280px; background: radial-gradient(circle, rgba(244, 143, 177, 0.5), transparent 70%); top: 30%; right: -80px; animation-delay: -6s; }
+  .blob.b3 { width: 360px; height: 360px; background: radial-gradient(circle, rgba(255, 206, 92, 0.45), transparent 70%); bottom: -100px; left: 20%; animation-delay: -12s; }
+  .blob.b4 { width: 220px; height: 220px; background: radial-gradient(circle, rgba(242, 148, 100, 0.4), transparent 70%); top: 60%; left: -50px; animation-delay: -3s; }
+  @keyframes blob-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25%      { transform: translate(40px, -30px) scale(1.08); }
+    50%      { transform: translate(-30px, 40px) scale(0.95); }
+    75%      { transform: translate(20px, 20px) scale(1.05); }
+  }
+
+  /* ============================================================
+     LAYOUT
+     ============================================================ */
+  .app {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 22px 18px 130px;
+    position: relative;
+  }
+
+  /* ============================================================
+     HEADER
+     ============================================================ */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 6px 22px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .logo-mark {
+    width: 48px; height: 48px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--teal-400) 0%, var(--pink-400) 50%, var(--gold-400) 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-size: 26px;
+    box-shadow: 0 8px 20px rgba(77, 182, 172, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .logo-mark::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.5), transparent 50%);
+  }
+  .logo-text {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--teal-700);
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .logo-text small {
+    display: block;
+    font-family: var(--font-soft);
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .mode-pill {
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-xs);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-soft);
+  }
+  .mode-pill:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+  .mode-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal-400); box-shadow: 0 0 0 3px rgba(77, 182, 172, 0.2); }
+  .mode-pill.kids .dot { background: var(--pink-400); box-shadow: 0 0 0 3px rgba(244, 143, 177, 0.25); }
+  .mode-pill.kids { color: var(--pink-500); }
+
+  /* ============================================================
+     HERO BANNER
+     ============================================================ */
+  .hero {
+    background: linear-gradient(135deg, var(--teal-600) 0%, var(--teal-700) 100%);
+    border-radius: var(--radius-xl);
+    padding: 26px 22px;
+    color: white;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(13, 79, 74, 0.3);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -50px; right: -50px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255, 206, 92, 0.4), transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -30px; left: 30%;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, rgba(244, 143, 177, 0.35), transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-greeting {
+    font-family: var(--font-soft);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.85;
+    margin-bottom: 6px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+  }
+  .hero-sub {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 8px;
+    max-width: 320px;
+  }
+
+  /* ============================================================
+     GLASS CARDS
+     ============================================================ */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+    border: 1px solid rgba(232, 236, 235, 0.7);
+  }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+  .card-meta {
+    font-family: var(--font-soft);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     KIDS GRID
+     ============================================================ */
+  .kids-grid { display: grid; gap: 12px; }
+  .kid-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow-xs);
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .kid-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--kid-color, var(--teal-400));
+    border-radius: 4px 0 0 4px;
+  }
+  .kid-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .kid-card:active { transform: scale(0.98); }
+  .kid-card.selected {
+    border-color: var(--kid-color, var(--teal-400));
+    box-shadow: 0 0 0 4px rgba(77, 182, 172, 0.15), var(--shadow);
+    background: linear-gradient(135deg, white 0%, color-mix(in srgb, var(--kid-color) 6%, white) 100%);
+  }
+  .kid-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    flex: none;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--kid-color, var(--teal-400)) 18%, white), color-mix(in srgb, var(--kid-color, var(--teal-400)) 35%, white));
+    box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.05), 0 4px 12px color-mix(in srgb, var(--kid-color, var(--teal-400)) 20%, transparent);
+    position: relative;
+  }
+  .kid-avatar::after {
+    content: ''; position: absolute; inset: -3px;
+    border-radius: 50%;
+    border: 2px dashed color-mix(in srgb, var(--kid-color, var(--teal-400)) 40%, transparent);
+    opacity: 0.6;
+  }
+  .kid-info { flex: 1; min-width: 0; }
+  .kid-name {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .kid-stats {
+    display: flex; gap: 12px; margin-top: 5px;
+    font-family: var(--font-soft);
+    font-size: 12px; font-weight: 700;
+  }
+  .kid-stats .like { color: var(--teal-600); display: flex; align-items: center; gap: 4px; }
+  .kid-stats .dis { color: var(--coral-500); display: flex; align-items: center; gap: 4px; }
+  .kid-badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-family: var(--font-soft);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+    background: var(--kid-color, var(--teal-400));
+  }
+
+  .add-kid-btn {
+    width: 100%;
+    background: transparent;
+    border: 2px dashed var(--line);
+    border-radius: var(--radius);
+    padding: 14px;
+    color: var(--muted);
+    font-family: var(--font-soft);
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .add-kid-btn:hover { border-color: var(--teal-400); color: var(--teal-600); background: rgba(77, 182, 172, 0.04); }
+
+  /* ============================================================
+     ACTION BUTTONS (THE STARS)
+     ============================================================ */
+  .actions {
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+    border: 1px solid rgba(232, 236, 235, 0.7);
+    position: relative;
+    overflow: hidden;
+  }
+  .actions-title {
+    font-family: var(--font-soft);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .actions-title::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal-400);
+    box-shadow: 0 0 0 3px rgba(77, 182, 172, 0.2);
+  }
+
+  .actions-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .big-btn {
+    border: none;
+    border-radius: var(--radius);
+    padding: 24px 16px;
+    color: white;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    min-height: 140px;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .big-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.3), transparent 50%);
+  }
+  .big-btn .icon-wrap {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3), 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    position: relative;
+  }
+  .big-btn:hover .icon-wrap { transform: scale(1.1) rotate(-5deg); }
+  .big-btn:active { transform: scale(0.96); }
+  .big-btn .title { font-size: 18px; line-height: 1.1; }
+  .big-btn .sub { font-family: var(--font-soft); font-size: 11px; font-weight: 600; opacity: 0.9; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .big-btn .sheen {
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s;
+  }
+  .big-btn:hover .sheen { left: 100%; }
+
+  .big-btn.like {
+    background: linear-gradient(135deg, #6BBFBA 0%, var(--teal-500) 50%, var(--teal-600) 100%);
+    box-shadow: 0 10px 24px rgba(42, 140, 130, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+  .big-btn.dislike {
+    background: linear-gradient(135deg, #FFB088 0%, var(--coral-400) 50%, var(--coral-500) 100%);
+    box-shadow: 0 10px 24px rgba(228, 113, 66, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+  .big-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: saturate(0.4);
+  }
+
+  .quick-cats {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--line);
+  }
+  .chip {
+    background: var(--teal-50);
+    color: var(--teal-600);
+    border: 1.5px solid transparent;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-family: var(--font-soft);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .chip:hover { border-color: var(--teal-400); transform: translateY(-1px); }
+  .chip:active { transform: scale(0.95); }
+
+  /* ============================================================
+     SUMMARY / WEEK CHART
+     ============================================================ */
+  .summary-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: 18px;
+  }
+  .summary-card {
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+  .summary-card.like {
+    background: linear-gradient(135deg, var(--teal-50) 0%, color-mix(in srgb, var(--teal-400) 12%, white) 100%);
+    border: 1.5px solid color-mix(in srgb, var(--teal-400) 20%, transparent);
+  }
+  .summary-card.dislike {
+    background: linear-gradient(135deg, var(--coral-50) 0%, color-mix(in srgb, var(--coral-400) 12%, white) 100%);
+    border: 1.5px solid color-mix(in srgb, var(--coral-400) 25%, transparent);
+  }
+  .summary-card .icon {
+    width: 36px; height: 36px;
+    border-radius: 12px;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 8px;
+    box-shadow: var(--shadow-xs);
+  }
+  .summary-card .num {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .summary-card.like .num { color: var(--teal-600); }
+  .summary-card.dislike .num { color: var(--coral-600); }
+  .summary-card .label {
+    font-family: var(--font-soft);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 4px;
+  }
+
+  .week-chart {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;
+    margin-top: 6px;
+  }
+  .day-bar { text-align: center; }
+  .day-bar .bar {
+    height: 90px;
+    background: var(--teal-50);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .day-bar .fill-likes {
+    background: linear-gradient(180deg, var(--teal-300) 0%, var(--teal-500) 100%);
+    transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .day-bar .fill-dislikes {
+    background: linear-gradient(180deg, var(--coral-200) 0%, var(--coral-400) 100%);
+    transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .day-bar .label {
+    font-family: var(--font-soft);
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+  .day-bar .num {
+    font-family: var(--font-serif);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-2);
+    margin-top: 2px;
+  }
+  .day-bar.today .label { color: var(--teal-600); font-weight: 800; }
+  .day-bar.today .bar { background: color-mix(in srgb, var(--teal-400) 10%, white); }
+
+  /* ============================================================
+     HISTORY
+     ============================================================ */
+  .entry {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+    animation: entry-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes entry-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .entry:last-child { border-bottom: none; padding-bottom: 0; }
+  .entry:first-child { padding-top: 0; }
+  .entry-icon {
+    width: 40px; height: 40px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex: none;
+    box-shadow: var(--shadow-xs);
+  }
+  .entry-icon.like {
+    background: linear-gradient(135deg, var(--teal-100), var(--teal-200));
+  }
+  .entry-icon.dislike {
+    background: linear-gradient(135deg, var(--coral-100), var(--coral-200));
+  }
+  .entry-body { flex: 1; min-width: 0; }
+  .entry-top { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+  .entry-kid {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .entry-cat {
+    font-family: var(--font-soft);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .entry-comment {
+    color: var(--ink-2);
+    font-size: 13px;
+    margin-top: 4px;
+    font-style: italic;
+    opacity: 0.85;
+    line-height: 1.4;
+  }
+  .entry-time {
+    font-family: var(--font-soft);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .entry-actions { display: flex; gap: 2px; }
+  .entry-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 6px;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+  .entry-btn:hover { background: var(--bg); color: var(--ink); }
+  .entry-btn.del:hover { color: #E55050; background: rgba(229, 80, 80, 0.08); }
+
+  /* ============================================================
+     EMPTY STATE
+     ============================================================ */
+  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .empty .ico {
+    font-size: 48px;
+    margin-bottom: 12px;
+    opacity: 0.4;
+    display: block;
+  }
+  .empty .msg {
+    font-family: var(--font-soft);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     MODALS
+     ============================================================ */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(17, 32, 30, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 100;
+    animation: fadeIn 0.2s;
+    padding: 0;
+  }
+  .modal-bg.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal {
+    background: var(--card);
+    border-radius: 28px 28px 0 0;
+    width: 100%;
+    max-width: 540px;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 24px 22px 36px;
+    animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-grabber {
+    width: 44px; height: 5px;
+    background: var(--line);
+    border-radius: 3px;
+    margin: -10px auto 18px;
+  }
+  .modal h2 {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+  }
+  .modal .sub {
+    font-family: var(--font-soft);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-family: var(--font-soft);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--bg);
+    transition: all 0.2s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--teal-400);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(77, 182, 172, 0.15);
+  }
+  .field textarea { resize: none; min-height: 80px; font-family: var(--font-soft); }
+
+  .cat-picker { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cat-pick {
+    background: var(--teal-50);
+    color: var(--teal-600);
+    border: 2px solid transparent;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-soft);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cat-pick:hover { border-color: var(--teal-400); transform: translateY(-1px); }
+  .cat-pick:active { transform: scale(0.96); }
+  .cat-pick.active {
+    background: linear-gradient(135deg, var(--teal-400) 0%, var(--teal-500) 100%);
+    color: white;
+    border-color: var(--teal-500);
+    box-shadow: 0 6px 14px rgba(42, 140, 130, 0.3);
+  }
+  .cat-pick.dislike-mode { background: var(--coral-50); color: var(--coral-600); }
+  .cat-pick.dislike-mode:hover { border-color: var(--coral-400); }
+  .cat-pick.dislike-mode.active {
+    background: linear-gradient(135deg, var(--coral-400) 0%, var(--coral-500) 100%);
+    color: white;
+    border-color: var(--coral-500);
+    box-shadow: 0 6px 14px rgba(228, 113, 66, 0.3);
+  }
+
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .btn {
+    flex: 1;
+    padding: 16px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal-400) 0%, var(--teal-500) 100%);
+    color: white;
+    box-shadow: 0 6px 16px rgba(42, 140, 130, 0.3);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(42, 140, 130, 0.4); }
+  .btn-primary:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; box-shadow: none; }
+  .btn-ghost {
+    background: var(--bg);
+    color: var(--muted);
+    font-family: var(--font-soft);
+    font-weight: 700;
+  }
+  .btn-ghost:hover { background: var(--line); }
+  .btn-danger {
+    background: rgba(229, 80, 80, 0.1);
+    color: #E55050;
+    font-family: var(--font-soft);
+    font-weight: 700;
+  }
+
+  .emoji-picker { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .emoji-opt {
+    background: var(--bg);
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 8px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.15s;
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .emoji-opt:hover { background: var(--teal-50); transform: scale(1.05); }
+  .emoji-opt.active { border-color: var(--teal-400); background: var(--teal-50); transform: scale(1.1); }
+
+  .color-picker { display: flex; gap: 12px; flex-wrap: wrap; }
+  .color-opt {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+    box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+  }
+  .color-opt:hover { transform: scale(1.1); }
+  .color-opt.active {
+    border-color: var(--ink);
+    transform: scale(1.15);
+    box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.15), 0 0 0 4px white, 0 0 0 6px currentColor;
+  }
+
+  /* ============================================================
+     PIN PAD
+     ============================================================ */
+  .pin-pad-wrap { text-align: center; padding: 10px 0 0; }
+  .pin-display {
+    display: flex; justify-content: center; gap: 16px; margin: 24px 0 28px;
+  }
+  .pin-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--line);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .pin-dot.filled {
+    background: var(--teal-400);
+    transform: scale(1.2);
+    box-shadow: 0 0 0 4px rgba(77, 182, 172, 0.2);
+  }
+  .kids-pin-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .pin-key {
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: 18px;
+    padding: 22px;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font-serif);
+    box-shadow: 0 4px 10px rgba(13, 79, 74, 0.06);
+  }
+  .pin-key:hover { background: var(--teal-50); border-color: var(--teal-300); transform: translateY(-2px); }
+  .pin-key:active { transform: scale(0.94); }
+  .pin-key.empty { background: transparent; box-shadow: none; border: none; cursor: default; }
+  .pin-key.empty:hover { transform: none; }
+
+  /* ============================================================
+     KIDS VIEW (modo niños)
+     ============================================================ */
+  .kids-view-wrap { padding: 10px 0 0; }
+  .kids-hero {
+    border-radius: var(--radius-xl);
+    padding: 32px 24px;
+    color: white;
+    margin-bottom: 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(13, 79, 74, 0.3);
+    transition: background 0.5s;
+  }
+  .kids-hero::before, .kids-hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .kids-hero::before {
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.25), transparent 70%);
+    top: -60px; right: -60px;
+    animation: float 6s ease-in-out infinite;
+  }
+  .kids-hero::after {
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 70%);
+    bottom: -40px; left: -30px;
+    animation: float 8s ease-in-out infinite reverse;
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(10px, -15px) scale(1.05); }
+  }
+  .kids-avatar {
+    width: 110px; height: 110px;
+    margin: 0 auto 18px;
+    background: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 56px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2), inset 0 -4px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 1;
+    animation: bounce-soft 3s ease-in-out infinite;
+  }
+  @keyframes bounce-soft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .kids-greeting {
+    font-family: var(--font-display);
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .kids-msg {
+    font-family: var(--font-soft);
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+  }
+
+  .kids-stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 18px;
+  }
+  .kids-stat {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  .kids-stat::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .kids-stat.like::before { background: linear-gradient(90deg, var(--teal-300), var(--teal-500)); }
+  .kids-stat.dislike::before { background: linear-gradient(90deg, var(--coral-200), var(--coral-400)); }
+  .kids-stat .num {
+    font-family: var(--font-display);
+    font-size: 42px;
+    line-height: 1;
+  }
+  .kids-stat.like .num { color: var(--teal-600); }
+  .kids-stat.dislike .num { color: var(--coral-600); }
+  .kids-stat .label {
+    font-family: var(--font-soft);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .kids-stat .emoji { font-size: 24px; margin-bottom: 6px; }
+
+  .kids-recent {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 18px;
+  }
+  .kids-recent h3 {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .kids-back-btn {
+    width: 100%;
+    background: white;
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px;
+    color: var(--ink-2);
+    font-family: var(--font-soft);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .kids-back-btn:hover { border-color: var(--teal-300); color: var(--teal-600); }
+
+  /* ============================================================
+     BOTTOM NAV
+     ============================================================ */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(232, 236, 235, 0.8);
+    display: flex;
+    padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+    z-index: 50;
+    box-shadow: 0 -8px 30px rgba(13, 79, 74, 0.08);
+  }
+  .nav-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: var(--muted);
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-family: var(--font-soft);
+    font-size: 11px;
+    font-weight: 700;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .nav-btn .ico {
+    font-size: 22px;
+    transition: transform 0.3s;
+  }
+  .nav-btn:hover { color: var(--teal-600); }
+  .nav-btn.active { color: var(--teal-600); }
+  .nav-btn.active .ico { transform: translateY(-3px) scale(1.1); }
+  .nav-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 50%; transform: translateX(-50%);
+    width: 24px; height: 3px;
+    background: linear-gradient(90deg, var(--teal-400), var(--pink-400));
+    border-radius: 2px;
+  }
+
+  /* ============================================================
+     TOAST
+     ============================================================ */
+  .toast {
+    position: fixed; top: 24px; left: 50%;
+    transform: translateX(-50%) translateY(-180px);
+    background: white;
+    color: var(--ink);
+    padding: 12px 20px 12px 14px;
+    border-radius: 999px;
+    font-family: var(--font-soft);
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex; align-items: center; gap: 10px;
+    border: 1px solid var(--line);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast .badge {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: white;
+  }
+  .toast.like .badge { background: linear-gradient(135deg, var(--teal-400), var(--teal-500)); }
+  .toast.dislike .badge { background: linear-gradient(135deg, var(--coral-400), var(--coral-500)); }
+
+  .confetti-canvas {
+    position: fixed; inset: 0; pointer-events: none; z-index: 199;
+  }
+
+  /* ============================================================
+     UTIL
+     ============================================================ */
+  .hidden { display: none !important; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  @media (min-width: 600px) {
+    .big-btn { min-height: 160px; }
+    .big-btn .icon-wrap { width: 72px; height: 72px; font-size: 40px; }
+    .big-btn .title { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="blob b4"></div>
+</div>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <div class="logo-mark">🌱</div>
+      <div class="logo-text">
+        Likes en Casa
+        <small>Creciendo juntos</small>
+      </div>
+    </div>
+    <button class="mode-pill" id="modePill" onclick="toggleMode()">
+      <span class="dot"></span>
+      <span id="modeLabel">Modo papás</span>
+    </button>
+  </header>
+
+  <!-- HERO BANNER -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-greeting" id="heroGreeting">Buenas noches</div>
+      <div class="hero-title" id="heroTitle">¿Qué hizo bien hoy?</div>
+      <div class="hero-sub" id="heroSub">Registra un like o marca algo para trabajar. Cada paso cuenta.</div>
+    </div>
+  </div>
+
+  <!-- VISTA PAPÁS -->
+  <div id="parentsView" class="view active">
+
+    <!-- Selección de hijo -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">¿Para quién?</div>
+        <div class="card-meta" id="todayLabel"></div>
+      </div>
+      <div class="kids-grid" id="kidsGrid"></div>
+      <button class="add-kid-btn" onclick="openKidModal()">+ Agregar un hijo o hija</button>
+    </div>
+
+    <!-- Acciones grandes -->
+    <div class="actions" id="actionsPanel">
+      <div class="actions-title" id="actionsTitle">Elige un hijo para empezar</div>
+      <div class="actions-row">
+        <button class="big-btn like" onclick="openRegisterModal('like')" id="btnLike" disabled>
+          <span class="sheen"></span>
+          <div class="icon-wrap">👍</div>
+          <div class="title">Dar like</div>
+          <div class="sub">Algo bueno</div>
+        </button>
+        <button class="big-btn dislike" onclick="openRegisterModal('dislike')" id="btnDislike" disabled>
+          <span class="sheen"></span>
+          <div class="icon-wrap">👎</div>
+          <div class="title">Marcar mejora</div>
+          <div class="sub">Algo para trabajar</div>
+        </button>
+      </div>
+      <div class="quick-cats" id="quickCats"></div>
+    </div>
+
+    <!-- Resumen -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Resumen de la semana</div>
+        <div class="card-meta" id="rangeLabel"></div>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-card like">
+          <div class="icon">👍</div>
+          <div class="num" id="totalLikes">0</div>
+          <div class="label">Likes</div>
+        </div>
+        <div class="summary-card dislike">
+          <div class="icon">👎</div>
+          <div class="num" id="totalDislikes">0</div>
+          <div class="label">Mejoras</div>
+        </div>
+      </div>
+      <div class="week-chart" id="weekChart"></div>
+    </div>
+
+    <!-- Historial -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Historial reciente</div>
+        <div class="card-meta" id="historyCount">0 registros</div>
+      </div>
+      <div id="historyList"></div>
+    </div>
+  </div>
+
+  <!-- VISTA NIÑOS -->
+  <div id="kidsView" class="view">
+    <div class="kids-view-wrap" id="kidsHero"></div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-view="parents" onclick="switchView('parents')">
+    <span class="ico">🏠</span>Inicio
+  </button>
+  <button class="nav-btn" data-view="history" onclick="scrollToHistory()">
+    <span class="ico">📋</span>Historial
+  </button>
+  <button class="nav-btn" data-view="settings" onclick="showSettings()">
+    <span class="ico">⚙️</span>Ajustes
+  </button>
+</nav>
+
+<!-- MODAL: PIN -->
+<div class="modal-bg" id="pinModal">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-grabber"></div>
+    <div class="pin-pad-wrap">
+      <h2 style="text-align:center; margin-bottom:4px;">🔒 Modo papás</h2>
+      <p class="sub" style="text-align:center;">Ingresa tu PIN para administrar</p>
+      <div class="pin-display" id="pinDisplay">
+        <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+      </div>
+      <div class="kids-pin-pad" id="pinPad"></div>
+      <button class="btn btn-ghost" style="margin-top:16px;" onclick="closeModal('pinModal')">Cancelar</button>
+      <p style="text-align:center; font-size:11px; color:var(--muted); margin-top:14px; font-family:var(--font-soft);">PIN inicial: <b>1234</b></p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: REGISTRAR -->
+<div class="modal-bg" id="registerModal">
+  <div class="modal">
+    <div class="modal-grabber"></div>
+    <h2 id="regTitle">👍 Registrar like</h2>
+    <p class="sub" id="regSub">Para: <b id="regKid">—</b></p>
+
+    <div class="field">
+      <label>Elige una categoría</label>
+      <div class="cat-picker" id="regCats"></div>
+    </div>
+
+    <div class="field">
+      <label>Comentario <span style="text-transform:none; opacity:0.7;">(opcional)</span></label>
+      <textarea id="regComment" placeholder="Ej: 'Sin que se lo pidieran'"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('registerModal')">Cancelar</button>
+      <button class="btn btn-primary" id="regSaveBtn" onclick="saveRegister()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: HIJO -->
+<div class="modal-bg" id="kidModal">
+  <div class="modal">
+    <div class="modal-grabber"></div>
+    <h2 id="kidModalTitle">Agregar un hijo</h2>
+    <p class="sub">Configura su perfil con su emoji y color favorito</p>
+
+    <div class="field">
+      <label>Nombre o apodo</label>
+      <input type="text" id="kidName" maxlength="20" placeholder="Ej: Alex">
+    </div>
+
+    <div class="field">
+      <label>Elige un avatar</label>
+      <div class="emoji-picker" id="kidEmojiPicker"></div>
+    </div>
+
+    <div class="field">
+      <label>Elige un color</label>
+      <div class="color-picker" id="kidColorPicker"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('kidModal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveKid()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CATEGORÍAS -->
+<div class="modal-bg" id="catModal">
+  <div class="modal">
+    <div class="modal-grabber"></div>
+    <h2>Categorías</h2>
+    <p class="sub">Personaliza las razones de likes y mejoras</p>
+    <div id="catList" style="margin-bottom:14px;"></div>
+    <div class="field">
+      <label>Agregar nueva</label>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="newCatName" placeholder="Ej: Lectura diaria" style="flex:1;">
+        <select id="newCatType" style="width:130px;">
+          <option value="both">Ambas</option>
+          <option value="like">Solo 👍</option>
+          <option value="dislike">Solo 👎</option>
+        </select>
+        <button class="btn btn-primary" style="flex:none; padding:14px 18px;" onclick="addCategory()">+</button>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('catModal')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="badge">👍</div>
+  <span id="toastText"></span>
+</div>
+
+<canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+const STORAGE_KEY = '***';
+const DEFAULT_PIN = '1234';
+
+const DEFAULT_CATEGORIES = [
+  { id: 'school',     name: 'Tareas escolares',      icon: '📚', type: 'both' },
+  { id: 'order',      name: 'Orden y limpieza',      icon: '🧹', type: 'both' },
+  { id: 'help',       name: 'Ayuda en casa',         icon: '🤝', type: 'both' },
+  { id: 'responsib',  name: 'Responsabilidad',       icon: '⏰', type: 'both' },
+  { id: 'respect',    name: 'Respeto y convivencia', icon: '💚', type: 'both' },
+  { id: 'habits',     name: 'Hábitos personales',    icon: '🦷', type: 'both' }
+];
+
+const EMOJI_OPTIONS = ['👦','👧','🧒','👶','🦸','🧙','🦊','🐱','🐶','🐼','🐨','🦄','🐯','🐸','🐵','🐰','🦁','🐺','🌟','⭐','🌈','🚀','🎨','🎮','⚽','🎵','📚','🌻'];
+const COLOR_OPTIONS = [
+  { name: 'teal',    val: '#4DB6AC' },
+  { name: 'pink',    val: '#F48FB1' },
+  { name: 'coral',   val: '#F29464' },
+  { name: 'green',   val: '#9DC888' },
+  { name: 'sky',     val: '#7DB1D6' },
+  { name: 'lavender',val: '#B39DDB' },
+  { name: 'rose',    val: '#F8B7CE' },
+  { name: 'mocha',   val: '#A1887F' },
+  { name: 'gold',    val: '#FFCE5C' },
+  { name: 'mint',    val: '#80CBC4' }
+];
+
+let state = {
+  kids: [],
+  categories: [],
+  entries: [],
+  pin: DEFAULT_PIN,
+  lastSelectedKid: null,
+  mode: 'parents'
+};
+
+let currentRegType = 'like';
+let currentRegKid = null;
+let editingKid = null;
+let pinBuffer = '';
+let pendingMode = 'parents';
+let audioCtx = null;
+
+// ============================================================
+// STORAGE
+// ============================================================
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      state = { ...state, ...parsed };
+    }
+  } catch(e) { console.warn('Error loading state', e); }
+
+  if (!state.categories || state.categories.length === 0) state.categories = [...DEFAULT_CATEGORIES];
+
+  if (!state.kids || state.kids.length === 0) {
+    state.kids = [
+      { id: 'k1', name: 'Luke',  emoji: '👦', color: '#4DB6AC' },
+      { id: 'k2', name: 'Dalia', emoji: '👧', color: '#F48FB1' },
+      { id: 'k3', name: 'Iris',  emoji: '🧒', color: '#FFCE5C' }
+    ];
+  }
+  if (!state.entries) state.entries = [];
+  if (!state.pin) state.pin = DEFAULT_PIN;
+}
+
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    kids: state.kids,
+    categories: state.categories,
+    entries: state.entries,
+    pin: state.pin
+  }));
+}
+
+// ============================================================
+// AUDIO
+// ============================================================
+function playSound(type) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    g.gain.setValueAtTime(0.0001, now);
+    if (type === 'like') {
+      // happy ascending chord
+      o.type = 'sine';
+      o.frequency.setValueAtTime(523.25, now); // C5
+      o.frequency.setValueAtTime(659.25, now + 0.08); // E5
+      o.frequency.setValueAtTime(783.99, now + 0.16); // G5
+      g.gain.exponentialRampToValueAtTime(0.15, now + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+      o.start(now); o.stop(now + 0.5);
+    } else if (type === 'dislike') {
+      // soft descending
+      o.type = 'sine';
+      o.frequency.setValueAtTime(440, now);
+      o.frequency.exponentialRampToValueAtTime(330, now + 0.3);
+      g.gain.exponentialRampToValueAtTime(0.08, now + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
+      o.start(now); o.stop(now + 0.4);
+    } else if (type === 'click') {
+      o.type = 'sine';
+      o.frequency.setValueAtTime(800, now);
+      g.gain.exponentialRampToValueAtTime(0.05, now + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+      o.start(now); o.stop(now + 0.1);
+    } else if (type === 'pin') {
+      o.type = 'sine';
+      o.frequency.setValueAtTime(600, now);
+      g.gain.exponentialRampToValueAtTime(0.06, now + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+      o.start(now); o.stop(now + 0.08);
+    } else if (type === 'success') {
+      o.type = 'triangle';
+      o.frequency.setValueAtTime(523.25, now);
+      o.frequency.setValueAtTime(783.99, now + 0.1);
+      o.frequency.setValueAtTime(1046.5, now + 0.2);
+      g.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+      o.start(now); o.stop(now + 0.6);
+    }
+  } catch(e) {}
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function today() { return new Date().toISOString().split('T')[0]; }
+function getWeekStart(d) {
+  const date = new Date(d);
+  date.setHours(0,0,0,0);
+  const day = date.getDay();
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+  date.setDate(diff);
+  return date;
+}
+function fmtTime(ts) {
+  return new Date(ts).toLocaleString('es-MX', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+}
+function $(id) { return document.getElementById(id); }
+function escapeHTML(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function getGreetingTime() {
+  const h = new Date().getHours();
+  if (h < 6)  return 'Buenas noches';
+  if (h < 12) return 'Buenos días';
+  if (h < 19) return 'Buenas tardes';
+  return 'Buenas noches';
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  renderHero();
+  renderToday();
+  renderKids();
+  renderActions();
+  renderQuickCats();
+  renderSummary();
+  renderHistory();
+}
+
+function renderHero() {
+  $('heroGreeting').textContent = getGreetingTime();
+  const totalLikes = state.entries.filter(e => e.type === 'like' && e.date === today()).length;
+  if (totalLikes === 0) {
+    $('heroTitle').textContent = '¿Qué hizo bien hoy?';
+    $('heroSub').textContent = 'Registra un like o marca algo para trabajar. Cada paso cuenta.';
+  } else if (totalLikes < 3) {
+    $('heroTitle').textContent = '¡Buen comienzo!';
+    $('heroSub').textContent = 'Sigue registrando lo que observas. La constancia es clave.';
+  } else {
+    $('heroTitle').textContent = '¡Día increíble!';
+    $('heroSub').textContent = `${totalLikes} likes hoy. Sigue reconociendo lo bueno.`;
+  }
+}
+
+function renderToday() {
+  const d = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
+  $('todayLabel').textContent = d.charAt(0).toUpperCase() + d.slice(1);
+}
+
+function renderKids() {
+  const grid = $('kidsGrid');
+  grid.innerHTML = '';
+  state.kids.forEach(k => {
+    const stats = computeStats(k.id);
+    const card = document.createElement('div');
+    card.className = 'kid-card' + (state.lastSelectedKid === k.id ? ' selected' : '');
+    card.style.setProperty('--kid-color', k.color);
+    card.onclick = () => { playSound('click'); selectKid(k.id); };
+    card.innerHTML = `
+      <div class="kid-avatar">${k.emoji}</div>
+      <div class="kid-info">
+        <div class="kid-name">${escapeHTML(k.name)}</div>
+        <div class="kid-stats">
+          <span class="like">👍 ${stats.likesToday}</span>
+          <span class="dis">👎 ${stats.dislikesToday}</span>
+        </div>
+      </div>
+      <span class="kid-badge">Sem: ${stats.likesWeek}</span>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderActions() {
+  const kid = state.kids.find(k => k.id === state.lastSelectedKid);
+  const title = $('actionsTitle');
+  const btnLike = $('btnLike');
+  const btnDislike = $('btnDislike');
+  if (kid) {
+    title.textContent = `Para: ${kid.emoji} ${kid.name}`;
+    btnLike.disabled = false;
+    btnDislike.disabled = false;
+  } else {
+    title.textContent = 'Elige un hijo para empezar';
+    btnLike.disabled = true;
+    btnDislike.disabled = true;
+  }
+}
+
+function renderQuickCats() {
+  const c = $('quickCats');
+  c.innerHTML = '';
+  state.categories.slice(0, 6).forEach(cat => {
+    const chip = document.createElement('button');
+    chip.className = 'chip';
+    chip.textContent = `${cat.icon} ${cat.name}`;
+    chip.onclick = () => { playSound('click'); openRegisterModal('like', cat.id); };
+    c.appendChild(chip);
+  });
+}
+
+function renderSummary() {
+  const weekStart = getWeekStart(new Date());
+  const ws = weekStart.toISOString().split('T')[0];
+  const likes = state.entries.filter(e => e.date >= ws && e.type === 'like').length;
+  const dislikes = state.entries.filter(e => e.date >= ws && e.type === 'dislike').length;
+  $('totalLikes').textContent = likes;
+  $('totalDislikes').textContent = dislikes;
+
+  $('rangeLabel').textContent = `${weekStart.getDate()} – ${new Date(weekStart.getTime() + 6*86400000).getDate()} ${new Date(weekStart.getTime() + 6*86400000).toLocaleDateString('es-MX', { month: 'short' })}`;
+
+  const chart = $('weekChart');
+  chart.innerHTML = '';
+  const days = ['L','M','M','J','V','S','D'];
+  const todayKey = today();
+  let maxTotal = 0;
+  const dayData = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(weekStart);
+    d.setDate(d.getDate() + i);
+    const key = d.toISOString().split('T')[0];
+    const dayEntries = state.entries.filter(e => e.date === key);
+    const lk = dayEntries.filter(e => e.type === 'like').length;
+    const dk = dayEntries.filter(e => e.type === 'dislike').length;
+    const total = lk + dk;
+    if (total > maxTotal) maxTotal = total;
+    dayData.push({ key, lk, dk, total, label: days[i], isToday: key === todayKey });
+  }
+  if (maxTotal === 0) maxTotal = 1;
+
+  dayData.forEach(d => {
+    const day = document.createElement('div');
+    day.className = 'day-bar' + (d.isToday ? ' today' : '');
+    const lkPct = d.lk > 0 ? Math.max((d.lk / maxTotal) * 90, 8) : 0;
+    const dkPct = d.dk > 0 ? Math.max((d.dk / maxTotal) * 90, 8) : 0;
+    day.innerHTML = `
+      <div class="bar">
+        <div class="fill-dislikes" style="height:${dkPct}%; order:2;"></div>
+        <div class="fill-likes" style="height:${lkPct}%; order:1;"></div>
+      </div>
+      <div class="label">${d.label}</div>
+      <div class="num">${d.total || '·'}</div>
+    `;
+    chart.appendChild(day);
+  });
+}
+
+function renderHistory() {
+  const list = $('historyList');
+  list.innerHTML = '';
+  const sorted = [...state.entries].sort((a, b) => b.ts - a.ts).slice(0, 30);
+  $('historyCount').textContent = `${state.entries.length} registro${state.entries.length === 1 ? '' : 's'}`;
+  if (sorted.length === 0) {
+    list.innerHTML = `<div class="empty"><span class="ico">📝</span><div class="msg">Aún no hay registros.<br>Toca un botón de arriba para empezar.</div></div>`;
+    return;
+  }
+  sorted.forEach(e => {
+    const kid = state.kids.find(k => k.id === e.kidId);
+    const cat = state.categories.find(c => c.id === e.catId);
+    const div = document.createElement('div');
+    div.className = 'entry';
+    const isLike = e.type === 'like';
+    div.innerHTML = `
+      <div class="entry-icon ${isLike ? 'like' : 'dislike'}">${isLike ? '👍' : '👎'}</div>
+      <div class="entry-body">
+        <div class="entry-top">
+          <span class="entry-kid">${kid ? kid.emoji + ' ' + escapeHTML(kid.name) : 'Sin nombre'}</span>
+          ${cat ? `<span class="entry-cat">· ${cat.icon} ${escapeHTML(cat.name)}</span>` : ''}
+        </div>
+        ${e.comment ? `<div class="entry-comment">"${escapeHTML(e.comment)}"</div>` : ''}
+        <div class="entry-time">${fmtTime(e.ts)}</div>
+      </div>
+      <div class="entry-actions">
+        <button class="entry-btn del" onclick="deleteEntry('${e.id}')" title="Eliminar">🗑️</button>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function renderKidsView() {
+  const kid = state.kids[0];
+  if (!kid) {
+    $('kidsHero').innerHTML = `<div class="empty"><span class="ico">👋</span><div class="msg">Pide a tus papás que agreguen perfiles primero.</div></div>`;
+    return;
+  }
+  const stats = computeStats(kid.id);
+  const recent = state.entries.filter(e => e.kidId === kid.id).sort((a, b) => b.ts - a.ts).slice(0, 5);
+  const recentHtml = recent.map(e => {
+    const cat = state.categories.find(c => c.id === e.catId);
+    const isLike = e.type === 'like';
+    return `<div class="entry">
+      <div class="entry-icon ${isLike ? 'like' : 'dislike'}">${isLike ? '👍' : '👎'}</div>
+      <div class="entry-body">
+        <div class="entry-top"><span class="entry-cat">${cat ? cat.icon + ' ' + escapeHTML(cat.name) : 'Sin categoría'}</span></div>
+        ${e.comment ? `<div class="entry-comment">"${escapeHTML(e.comment)}"</div>` : ''}
+        <div class="entry-time">${fmtTime(e.ts)}</div>
+      </div>
+    </div>`;
+  }).join('') || `<div class="empty" style="padding:20px;"><div class="msg">Pronto habrá novedades ✨</div></div>`;
+
+  const heroColor = kid.color;
+  $('kidsHero').innerHTML = `
+    <div class="kids-hero" style="background: linear-gradient(135deg, ${heroColor} 0%, ${shade(heroColor, -25)} 100%);">
+      <div class="kids-avatar">${kid.emoji}</div>
+      <div class="kids-greeting">¡Hola, ${escapeHTML(kid.name)}!</div>
+      <div class="kids-msg">${getGreeting(kid.name, stats)}</div>
+    </div>
+    <div class="kids-stats-grid">
+      <div class="kids-stat like">
+        <div class="emoji">🌟</div>
+        <div class="num">${stats.likesWeek}</div>
+        <div class="label">Likes esta semana</div>
+      </div>
+      <div class="kids-stat dislike">
+        <div class="emoji">💪</div>
+        <div class="num">${stats.dislikesWeek}</div>
+        <div class="label">Por mejorar</div>
+      </div>
+    </div>
+    <div class="kids-recent">
+      <h3>📖 Tus últimas acciones</h3>
+      ${recentHtml}
+    </div>
+    <button class="kids-back-btn" onclick="toggleMode()">🔒 Volver a papás</button>
+  `;
+}
+
+function getGreeting(name, stats) {
+  const msgs = [
+    '¡Vas genial! Sigue así 🌟',
+    'Hoy puede ser un día increíble ✨',
+    '¡Eres asombrosa/o! 💚',
+    'Cada día aprendes algo nuevo 🚀',
+    'Tu esfuerzo se nota muchísimo 🌈',
+    '¡Qué orgullosa/o estamos de ti! 🌻'
+  ];
+  if (stats.likesToday > 3) return '¡Wow! Hoy fue un día increíble 🌟';
+  return msgs[Math.floor(Math.random() * msgs.length)];
+}
+
+function computeStats(kidId) {
+  const t = today();
+  const ws = getWeekStart(new Date()).toISOString().split('T')[0];
+  const ofKid = state.entries.filter(e => e.kidId === kidId);
+  return {
+    likesToday: ofKid.filter(e => e.date === t && e.type === 'like').length,
+    dislikesToday: ofKid.filter(e => e.date === t && e.type === 'dislike').length,
+    likesWeek: ofKid.filter(e => e.date >= ws && e.type === 'like').length,
+    dislikesWeek: ofKid.filter(e => e.date >= ws && e.type === 'dislike').length
+  };
+}
+
+function shade(hex, percent) {
+  let f = parseInt(hex.slice(1), 16),
+    t = percent < 0 ? 0 : 255,
+    p = percent < 0 ? percent * -1 / 100 : percent / 100,
+    R = f >> 16,
+    G = f >> 8 & 0x00FF,
+    B = f & 0x0000FF;
+  return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+}
+
+// ============================================================
+// ACTIONS
+// ============================================================
+function selectKid(id) {
+  state.lastSelectedKid = state.lastSelectedKid === id ? null : id;
+  saveState();
+  render();
+}
+
+function openRegisterModal(type, preCatId) {
+  if (!state.lastSelectedKid) { showToast('Selecciona un hijo primero', 'like'); return; }
+  currentRegType = type;
+  currentRegKid = state.kids.find(k => k.id === state.lastSelectedKid);
+  $('regTitle').textContent = type === 'like' ? '👍 Dar un like' : '👎 Marcar mejora';
+  $('regSub').innerHTML = `Para: <b>${currentRegKid.emoji} ${escapeHTML(currentRegKid.name)}</b>`;
+  $('regComment').value = '';
+
+  const catPicker = $('regCats');
+  catPicker.innerHTML = '';
+  const cats = state.categories.filter(c => c.type === 'both' || c.type === type);
+  cats.forEach((cat, i) => {
+    const b = document.createElement('button');
+    b.className = 'cat-pick' + (type === 'dislike' ? ' dislike-mode' : '') + ((preCatId === cat.id || (!preCatId && i === 0)) ? ' active' : '');
+    b.textContent = `${cat.icon} ${cat.name}`;
+    b.onclick = () => {
+      playSound('click');
+      [...catPicker.children].forEach(c => c.classList.remove('active'));
+      b.classList.add('active');
+    };
+    catPicker.appendChild(b);
+  });
+  $('registerModal').classList.add('show');
+}
+
+function saveRegister() {
+  const activeCat = $('regCats').querySelector('.active');
+  const catId = activeCat ? state.categories.find(c => activeCat.textContent.includes(c.name))?.id : null;
+  const comment = $('regComment').value.trim();
+  const entry = {
+    id: 'e' + Date.now() + Math.random().toString(36).slice(2, 7),
+    kidId: currentRegKid.id,
+    type: currentRegType,
+    catId,
+    comment,
+    ts: Date.now(),
+    date: today()
+  };
+  state.entries.push(entry);
+  saveState();
+  closeModal('registerModal');
+  render();
+  if (currentRegType === 'like') {
+    playSound('like');
+    showToast(`¡${currentRegKid.name} recibió un like!`, 'like');
+    fireConfetti(currentRegKid.color);
+  } else {
+    playSound('dislike');
+    showToast(`Mejora registrada para ${currentRegKid.name}`, 'dislike');
+  }
+}
+
+function deleteEntry(id) {
+  if (!confirm('¿Eliminar este registro?')) return;
+  state.entries = state.entries.filter(e => e.id !== id);
+  saveState();
+  render();
+}
+
+function openKidModal(kid) {
+  editingKid = kid || null;
+  $('kidModalTitle').textContent = kid ? 'Editar perfil' : 'Agregar un hijo';
+  $('kidName').value = kid ? kid.name : '';
+  const emojiPicker = $('kidEmojiPicker');
+  emojiPicker.innerHTML = '';
+  EMOJI_OPTIONS.forEach((em, i) => {
+    const b = document.createElement('button');
+    b.className = 'emoji-opt' + (kid && kid.emoji === em ? ' active' : (!kid && em === '👦' ? ' active' : ''));
+    b.textContent = em;
+    b.onclick = () => {
+      playSound('click');
+      [...emojiPicker.children].forEach(c => c.classList.remove('active'));
+      b.classList.add('active');
+    };
+    emojiPicker.appendChild(b);
+  });
+  const colorPicker = $('kidColorPicker');
+  colorPicker.innerHTML = '';
+  COLOR_OPTIONS.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.className = 'color-opt' + (kid && kid.color === c.val ? ' active' : (!kid && i === 0 ? ' active' : ''));
+    b.style.background = c.val;
+    b.style.color = c.val;
+    b.onclick = () => {
+      playSound('click');
+      [...colorPicker.children].forEach(c => c.classList.remove('active'));
+      b.classList.add('active');
+    };
+    colorPicker.appendChild(b);
+  });
+  $('kidModal').classList.add('show');
+}
+
+function saveKid() {
+  const name = $('kidName').value.trim();
+  if (!name) { alert('Escribe un nombre'); return; }
+  const activeEmoji = $('kidEmojiPicker').querySelector('.active');
+  const activeColor = $('kidColorPicker').querySelector('.active');
+  const emoji = activeEmoji ? activeEmoji.textContent : '👦';
+  const color = activeColor ? activeColor.style.background : '#4DB6AC';
+  if (editingKid) {
+    state.kids = state.kids.map(k => k.id === editingKid.id ? { ...k, name, emoji, color } : k);
+  } else {
+    state.kids.push({ id: 'k' + Date.now(), name, emoji, color });
+  }
+  saveState();
+  closeModal('kidModal');
+  render();
+  playSound('success');
+}
+
+function openCatModal() {
+  renderCatList();
+  $('catModal').classList.add('show');
+}
+function renderCatList() {
+  const list = $('catList');
+  list.innerHTML = '';
+  state.categories.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--bg); border-radius:14px; margin-bottom:6px;';
+    div.innerHTML = `
+      <span style="font-size:20px;">${c.icon}</span>
+      <span style="flex:1; font-weight:600; font-family:var(--font-soft);">${escapeHTML(c.name)}</span>
+      <span style="font-size:10px; color:var(--muted); text-transform:uppercase; font-weight:700; font-family:var(--font-soft); letter-spacing:0.5px;">${c.type === 'both' ? 'Ambas' : c.type === 'like' ? '👍' : '👎'}</span>
+      <button class="entry-btn del" onclick="deleteCategory(${i})">🗑️</button>
+    `;
+    list.appendChild(div);
+  });
+}
+function addCategory() {
+  const name = $('newCatName').value.trim();
+  if (!name) return;
+  const type = $('newCatType').value;
+  const icons = ['📚','🧹','🤝','⏰','💚','🦷','🌟','🎨','🎵','⚽','🛏️','🍽️','🌱','🛒','🧼','👕','📖','🎒','📐','🏃','🌳','💤','🧠','💬','🚿','🍎'];
+  const icon = icons[Math.floor(Math.random() * icons.length)];
+  state.categories.push({ id: 'c' + Date.now(), name, icon, type });
+  $('newCatName').value = '';
+  saveState();
+  renderCatList();
+  renderQuickCats();
+  playSound('click');
+}
+function deleteCategory(i) {
+  if (!confirm('¿Eliminar esta categoría?')) return;
+  state.categories.splice(i, 1);
+  saveState();
+  renderCatList();
+  renderQuickCats();
+}
+
+// ============================================================
+// MODOS / PIN
+// ============================================================
+function toggleMode() {
+  if (state.mode === 'parents') {
+    pendingMode = 'kids';
+    openPinModal();
+  } else {
+    state.mode = 'parents';
+    saveState();
+    setModeUI();
+  }
+}
+
+function openPinModal() {
+  pinBuffer = '';
+  updatePinDisplay();
+  const pad = $('pinPad');
+  pad.innerHTML = '';
+  const keys = ['1','2','3','4','5','6','7','8','9','empty','0','del'];
+  keys.forEach(k => {
+    const b = document.createElement('button');
+    if (k === 'empty') { b.className = 'pin-key empty'; pad.appendChild(b); return; }
+    b.className = 'pin-key';
+    b.textContent = k === 'del' ? '⌫' : k;
+    b.onclick = () => {
+      playSound('pin');
+      if (k === 'del') { pinBuffer = pinBuffer.slice(0, -1); updatePinDisplay(); return; }
+      pinPress(k);
+    };
+    pad.appendChild(b);
+  });
+  $('pinModal').classList.add('show');
+}
+
+function pinPress(n) {
+  if (pinBuffer.length < 4) pinBuffer += n;
+  updatePinDisplay();
+  if (pinBuffer.length === 4) {
+    setTimeout(() => {
+      if (pinBuffer === state.pin) {
+        state.mode = pendingMode;
+        saveState();
+        closeModal('pinModal');
+        setModeUI();
+        playSound('success');
+      } else {
+        showToast('PIN incorrecto', 'dislike');
+        playSound('dislike');
+        $('pinDisplay').classList.add('shake');
+        setTimeout(() => $('pinDisplay').classList.remove('shake'), 400);
+        pinBuffer = '';
+        updatePinDisplay();
+      }
+    }, 200);
+  }
+}
+
+function updatePinDisplay() {
+  const dots = $('pinDisplay').children;
+  [...dots].forEach((d, i) => d.classList.toggle('filled', i < pinBuffer.length));
+}
+
+function setModeUI() {
+  const pill = $('modePill');
+  const label = $('modeLabel');
+  if (state.mode === 'kids') {
+    pill.classList.add('kids');
+    label.textContent = 'Modo niños';
+    $('parentsView').classList.remove('active');
+    $('kidsView').classList.add('active');
+    renderKidsView();
+  } else {
+    pill.classList.remove('kids');
+    label.textContent = 'Modo papás';
+    $('parentsView').classList.add('active');
+    $('kidsView').classList.remove('active');
+  }
+}
+
+// ============================================================
+// NAV / SETTINGS
+// ============================================================
+function switchView(view) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  if (view === 'parents') {
+    $('parentsView').classList.add('active');
+    $('kidsView').classList.remove('active');
+  }
+}
+function scrollToHistory() {
+  const el = document.querySelectorAll('.card')[document.querySelectorAll('.card').length - 1];
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showSettings() {
+  const html = `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">⚙️ Ajustes</div>
+        <button class="card-meta" onclick="backToMain()" style="background:none;border:none;color:var(--teal-600);cursor:pointer;font-size:13px;font-weight:700;">← Volver</button>
+      </div>
+
+      <div class="field">
+        <label>Hijos registrados</label>
+        <div id="settingsKids"></div>
+        <button class="add-kid-btn" onclick="openKidModal()">+ Agregar un hijo o hija</button>
+      </div>
+
+      <div class="field">
+        <label>Categorías</label>
+        <button class="add-kid-btn" onclick="openCatModal()">⚙️ Personalizar categorías</button>
+      </div>
+
+      <div class="field">
+        <label>Cambiar PIN de papás</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="newPin" maxlength="4" placeholder="Nuevo PIN (4 dígitos)" style="flex:1;">
+          <button class="btn btn-primary" style="flex:none; padding:14px 18px;" onclick="changePin()">Guardar</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Datos</label>
+        <button class="add-kid-btn" onclick="exportData()">📤 Exportar datos (JSON)</button>
+        <button class="add-kid-btn" style="margin-top:8px; color:#E55050; border-color:rgba(229,80,80,0.3);" onclick="resetData()">🗑️ Borrar todo</button>
+      </div>
+
+      <div style="margin-top:18px; padding:16px; background:linear-gradient(135deg, var(--teal-50), white); border-radius:18px; font-size:12px; color:var(--muted); font-family:var(--font-soft);">
+        <b style="color:var(--teal-700); font-family:var(--font-serif); font-size:14px;">💡 Aviso:</b><br>
+        Los datos se guardan solo en este dispositivo (localStorage). Para sincronizar entre celulares, se necesita una versión futura.
+      </div>
+    </div>
+  `;
+  $('parentsView').innerHTML = html;
+  const sk = $('settingsKids');
+  if (state.kids.length === 0) {
+    sk.innerHTML = '<div style="text-align:center; padding:20px; color:var(--muted); font-family:var(--font-soft); font-size:13px;">Aún no has agregado hijos.</div>';
+  }
+  state.kids.forEach(k => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--bg); border-radius:16px; margin-bottom:8px;';
+    div.innerHTML = `
+      <div style="width:42px;height:42px;border-radius:50%;background:${k.color}22;color:${k.color};display:flex;align-items:center;justify-content:center;font-size:22px; box-shadow: inset 0 -2px 4px rgba(0,0,0,0.05);">${k.emoji}</div>
+      <div style="flex:1;">
+        <div style="font-family:var(--font-serif); font-weight:600; font-size:15px;">${escapeHTML(k.name)}</div>
+      </div>
+      <button class="entry-btn" onclick="openKidModal(state.kids.find(x=>x.id==='${k.id}'))">✏️</button>
+      <button class="entry-btn del" onclick="deleteKid('${k.id}')">🗑️</button>
+    `;
+    sk.appendChild(div);
+  });
+}
+
+function backToMain() {
+  location.reload();
+}
+
+function changePin() {
+  const np = $('newPin').value.trim();
+  if (!/^\d{4}$/.test(np)) { alert('El PIN debe tener 4 dígitos'); return; }
+  state.pin = np;
+  saveState();
+  showToast('PIN actualizado ✓', 'like');
+  $('newPin').value = '';
+}
+
+function deleteKid(id) {
+  if (!confirm('¿Eliminar este perfil y todos sus registros?')) return;
+  state.kids = state.kids.filter(k => k.id !== id);
+  state.entries = state.entries.filter(e => e.kidId !== id);
+  saveState();
+  showSettings();
+  render();
+}
+
+function exportData() {
+  const data = { kids: state.kids, categories: state.categories, entries: state.entries, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `likes-en-casa-${today()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Datos exportados ✓', 'like');
+}
+
+function resetData() {
+  if (!confirm('¿Borrar TODOS los datos? Esta acción no se puede deshacer.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+
+// ============================================================
+// TOAST / CONFETI
+// ============================================================
+function closeModal(id) { $(id).classList.remove('show'); }
+
+function showToast(msg, type) {
+  const t = $('toast');
+  t.className = 'toast ' + (type === 'dislike' ? 'dislike' : 'like');
+  $('toastText').textContent = msg;
+  t.querySelector('.badge').textContent = type === 'dislike' ? '👎' : '👍';
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function fireConfetti(color) {
+  const canvas = $('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const particles = [];
+  const colors = [color, '#FFCE5C', '#4DB6AC', '#F48FB1', '#B2DFDB', '#F29464', '#9DC888'];
+  for (let i = 0; i < 60; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 8 + 4;
+    particles.push({
+      x: window.innerWidth / 2,
+      y: window.innerHeight * 0.4,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 4,
+      size: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      life: 80,
+      rot: Math.random() * Math.PI * 2,
+      vrot: (Math.random() - 0.5) * 0.3,
+      shape: Math.random() > 0.5 ? 'rect' : 'circle'
+    });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vy += 0.25; p.vx *= 0.99;
+      p.life--; p.rot += p.vrot;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color; ctx.globalAlpha = Math.max(0, p.life / 80);
+      if (p.shape === 'rect') {
+        ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.6);
+      } else {
+        ctx.beginPath(); ctx.arc(0, 0, p.size/2, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.restore();
+    });
+    for (let i = particles.length - 1; i >= 0; i--) {
+      if (particles[i].life <= 0) particles.splice(i, 1);
+    }
+    if (particles.length > 0) requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// Close modals on background click
+document.querySelectorAll('.modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('show'); });
+});
+
+// Shake animation for wrong PIN
+const style = document.createElement('style');
+style.textContent = `@keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-8px);} 75%{transform:translateX(8px);} } .shake { animation: shake 0.4s; }`;
+document.head.appendChild(style);
+
+// ============================================================
+// INIT
+// ============================================================
+loadState();
+setModeUI();
+render();
+</script>
+</body>
+</html>
