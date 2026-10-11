@@ -1657,7 +1657,7 @@
         </button>
         <button class="big-btn mejora" onclick="openRegisterModal('mejora')" id="btnMejora" disabled>
           <span class="sheen"></span>
-          <div class="icon-wrap">❤️</div>
+          <div class="icon-wrap">🩹</div>
           <div class="title">Marcar mejora</div>
           <div class="sub">Algo para trabajar</div>
         </button>
@@ -1823,7 +1823,7 @@
         <select id="newCatType" style="width:130px;">
           <option value="both">Ambas</option>
           <option value="like">Solo 👍</option>
-          <option value="mejora">Solo ❤️</option>
+          <option value="mejora">Solo 🩹</option>
         </select>
         <button class="btn btn-primary" style="flex:none; padding:14px 18px;" onclick="addCategory()">+</button>
       </div>
@@ -1853,7 +1853,7 @@
       <select id="filterType">
         <option value="all">Todos</option>
         <option value="like">👍 Solo likes</option>
-        <option value="mejora">❤️ Solo mejoras</option>
+        <option value="mejora">🩹 Solo mejoras</option>
       </select>
     </div>
 
@@ -2507,7 +2507,7 @@ function renderFilterChips() {
     const k = state.kids.find(x => x.id === f.kidId);
     if (k) chips.push({ label: `${k.emoji} ${k.name}`, key: 'kidId' });
   }
-  if (f.type !== 'all') chips.push({ label: f.type === 'like' ? '👍 Likes' : '❤️ Mejoras', key: 'type' });
+  if (f.type !== 'all') chips.push({ label: f.type === 'like' ? '👍 Likes' : '🩹 Mejoras', key: 'type' });
   if (f.catId !== 'all') {
     const c = state.categories.find(x => x.id === f.catId);
     if (c) chips.push({ label: `${c.icon} ${c.name}`, key: 'catId' });
@@ -3214,7 +3214,7 @@ function showToast(msg, type) {
   const t = $('toast');
   t.className = 'toast ' + (type === 'mejora' ? 'mejora' : 'like');
   $('toastText').textContent = msg;
-  t.querySelector('.badge').textContent = type === 'mejora' ? '❤️' : '👍';
+  t.querySelector('.badge').textContent = type === 'mejora' ? '🩹' : '👍';
   t.classList.add('show');
   clearTimeout(t._timer);
   t._timer = setTimeout(() => t.classList.remove('show'), 2500);
