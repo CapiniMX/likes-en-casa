@@ -1,0 +1,39 @@
+# No subir capturas de pantalla de documentación (no son necesarias en producción)
+pe-*.png
+
+# Respaldos y exportaciones de datos (datos familiares reales)
+*.json
+!manifest.json
+!package.json
+
+# Archivos del sistema / temporales
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editores
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+npm-debug.log*
+
+# Entornos
+.env
+.env.local
+.env.*.local
+
+# Builds / dependencias (este proyecto es estático, pero por si acaso)
+node_modules/
+dist/
+build/
+
+# Datos sensibles que NO deben llegar al repo público
+# (IndexedDB vive en el navegador, pero si alguien exporta manualmente)
+photos-export/
+backups/
+family-data/
