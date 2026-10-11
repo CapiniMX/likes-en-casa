@@ -795,6 +795,16 @@
   }
 
   .emoji-picker { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .kid-avatar-photo {
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+  .kid-avatar-loading {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 14px;
+  }
   .emoji-opt {
     background: var(--bg);
     border: 2px solid transparent;
@@ -905,6 +915,11 @@
   @keyframes float {
     0%, 100% { transform: translate(0, 0) scale(1); }
     50% { transform: translate(10px, -15px) scale(1.05); }
+  }
+  .kids-avatar-photo {
+    background: white;
+    overflow: hidden;
+    position: relative;
   }
   .kids-avatar {
     width: 110px; height: 110px;
@@ -1164,6 +1179,288 @@
   }
 
   /* ============================================================
+     PHOTO EDITOR
+     ============================================================ */
+  .editor-wrap {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    max-height: 800px;
+  }
+  .editor-stage {
+    flex: 1;
+    background: linear-gradient(135deg, #2A3C3A 0%, #1F2D2C 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 360px;
+  }
+  .editor-canvas {
+    width: min(360px, 80vw);
+    height: min(360px, 80vw);
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+    background: white;
+    touch-action: none;
+  }
+  .editor-canvas.rect {
+    border-radius: 18px;
+  }
+  .editor-photo {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+    transform-origin: center center;
+  }
+  .editor-layer {
+    position: absolute;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    will-change: transform;
+    cursor: grab;
+  }
+  .editor-layer.dragging { cursor: grabbing; transition: none !important; }
+  .editor-layer.selected {
+    outline: 2.5px dashed #4DB6AC;
+    outline-offset: 4px;
+  }
+  .editor-layer {  .editor-layer .layer-del {
+    position: absolute;
+    top: -10px; right: -10px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #E55050;
+    color: white;
+    border: 2.5px solid white;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: none;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  .editor-layer.selected .layer-del { display: flex; align-items: center; justify-content: center; }
+  .editor-placeholder {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 24px;
+  }
+  .editor-placeholder .ico { font-size: 60px; margin-bottom: 10px; opacity: 0.5; }
+  .editor-placeholder .msg { font-family: var(--font-soft); font-size: 14px; font-weight: 600; }
+  .editor-placeholder button {
+    margin-top: 14px;
+    background: white;
+    color: var(--teal-700);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-family: var(--font-soft);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .editor-toolbar {
+    background: white;
+    padding: 12px 14px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    border-top: 1px solid var(--line);
+    scrollbar-width: thin;
+  }
+  .editor-toolbar::-webkit-scrollbar { height: 4px; }
+  .editor-toolbar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+  .editor-tool {
+    flex: none;
+    width: 50px; height: 50px;
+    border-radius: 14px;
+    background: var(--bg);
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 22px;
+    transition: all 0.15s;
+    color: var(--ink-2);
+  }
+  .editor-tool small {
+    font-family: var(--font-soft);
+    font-size: 9px;
+    font-weight: 700;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+  }
+  .editor-tool:hover { background: var(--teal-50); border-color: var(--teal-300); }
+  .editor-tool.active { background: var(--teal-400); color: white; border-color: var(--teal-500); }
+  .editor-tool.active small { color: rgba(255,255,255,0.9); }
+
+  .editor-controls {
+    background: white;
+    padding: 14px 16px;
+    border-top: 1px solid var(--line);
+    display: none;
+  }
+  .editor-controls.show { display: block; }
+  .control-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .control-row:last-child { margin-bottom: 0; }
+  .control-label {
+    font-family: var(--font-soft);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 50px;
+  }
+  .control-row input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--teal-100);
+    outline: none;
+  }
+  .control-row input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--teal-500);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(42, 140, 130, 0.4);
+  }
+  .control-row input[type=range]::-moz-range-thumb {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--teal-500);
+    cursor: pointer;
+    border: none;
+  }
+
+  .editor-bottom {
+    background: white;
+    padding: 12px 16px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 8px;
+  }
+  .editor-bottom .btn { padding: 14px; font-size: 14px; }
+  .editor-bottom .btn-primary { background: linear-gradient(135deg, var(--teal-400) 0%, var(--teal-500) 100%); }
+  .editor-bottom .btn-danger { background: rgba(229, 80, 80, 0.1); color: #E55050; }
+
+  .sticker-picker {
+    background: white;
+    border-top: 1px solid var(--line);
+    padding: 14px 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+  }
+  .sticker-picker.show { display: block; }
+  .sticker-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+  }
+  .sticker-btn {
+    aspect-ratio: 1;
+    background: var(--bg);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-size: 26px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sticker-btn:hover { background: var(--teal-50); transform: scale(1.08); }
+  .sticker-btn:active { transform: scale(0.95); }
+
+  .editor-tabs {
+    display: flex;
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 3px;
+    margin: 0 16px 12px;
+  }
+  .editor-tab {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-family: var(--font-soft);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .editor-tab.active {
+    background: white;
+    color: var(--teal-700);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  }
+
+  .upload-zone {
+    background: var(--bg);
+    border: 2px dashed var(--teal-300);
+    border-radius: 18px;
+    padding: 20px;
+    text-align: center;
+    margin: 16px;
+    cursor: pointer;
+  }
+  .upload-zone:hover { background: var(--teal-50); }
+  .upload-zone .ico { font-size: 36px; margin-bottom: 6px; }
+  .upload-zone .msg { font-family: var(--font-soft); font-weight: 600; color: var(--teal-700); }
+  .upload-zone input { display: none; }
+
+  .editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px 6px;
+    background: white;
+  }
+  .editor-header h2 {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .editor-header .sub {
+    font-family: var(--font-soft);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* Preview modal */
+  .preview-stage {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--bg);
+    position: relative;
+  }
+  .preview-stage.rect { border-radius: 24px; }
+
+  /* ============================================================
      UTIL
      ============================================================ */
   .hidden { display: none !important; }
@@ -1365,6 +1662,11 @@
       <div class="color-picker" id="kidColorPicker"></div>
     </div>
 
+    <div class="field" id="photoEditorBtnField" style="display:none;">
+      <label>Foto personalizada</label>
+      <button type="button" class="add-kid-btn" id="openEditorBtn" onclick="openPhotoEditorFromKidModal()">📸 Personalizar foto y emojis</button>
+    </div>
+
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('kidModal')">Cancelar</button>
       <button class="btn btn-primary" onclick="saveKid()">Guardar</button>
@@ -1524,10 +1826,100 @@ let state = {
 let currentRegType = 'like';
 let currentRegKid = null;
 let editingKid = null;
+let pendingKidId = null;
 let editingEntry = null; // null = creating, otherwise editing existing entry
 let pinBuffer = '';
 let pendingMode = 'parents';
 let audioCtx = null;
+
+// ============================================================
+// INDEXED DB (para fotos)
+// ============================================================
+const DB_NAME = 'likes_en_casa_db';
+const DB_VERSION = 1;
+const PHOTOS_STORE = 'photos';
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(PHOTOS_STORE)) {
+        db.createObjectStore(PHOTOS_STORE, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function dbPut(record) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PHOTOS_STORE, 'readwrite');
+    tx.objectStore(PHOTOS_STORE).put(record);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function dbGet(id) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PHOTOS_STORE, 'readonly');
+    const req = tx.objectStore(PHOTOS_STORE).get(id);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function dbGetAll() {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PHOTOS_STORE, 'readonly');
+    const req = tx.objectStore(PHOTOS_STORE).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function dbDelete(id) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(PHOTOS_STORE, 'readwrite');
+    tx.objectStore(PHOTOS_STORE).delete(id);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+// Convierte File a JPEG comprimido para ahorrar espacio
+async function compressImage(file, maxSize = 800, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > h && w > maxSize) { h = h * (maxSize / w); w = maxSize; }
+        else if (h > maxSize) { w = w * (maxSize / h); h = maxSize; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        canvas.toBlob((blob) => {
+          if (!blob) { reject(new Error('No se pudo comprimir')); return; }
+          const url = URL.createObjectURL(blob);
+          resolve({ blob, url, width: w, height: h });
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = () => reject(new Error('Imagen no válida'));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo'));
+    reader.readAsDataURL(file);
+  });
+}
 
 // ============================================================
 // STORAGE
@@ -1666,27 +2058,31 @@ function render() {
 }
 
 function renderHero() {
-  $('heroGreeting').textContent = getGreetingTime();
+  const hg = $('heroGreeting'); if (!hg) return;
+  hg.textContent = getGreetingTime();
   const totalLikes = state.entries.filter(e => e.type === 'like' && e.date === today()).length;
   if (totalLikes === 0) {
-    $('heroTitle').textContent = '¿Qué hizo bien hoy?';
-    $('heroSub').textContent = 'Registra un like o marca algo para trabajar. Cada paso cuenta.';
+    if ($('heroTitle')) $('heroTitle').textContent = '¿Qué hizo bien hoy?';
+    if ($('heroSub')) $('heroSub').textContent = 'Registra un like o marca algo para trabajar. Cada paso cuenta.';
   } else if (totalLikes < 3) {
-    $('heroTitle').textContent = '¡Buen comienzo!';
-    $('heroSub').textContent = 'Sigue registrando lo que observas. La constancia es clave.';
+    if ($('heroTitle')) $('heroTitle').textContent = '¡Buen comienzo!';
+    if ($('heroSub')) $('heroSub').textContent = 'Sigue registrando lo que observas. La constancia es clave.';
   } else {
-    $('heroTitle').textContent = '¡Día increíble!';
-    $('heroSub').textContent = `${totalLikes} likes hoy. Sigue reconociendo lo bueno.`;
+    if ($('heroTitle')) $('heroTitle').textContent = '¡Día increíble!';
+    if ($('heroSub')) $('heroSub').textContent = `${totalLikes} likes hoy. Sigue reconociendo lo bueno.`;
   }
 }
 
 function renderToday() {
+  const el = $('todayLabel');
+  if (!el) return;
   const d = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
-  $('todayLabel').textContent = d.charAt(0).toUpperCase() + d.slice(1);
+  el.textContent = d.charAt(0).toUpperCase() + d.slice(1);
 }
 
 function renderKids() {
   const grid = $('kidsGrid');
+  if (!grid) return;
   grid.innerHTML = '';
   state.kids.forEach(k => {
     const stats = computeStats(k.id);
@@ -1694,8 +2090,18 @@ function renderKids() {
     card.className = 'kid-card' + (state.lastSelectedKid === k.id ? ' selected' : '');
     card.style.setProperty('--kid-color', k.color);
     card.onclick = () => { playSound('click'); selectKid(k.id); };
+
+    // Avatar: foto + capas si existen, si no emoji
+    let avatarHTML;
+    if (k.hasPhoto && k.photoId) {
+      // Cargar de IndexedDB asíncronamente
+      avatarHTML = `<div class="kid-avatar kid-avatar-photo" data-kid-id="${k.id}"><div class="kid-avatar-loading">…</div></div>`;
+    } else {
+      avatarHTML = `<div class="kid-avatar" style="background: linear-gradient(135deg, ${k.color}22, ${k.color}44); color:${k.color};">${k.emoji}</div>`;
+    }
+
     card.innerHTML = `
-      <div class="kid-avatar">${k.emoji}</div>
+      ${avatarHTML}
       <div class="kid-info">
         <div class="kid-name">${escapeHTML(k.name)}</div>
         <div class="kid-stats">
@@ -1707,13 +2113,38 @@ function renderKids() {
     `;
     grid.appendChild(card);
   });
+  // Después de añadir al DOM, cargar fotos async
+  state.kids.forEach(k => {
+    if (k.hasPhoto && k.photoId) {
+      loadKidAvatar(k).then(html => {
+        const el = document.querySelector(`.kid-avatar-photo[data-kid-id="${k.id}"]`);
+        if (el) el.innerHTML = html;
+      }).catch(() => {
+        const el = document.querySelector(`.kid-avatar-photo[data-kid-id="${k.id}"]`);
+        if (el) el.innerHTML = k.emoji;
+      });
+    }
+  });
+}
+
+// Carga foto y reconstruye avatar con capas
+async function loadKidAvatar(kid) {
+  const record = await dbGet(kid.photoId);
+  if (!record || !record.blob) return kid.emoji;
+  const url = URL.createObjectURL(record.blob);
+  const layers = (kid.layers || []).map(l => {
+    const sizePx = (l.size * 0.4);
+    return `<span style="position:absolute; left:${l.x}%; top:${l.y}%; font-size:${sizePx}px; transform:translate(-50%,-50%) rotate(${l.rot}deg); pointer-events:none;">${l.emoji}</span>`;
+  }).join('');
+  return `<img src="${url}" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:50%;">${layers}`;
 }
 
 function renderActions() {
-  const kid = state.kids.find(k => k.id === state.lastSelectedKid);
   const title = $('actionsTitle');
   const btnLike = $('btnLike');
   const btnMejora = $('btnMejora');
+  if (!title || !btnLike || !btnMejora) return;
+  const kid = state.kids.find(k => k.id === state.lastSelectedKid);
   if (kid) {
     title.textContent = `Para: ${kid.emoji} ${kid.name}`;
     btnLike.disabled = false;
@@ -1727,6 +2158,7 @@ function renderActions() {
 
 function renderQuickCats() {
   const c = $('quickCats');
+  if (!c) return;
   c.innerHTML = '';
   state.categories.slice(0, 6).forEach(cat => {
     const chip = document.createElement('button');
@@ -1738,12 +2170,14 @@ function renderQuickCats() {
 }
 
 function renderSummary() {
+  const el1 = $('totalLikes'); const el2 = $('totalMejoras');
+  if (!el1 || !el2) return;
   const weekStart = getWeekStart(new Date());
   const ws = weekStart.toISOString().split('T')[0];
   const likes = state.entries.filter(e => e.date >= ws && e.type === 'like').length;
   const mejoras = state.entries.filter(e => e.date >= ws && e.type === 'mejora').length;
-  $('totalLikes').textContent = likes;
-  $('totalMejoras').textContent = mejoras;
+  el1.textContent = likes;
+  el2.textContent = mejoras;
 
   $('rangeLabel').textContent = `${weekStart.getDate()} – ${new Date(weekStart.getTime() + 6*86400000).getDate()} ${new Date(weekStart.getTime() + 6*86400000).toLocaleDateString('es-MX', { month: 'short' })}`;
 
@@ -1785,6 +2219,7 @@ function renderSummary() {
 
 function renderHistory() {
   const list = $('historyList');
+  if (!list) return;
   list.innerHTML = '';
   // Aplicar filtros
   let filtered = [...state.entries];
@@ -1912,9 +2347,15 @@ function renderKidsView() {
   }).join('') || `<div class="empty" style="padding:20px;"><div class="msg">Pronto habrá novedades ✨</div></div>`;
 
   const heroColor = kid.color;
+  let heroAvatarHTML;
+  if (kid.hasPhoto && kid.photoId) {
+    heroAvatarHTML = `<div class="kids-avatar kids-avatar-photo" id="kidsHeroAvatar" data-kid-id="${kid.id}"><div class="kid-avatar-loading">…</div></div>`;
+  } else {
+    heroAvatarHTML = `<div class="kids-avatar">${kid.emoji}</div>`;
+  }
   $('kidsHero').innerHTML = `
     <div class="kids-hero" style="background: linear-gradient(135deg, ${heroColor} 0%, ${shade(heroColor, -25)} 100%);">
-      <div class="kids-avatar">${kid.emoji}</div>
+      ${heroAvatarHTML}
       <div class="kids-greeting">¡Hola, ${escapeHTML(kid.name)}!</div>
       <div class="kids-msg">${getGreeting(kid.name, stats)}</div>
     </div>
@@ -1936,6 +2377,14 @@ function renderKidsView() {
     </div>
     <button class="kids-back-btn" onclick="toggleMode()">🔒 Volver a papás</button>
   `;
+
+  // Cargar foto async en vista niños
+  if (kid.hasPhoto && kid.photoId) {
+    loadKidAvatar(kid).then(html => {
+      const el = document.getElementById('kidsHeroAvatar');
+      if (el) el.innerHTML = html;
+    });
+  }
 }
 
 function getGreeting(name, stats) {
@@ -2092,14 +2541,21 @@ function editEntry(id) {
 }
 
 // Backup / Restore
-function exportData() {
+async function exportData() {
+  // Incluir fotos como base64 en el JSON
+  const photos = await dbGetAll();
+  const photosMap = {};
+  for (const p of photos) {
+    photosMap[p.id] = await blobToBase64(p.blob);
+  }
   const data = {
-    version: 2,
+    version: 3,
     exportedAt: new Date().toISOString(),
     kids: state.kids,
     categories: state.categories,
     entries: state.entries,
-    pin: state.pin
+    pin: state.pin,
+    photos: photosMap
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -2112,11 +2568,29 @@ function exportData() {
   closeModal('backupModal');
 }
 
-function restoreData(ev) {
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = () => reject(r.error);
+    r.readAsDataURL(blob);
+  });
+}
+
+function base64ToBlob(dataUrl) {
+  const [meta, b64] = dataUrl.split(',');
+  const mime = meta.match(/data:(.*?);/)[1];
+  const bin = atob(b64);
+  const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return new Blob([arr], { type: mime });
+}
+
+async function restoreData(ev) {
   const file = ev.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload = async (e) => {
     try {
       const data = JSON.parse(e.target.result);
       if (!data || !Array.isArray(data.kids) || !Array.isArray(data.entries)) {
@@ -2132,9 +2606,18 @@ function restoreData(ev) {
       state.entries = data.entries.map(x => ({ ...x, type: x.type === 'dislike' ? 'mejora' : x.type }));
       state.pin = data.pin || DEFAULT_PIN;
       saveState();
+      // Restaurar fotos en IndexedDB
+      if (data.photos) {
+        for (const [id, b64] of Object.entries(data.photos)) {
+          try {
+            const blob = base64ToBlob(b64);
+            await dbPut({ id, blob, createdAt: Date.now() });
+          } catch(err) { console.warn('No se pudo restaurar foto', id, err); }
+        }
+      }
       closeModal('backupModal');
       render();
-      showToast('Datos restaurados ✓', 'like');
+      showToast('Datos restaurados ✓ (con fotos)', 'like');
     } catch(err) {
       alert('Error al leer el archivo: ' + err.message);
     }
@@ -2149,6 +2632,16 @@ function openKidModal(kid) {
   editingKid = kid || null;
   $('kidModalTitle').textContent = kid ? 'Editar perfil' : 'Agregar un hijo';
   $('kidName').value = kid ? kid.name : '';
+  // Mostrar botón de foto solo al editar
+  $('photoEditorBtnField').style.display = kid ? 'block' : 'none';
+  if (kid) {
+    $('openEditorBtn').onclick = () => {
+      closeModal('kidModal');
+      // Necesitamos guardar el kidId antes de abrir el editor
+      pendingKidId = kid.id;
+      openPhotoEditor(kid.id);
+    };
+  }
   const emojiPicker = $('kidEmojiPicker');
   emojiPicker.innerHTML = '';
   EMOJI_OPTIONS.forEach((em, i) => {
@@ -2187,9 +2680,9 @@ function saveKid() {
   const emoji = activeEmoji ? activeEmoji.textContent : '👦';
   const color = activeColor ? activeColor.style.background : '#4DB6AC';
   if (editingKid) {
-    state.kids = state.kids.map(k => k.id === editingKid.id ? { ...k, name, emoji, color } : k);
+    state.kids = state.kids.map(k => k.id === editingKid.id ? { ...k, name, emoji, color, photoId: k.photoId, layers: k.layers, hasPhoto: k.hasPhoto } : k);
   } else {
-    state.kids.push({ id: 'k' + Date.now(), name, emoji, color });
+    state.kids.push({ id: 'k' + Date.now(), name, emoji, color, layers: [] });
   }
   saveState();
   closeModal('kidModal');
@@ -2388,6 +2881,7 @@ function showSettings() {
       <div style="flex:1;">
         <div style="font-family:var(--font-serif); font-weight:600; font-size:15px;">${escapeHTML(k.name)}</div>
       </div>
+      <button class="entry-btn" onclick="openPhotoEditor('${k.id}')" title="Personalizar foto">📸</button>
       <button class="entry-btn" onclick="openKidModal(state.kids.find(x=>x.id==='${k.id}'))">✏️</button>
       <button class="entry-btn del" onclick="deleteKid('${k.id}')">🗑️</button>
     `;
@@ -2502,11 +2996,611 @@ style.textContent = `@keyframes shake { 0%,100%{transform:translateX(0);} 25%{tr
 document.head.appendChild(style);
 
 // ============================================================
+// PHOTO EDITOR
+// ============================================================
+const EMOJI_CATEGORIES = {
+  faces: ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🥸','🤩','🥳','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🤭','🤫','🤥','😶','😐','😑','😬','🙄','😯','😦','😧','😮','😲','🥱','😴','🤤','😪','😵','🤐','🥴','🤢','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','👹','👺','💀','👻','👽','🤖','😺','😸','😹','😻','😼','😽','🙀','😿','😾'],
+  hearts: ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','♥️','💌','💋','💯','💢','💥','💫','💦','💨'],
+  stars: ['⭐','🌟','✨','💫','🔥','🌠','🎇','🎆','🌌','🌃','🌉','🌁','💥','✴️','🌀','🌂','☄️','⚡','☀️','🌞','🌝','🌛','🌜','🌚','🌕','🌖','🌗','🌘','🌑','🌒','🌓','🌔'],
+  crown: ['👑','🤴','👸','🫅','👒','🎩','🎓','⛑️','👷','💂','🪖','⛷️','🏂','🏋️','🤸','⛹️','🧗','🏌️','🏇','🧌'],
+  animals: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐒','🐔','🐧','🐦','🐤','🐣','🐥','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄','🐝','🐛','🦋','🐌','🐞','🐜','🪰','🪲','🐢','🐍','🦎','🦖','🦕','🐙','🦑','🦐','🦞','🦀','🐡','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆','🦓','🦍','🦧','🐘','🦛','🦏','🐪','🐫','🦒','🦘','🐃','🐂','🐄','🐎','🐖','🐏','🐑','🦙','🐐','🦌','🐕','🐩','🦮','🐕‍🦺','🐈','🐓','🦃','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦦','🦥','🐁','🐀','🐿️','🦔'],
+  nature: ['🌈','☀️','🌤️','⛅','🌥️','🌦️','🌧️','⛈️','🌩️','🌨️','❄️','☃️','⛄','🌬️','💨','🌪️','🌫️','🌊','💧','💦','☔','☂️','🌱','🌿','☘️','🍀','🎋','🎍','🌾','🌵','🌴','🌲','🌳','🌷','🌸','🌹','🌺','🌻','🌼','💐','🍃','🍂','🍁','🌙','⭐','🌟','✨','⚡','🔥','💥'],
+  party: ['🎉','🎊','🎈','🎂','🎁','🎄','🎃','🎀','🎗️','🎟️','🎫','🎖️','🏆','🏅','🥇','🥈','🥉','⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🪀','🏓','🏸','🏒','🏑','🥍','🏏','⛳','🪁','🏹','🎣','🤿','🥊','🥋','🎽','🛹','🛼','🛷','⛸️','🥌','🎿','⛷️','🏂','🪂','🏋️','🤸','🤼','🤽','🤾','🧗','🏆','🥇'],
+  fun: ['😎','🤠','🥳','🤩','😈','👻','💀','☠️','👽','🤖','🎃','🦸','🦹','🧙','🧚','🧛','🧜','🧝','🧞','🧟','💂','🥷','🧌','🧞‍♂️','🧞‍♀️','🧟‍♂️','🧟‍♀️','🧙‍♂️','🧙‍♀️','🦹‍♂️','🦹‍♀️','🧚‍♂️','🧚‍♀️','🧛‍♂️','🧛‍♀️','🧜‍♂️','🧜‍♀️','🧝‍♂️','🧝‍♀️']
+};
+
+let editorState = {
+  kidId: null,
+  photoUrl: null,
+  photoBlob: null,
+  photoTransform: { zoom: 100, rotate: 0 },
+  layers: [],
+  selectedLayerId: null,
+  nextLayerId: 1
+};
+
+let editorImg = null;
+let editorDrag = null;
+
+function initPhotoEditor() {
+  // Eventos táctiles y de mouse para arrastrar/cambiar tamaño
+  const canvas = $('editorCanvas');
+  if (!canvas) return;
+  const layers = $('editorLayers');
+
+  // Click en el canvas deselecciona
+  canvas.addEventListener('click', (e) => {
+    if (e.target === canvas || e.target.id === 'editorLayers' || e.target.id === 'editorPhoto') {
+      selectLayer(null);
+    }
+  });
+
+  // Tabs del editor
+  switchEditorTab('photo');
+  switchEmojiCat('faces');
+
+  // Submit con Enter en input de emoji
+  $('customEmojiInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); addCustomEmoji(); }
+  });
+}
+
+function openPhotoEditor(kidId) {
+  const kid = state.kids.find(k => k.id === kidId);
+  if (!kid) return;
+  editorState.kidId = kidId;
+  editorState.layers = [];
+  editorState.selectedLayerId = null;
+  editorState.nextLayerId = 1;
+  editorState.photoUrl = null;
+  editorState.photoTransform = { zoom: 100, rotate: 0 };
+
+  $('editorKidName').textContent = `${kid.emoji} ${kid.name} · Personaliza su avatar`;
+
+  // Cargar foto existente si la hay
+  if (kid.photoId) {
+    dbGet(kid.photoId).then(record => {
+      if (record && record.blob) {
+        editorState.photoBlob = record.blob;
+        editorState.photoUrl = URL.createObjectURL(record.blob);
+        const photo = $('editorPhoto');
+        photo.src = editorState.photoUrl;
+        photo.style.display = 'block';
+        $('editorPlaceholder').style.display = 'none';
+      }
+      // Cargar capas guardadas
+      if (kid.layers && Array.isArray(kid.layers)) {
+        kid.layers.forEach(l => {
+          addLayer(l.emoji, l.x, l.y, l.size, l.rot, l.z);
+        });
+      }
+      applyPhotoTransform();
+    }).catch(err => {
+      console.error('Error cargando foto:', err);
+      // Aún intentar cargar capas
+      if (kid.layers) kid.layers.forEach(l => addLayer(l.emoji, l.x, l.y, l.size, l.rot, l.z));
+    });
+  } else {
+    $('editorPhoto').style.display = 'none';
+    $('editorPlaceholder').style.display = 'block';
+    if (kid.layers) kid.layers.forEach(l => addLayer(l.emoji, l.x, l.y, l.size, l.rot, l.z));
+  }
+
+  applyPhotoTransform();
+  $('photoZoom').value = 100;
+  $('photoRotate').value = 0;
+  $('photoEditorModal').classList.add('show');
+}
+
+function closePhotoEditor() {
+  if (editorState.photoUrl) URL.revokeObjectURL(editorState.photoUrl);
+  editorState = { kidId: null, photoUrl: null, photoBlob: null, photoTransform: { zoom: 100, rotate: 0 }, layers: [], selectedLayerId: null, nextLayerId: 1 };
+  closeModal('photoEditorModal');
+}
+
+async function editorUploadPhoto(ev) {
+  const file = ev.target.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) { alert('La foto es muy grande. Máximo 10MB.'); return; }
+  try {
+    const { blob, url } = await compressImage(file);
+    if (editorState.photoUrl) URL.revokeObjectURL(editorState.photoUrl);
+    editorState.photoBlob = blob;
+    editorState.photoUrl = url;
+    const photo = $('editorPhoto');
+    photo.src = url;
+    photo.style.display = 'block';
+    $('editorPlaceholder').style.display = 'none';
+    applyPhotoTransform();
+    playSound('success');
+  } catch(err) {
+    alert('Error al cargar la foto: ' + err.message);
+  }
+  ev.target.value = '';
+}
+
+function applyPhotoTransform() {
+  const photo = $('editorPhoto');
+  if (!photo.src) return;
+  const z = editorState.photoTransform.zoom / 100;
+  const r = editorState.photoTransform.rotate;
+  photo.style.transform = `scale(${z}) rotate(${r}deg)`;
+}
+
+function updatePhotoTransform() {
+  editorState.photoTransform.zoom = parseInt($('photoZoom').value);
+  editorState.photoTransform.rotate = parseInt($('photoRotate').value);
+  applyPhotoTransform();
+}
+
+function resetPhotoTransform() {
+  editorState.photoTransform = { zoom: 100, rotate: 0 };
+  $('photoZoom').value = 100;
+  $('photoRotate').value = 0;
+  applyPhotoTransform();
+}
+
+function centerPhoto() {
+  // Reset transform mantiene centrado
+  resetPhotoTransform();
+}
+
+function removePhoto() {
+  if (!confirm('¿Quitar la foto? Los emojis se conservan.')) return;
+  if (editorState.photoUrl) URL.revokeObjectURL(editorState.photoUrl);
+  editorState.photoUrl = null;
+  editorState.photoBlob = null;
+  $('editorPhoto').style.display = 'none';
+  $('editorPlaceholder').style.display = 'block';
+}
+
+// === TABS ===
+function switchEditorTab(tab) {
+  document.querySelectorAll('#photoEditorModal .editor-tab[data-tab]').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  $('emojiPicker').classList.toggle('show', tab === 'emoji');
+  $('photoControls').classList.toggle('show', tab === 'photo-ctl');
+  // 'photo' tab no muestra panel
+}
+
+function switchEmojiCat(cat) {
+  document.querySelectorAll('#photoEditorModal .editor-tab[data-cat]').forEach(b => {
+    b.classList.toggle('active', b.dataset.cat === cat);
+  });
+  const grid = $('emojiGrid');
+  grid.innerHTML = '';
+  (EMOJI_CATEGORIES[cat] || []).forEach(emoji => {
+    const b = document.createElement('button');
+    b.className = 'sticker-btn';
+    b.textContent = emoji;
+    b.onclick = () => { addLayer(emoji); };
+    grid.appendChild(b);
+  });
+}
+
+function addCustomEmoji() {
+  const input = $('customEmojiInput');
+  const emoji = input.value.trim();
+  if (!emoji) return;
+  addLayer(emoji);
+  input.value = '';
+}
+
+function addEmojiFromGrid() {
+  switchEditorTab('emoji');
+  // Enfocar input para que puedan escribir o seleccionar de la cuadrícula
+  setTimeout(() => $('customEmojiInput').focus(), 100);
+}
+
+// === LAYERS ===
+function addLayer(emoji, x, y, size, rot, z) {
+  const id = 'L' + (editorState.nextLayerId++);
+  const layer = {
+    id, emoji,
+    x: x ?? 50, // % horizontal
+    y: y ?? 50, // % vertical
+    size: size ?? 100, // %
+    rot: rot ?? 0
+  };
+  editorState.layers.push(layer);
+  renderLayer(layer);
+  selectLayer(id);
+  playSound('click');
+  return id;
+}
+
+function renderLayer(layer) {
+  const wrap = $('editorLayers');
+  if (!wrap) return;
+  let el = document.getElementById('layer-' + layer.id);
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'layer-' + layer.id;
+    el.className = 'editor-layer';
+    el.dataset.id = layer.id;
+    const del = document.createElement('button');
+    del.className = 'layer-del';
+    del.textContent = '×';
+    del.onclick = (e) => { e.stopPropagation(); deleteLayer(layer.id); };
+    el.appendChild(del);
+    el.addEventListener('pointerdown', startLayerDrag);
+    el.addEventListener('click', (e) => { e.stopPropagation(); selectLayer(layer.id); });
+    wrap.appendChild(el);
+  }
+  el.style.left = layer.x + '%';
+  el.style.top = layer.y + '%';
+  el.style.fontSize = (layer.size * 0.4) + 'px';
+  el.style.transform = `translate(-50%, -50%) rotate(${layer.rot}deg)`;
+  // Reconstruir contenido: emoji + botón delete (preservando el botón)
+  const del = el.querySelector('.layer-del');
+  el.textContent = layer.emoji;
+  if (del) el.appendChild(del);
+  el.classList.toggle('selected', layer.id === editorState.selectedLayerId);
+}
+
+function selectLayer(id) {
+  editorState.selectedLayerId = id;
+  document.querySelectorAll('.editor-layer').forEach(el => {
+    el.classList.toggle('selected', el.dataset.id === id);
+  });
+  const layer = editorState.layers.find(l => l.id === id);
+  const controls = $('layerControls');
+  if (layer) {
+    controls.classList.add('show');
+    $('layerSize').value = layer.size;
+    $('layerRot').value = layer.rot;
+  } else {
+    controls.classList.remove('show');
+  }
+}
+
+function updateSelectedLayer(kind) {
+  const layer = editorState.layers.find(l => l.id === editorState.selectedLayerId);
+  if (!layer) return;
+  if (kind === 'size') layer.size = parseInt($('layerSize').value);
+  if (kind === 'rot') layer.rot = parseInt($('layerRot').value);
+  renderLayer(layer);
+}
+
+function deleteLayer(id) {
+  editorState.layers = editorState.layers.filter(l => l.id !== id);
+  const el = document.getElementById('layer-' + id);
+  if (el) el.remove();
+  if (editorState.selectedLayerId === id) selectLayer(null);
+  playSound('mejora');
+}
+
+function deleteSelectedLayer() {
+  if (editorState.selectedLayerId) deleteLayer(editorState.selectedLayerId);
+}
+
+function duplicateLayer() {
+  const layer = editorState.layers.find(l => l.id === editorState.selectedLayerId);
+  if (!layer) { showToast('Selecciona un emoji primero', 'mejora'); return; }
+  addLayer(layer.emoji, Math.min(layer.x + 10, 90), Math.min(layer.y + 10, 90), layer.size, layer.rot);
+}
+
+function duplicateLastLayer() {
+  if (editorState.layers.length === 0) { addEmojiFromGrid(); return; }
+  const layer = editorState.layers[editorState.layers.length - 1];
+  addLayer(layer.emoji, Math.min(layer.x + 10, 90), Math.min(layer.y + 10, 90), layer.size, layer.rot);
+}
+
+function bringToFront() {
+  const id = editorState.selectedLayerId;
+  if (!id) return;
+  editorState.layers = editorState.layers.filter(l => l.id !== id).concat([editorState.layers.find(l => l.id === id)]);
+  rerenderAllLayers();
+}
+
+function sendToBack() {
+  const id = editorState.selectedLayerId;
+  if (!id) return;
+  const layer = editorState.layers.find(l => l.id === id);
+  editorState.layers = [layer, ...editorState.layers.filter(l => l.id !== id)];
+  rerenderAllLayers();
+}
+
+function rerenderAllLayers() {
+  const wrap = $('editorLayers');
+  wrap.innerHTML = '';
+  editorState.layers.forEach(renderLayer);
+}
+
+function resetEditorLayers() {
+  if (!confirm('¿Quitar todos los emojis?')) return;
+  editorState.layers = [];
+  $('editorLayers').innerHTML = '';
+  selectLayer(null);
+}
+
+// === DRAG / PINCH / ROTATE GESTURES ===
+function startLayerDrag(e) {
+  const el = e.currentTarget;
+  const id = el.dataset.id;
+  const layer = editorState.layers.find(l => l.id === id);
+  if (!layer) return;
+  selectLayer(id);
+  el.setPointerCapture(e.pointerId);
+  el.classList.add('dragging');
+  const rect = $('editorCanvas').getBoundingClientRect();
+  const startX = e.clientX, startY = e.clientY;
+  const origX = layer.x, origY = layer.y;
+  const startDist = null, startAngle = null;
+  const startSize = layer.size, startRot = layer.rot;
+  let pinchState = null;
+
+  function move(ev) {
+    if (ev.pointerType === 'touch' && activePointers.size === 2) return; // handled by pointerdown2
+    const dx = ((ev.clientX - startX) / rect.width) * 100;
+    const dy = ((ev.clientY - startY) / rect.height) * 100;
+    layer.x = Math.max(0, Math.min(100, origX + dx));
+    layer.y = Math.max(0, Math.min(100, origY + dy));
+    el.style.left = layer.x + '%';
+    el.style.top = layer.y + '%';
+  }
+  function end(ev) {
+    el.releasePointerCapture(e.pointerId);
+    el.classList.remove('dragging');
+    el.removeEventListener('pointermove', move);
+    el.removeEventListener('pointerup', end);
+    el.removeEventListener('pointercancel', end);
+  }
+  el.addEventListener('pointermove', move);
+  el.addEventListener('pointerup', end);
+  el.addEventListener('pointercancel', end);
+  e.preventDefault();
+}
+
+// Implementar pinch/rotate con 2 dedos
+const activePointers = new Map();
+document.addEventListener('pointerdown', (e) => {
+  if (!e.target.classList.contains('editor-layer')) return;
+  activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (activePointers.size === 2) startPinch(e.target);
+});
+document.addEventListener('pointermove', (e) => {
+  if (activePointers.has(e.pointerId)) {
+    activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (activePointers.size === 2) updatePinch();
+  }
+});
+document.addEventListener('pointerup', (e) => {
+  activePointers.delete(e.pointerId);
+  if (activePointers.size < 2) endPinch();
+});
+document.addEventListener('pointercancel', (e) => {
+  activePointers.delete(e.pointerId);
+  if (activePointers.size < 2) endPinch();
+});
+
+let pinchInfo = null;
+function startPinch(el) {
+  const id = el.dataset.id;
+  const layer = editorState.layers.find(l => l.id === id);
+  if (!layer) return;
+  const [p1, p2] = [...activePointers.values()];
+  pinchInfo = {
+    el, layer,
+    startDist: Math.hypot(p1.x - p2.x, p1.y - p2.y),
+    startAngle: Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI,
+    startSize: layer.size,
+    startRot: layer.rot
+  };
+}
+function updatePinch() {
+  if (!pinchInfo) return;
+  const [p1, p2] = [...activePointers.values()];
+  const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+  const scale = dist / pinchInfo.startDist;
+  pinchInfo.layer.size = Math.max(20, Math.min(400, pinchInfo.startSize * scale));
+  pinchInfo.layer.rot = pinchInfo.startRot + (angle - pinchInfo.startAngle);
+  renderLayer(pinchInfo.layer);
+  $('layerSize').value = pinchInfo.layer.size;
+  $('layerRot').value = pinchInfo.layer.rot;
+}
+function endPinch() { pinchInfo = null; }
+
+// === PREVIEW & SAVE ===
+function openPreview() {
+  const stage = $('previewStage');
+  if (!stage) return;
+  stage.innerHTML = '';
+  // Reconstruir en un clon del canvas
+  const canvasEl = $('editorCanvas');
+  if (!canvasEl) return;
+  const clone = canvasEl.cloneNode(true);
+  clone.style.position = 'relative';
+  clone.style.width = '100%';
+  clone.style.height = '100%';
+  clone.style.borderRadius = '50%';
+  clone.style.boxShadow = 'none';
+  clone.style.background = 'white';
+  clone.style.overflow = 'hidden';
+  // Quitar selección, botón X y placeholder
+  clone.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+  clone.querySelectorAll('.layer-del').forEach(el => el.remove());
+  const placeholder = clone.querySelector('.editor-placeholder');
+  if (placeholder) placeholder.remove();
+  // Si la foto no se había cargado, dejarla visible
+  stage.appendChild(clone);
+  $('previewModal').classList.add('show');
+}
+
+async function savePhotoEditor() {
+  const kid = state.kids.find(k => k.id === editorState.kidId);
+  if (!kid) return;
+  let photoId = kid.photoId || ('p' + Date.now());
+  if (editorState.photoBlob) {
+    try {
+      await dbPut({ id: photoId, blob: editorState.photoBlob, createdAt: Date.now() });
+    } catch(err) {
+      alert('Error al guardar la foto: ' + err.message);
+      return;
+    }
+  } else if (kid.photoId && !editorState.photoBlob) {
+    // Foto eliminada
+    await dbDelete(kid.photoId).catch(()=>{});
+    photoId = null;
+  }
+
+  const layers = editorState.layers.map(l => ({
+    emoji: l.emoji, x: l.x, y: l.y, size: l.size, rot: l.rot
+  }));
+
+  state.kids = state.kids.map(k => k.id === kid.id ? {
+    ...k,
+    photoId: photoId,
+    layers: layers,
+    // Si no hay foto, mantener emoji como fallback visual
+    hasPhoto: !!editorState.photoBlob
+  } : k);
+  saveState();
+  closePhotoEditor();
+  render();
+  showToast('Personalización guardada ✓', 'like');
+  playSound('success');
+}
+
+// === INTEGRACIÓN CON RENDER ===
+// Modificamos renderKids y demás para mostrar foto si existe.
+// La función getAvatarHTML devuelve la imagen o el emoji
+function getKidAvatarHTML(kid) {
+  // Si tiene foto, mostramos la foto (cargada async). Por defecto emoji.
+  return `<span class="kid-emoji-fallback" data-kid-id="${kid.id}">${kid.emoji}</span>`;
+}
+
+// ============================================================
 // INIT
 // ============================================================
 loadState();
+// Si es primer load, persistir defaults (3 niños, categorías, etc.)
+if (!localStorage.getItem(STORAGE_KEY)) saveState();
 setModeUI();
 render();
+initPhotoEditor();
 </script>
+
+<!-- PHOTO EDITOR MODAL -->
+<div class="modal-bg" id="photoEditorModal">
+  <div class="modal" style="max-width:540px; padding:0; max-height:95vh;">
+    <div class="editor-header">
+      <div>
+        <h2>📸 Personalizar foto</h2>
+        <div class="sub" id="editorKidName">—</div>
+      </div>
+      <button class="btn btn-ghost" style="flex:none; padding:8px 12px; font-size:13px;" onclick="closePhotoEditor()">✕ Cerrar</button>
+    </div>
+
+    <div class="editor-stage" id="editorStage">
+      <div class="editor-canvas" id="editorCanvas">
+        <img class="editor-photo" id="editorPhoto" style="display:none;">
+        <div id="editorLayers" style="position:absolute; inset:0;"></div>
+        <div class="editor-placeholder" id="editorPlaceholder">
+          <div class="ico">📷</div>
+          <div class="msg">Sube una foto para empezar</div>
+          <button onclick="document.getElementById('editorPhotoInput').click()">Elegir foto</button>
+        </div>
+      </div>
+    </div>
+
+    <input type="file" id="editorPhotoInput" accept="image/*" style="display:none;" onchange="editorUploadPhoto(event)">
+
+    <!-- Tabs -->
+    <div class="editor-tabs">
+      <button class="editor-tab active" data-tab="photo" onclick="switchEditorTab('photo')">📷 Foto</button>
+      <button class="editor-tab" data-tab="emoji" onclick="switchEditorTab('emoji')">😀 Emojis</button>
+      <button class="editor-tab" data-tab="photo-ctl" onclick="switchEditorTab('photo-ctl')">🔧 Ajustar</button>
+    </div>
+
+    <!-- Emoji picker -->
+    <div class="sticker-picker" id="emojiPicker">
+      <div style="display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
+        <input type="text" id="customEmojiInput" placeholder="O escribe un emoji 👑" maxlength="4" style="flex:1; padding:8px 12px; border:1.5px solid var(--line); border-radius:10px; font-size:18px; text-align:center;">
+        <button class="btn btn-primary" style="flex:none; padding:8px 14px; font-size:13px;" onclick="addCustomEmoji()">+ Añadir</button>
+      </div>
+      <div class="editor-tabs" style="margin:0 0 10px 0;">
+        <button class="editor-tab active" data-cat="faces" onclick="switchEmojiCat('faces')">😀</button>
+        <button class="editor-tab" data-cat="hearts" onclick="switchEmojiCat('hearts')">❤️</button>
+        <button class="editor-tab" data-cat="stars" onclick="switchEmojiCat('stars')">⭐</button>
+        <button class="editor-tab" data-cat="crown" onclick="switchEmojiCat('crown')">👑</button>
+        <button class="editor-tab" data-cat="animals" onclick="switchEmojiCat('animals')">🐱</button>
+        <button class="editor-tab" data-cat="nature" onclick="switchEmojiCat('nature')">🌈</button>
+        <button class="editor-tab" data-cat="party" onclick="switchEmojiCat('party')">🎉</button>
+        <button class="editor-tab" data-cat="fun" onclick="switchEmojiCat('fun')">😎</button>
+      </div>
+      <div class="sticker-grid" id="emojiGrid"></div>
+    </div>
+
+    <!-- Photo controls -->
+    <div class="sticker-picker" id="photoControls">
+      <div class="control-row">
+        <span class="control-label">Zoom</span>
+        <input type="range" id="photoZoom" min="50" max="300" value="100" oninput="updatePhotoTransform()">
+      </div>
+      <div class="control-row">
+        <span class="control-label">Giro</span>
+        <input type="range" id="photoRotate" min="-180" max="180" value="0" oninput="updatePhotoTransform()">
+      </div>
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <button class="btn btn-ghost" style="flex:1; font-size:12px; padding:10px;" onclick="resetPhotoTransform()">↺ Reset foto</button>
+        <button class="btn btn-ghost" style="flex:1; font-size:12px; padding:10px;" onclick="centerPhoto()">⊕ Centrar</button>
+        <button class="btn btn-danger" style="flex:1; font-size:12px; padding:10px;" onclick="removePhoto()">🗑️ Quitar foto</button>
+      </div>
+    </div>
+
+    <!-- Selected layer controls -->
+    <div class="editor-controls" id="layerControls">
+      <div class="control-row">
+        <span class="control-label">Tamaño</span>
+        <input type="range" id="layerSize" min="20" max="400" value="100" oninput="updateSelectedLayer('size')">
+      </div>
+      <div class="control-row">
+        <span class="control-label">Giro</span>
+        <input type="range" id="layerRot" min="-180" max="180" value="0" oninput="updateSelectedLayer('rot')">
+      </div>
+      <div style="display:flex; gap:6px; margin-top:8px;">
+        <button class="btn btn-ghost" style="flex:1; font-size:11px; padding:8px;" onclick="duplicateLayer()">📋 Duplicar</button>
+        <button class="btn btn-ghost" style="flex:1; font-size:11px; padding:8px;" onclick="bringToFront()">⬆️ Frente</button>
+        <button class="btn btn-ghost" style="flex:1; font-size:11px; padding:8px;" onclick="sendToBack()">⬇️ Fondo</button>
+        <button class="btn btn-danger" style="flex:1; font-size:11px; padding:8px;" onclick="deleteSelectedLayer()">🗑️</button>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="editor-toolbar" id="editorToolbar">
+      <button class="editor-tool" onclick="document.getElementById('editorPhotoInput').click()">📷<small>Subir</small></button>
+      <button class="editor-tool" onclick="addEmojiFromGrid()">😀<small>Emoji</small></button>
+      <button class="editor-tool" onclick="duplicateLastLayer()">📋<small>Duplicar</small></button>
+      <button class="editor-tool" onclick="switchEditorTab('photo-ctl')">🔧<small>Foto</small></button>
+      <button class="editor-tool" onclick="openPreview()">👁️<small>Preview</small></button>
+      <button class="editor-tool" onclick="resetEditorLayers()">🧹<small>Limpiar</small></button>
+    </div>
+
+    <!-- Bottom actions -->
+    <div class="editor-bottom">
+      <button class="btn btn-ghost" onclick="closePhotoEditor()">Cancelar</button>
+      <button class="btn btn-primary" onclick="openPreview()" style="background: linear-gradient(135deg, #7DB1D6 0%, #4A90B8 100%); box-shadow: 0 6px 16px rgba(125, 177, 214, 0.3);">👁️ Vista previa</button>
+      <button class="btn btn-primary" onclick="savePhotoEditor()">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="modal-bg" id="previewModal">
+  <div class="modal" style="max-width:420px; text-align:center;">
+    <div class="modal-grabber"></div>
+    <h2>👁️ Vista previa</h2>
+    <p class="sub" id="previewSub">Así se verá el avatar</p>
+    <div class="preview-stage" id="previewStage"></div>
+    <div style="display:flex; gap:10px; margin-top:20px;">
+      <button class="btn btn-ghost" onclick="closeModal('previewModal')">← Seguir editando</button>
+      <button class="btn btn-primary" onclick="closeModal('previewModal')">✓ Se ve bien</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
