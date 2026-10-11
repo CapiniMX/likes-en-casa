@@ -4,31 +4,43 @@ Aplicación web familiar para registrar likes (👍) y mejoras (🩹) de los hij
 
 ## Estado actual
 
-**v3.0 publicada en producción** · commit `c5e3087`
+**v3.1 publicada en producción** · commit `199e268`
 
 - 📱 Mobile-first, sin servidor, sin tracking
 - 🔒 Almacenamiento privado en localStorage + IndexedDB del navegador
 - 👨‍👩‍👧 Multi-perfil: mamá, papá, ambos
 - 🩹 ❤️ Estados: pendiente y subsanada
 - 🏆 Vitrina de logros con podio
+- ⚡ Selector rápido de motivos al dar Like
 
 ## URL
 
 - **Producción:** https://capinimx.github.io/likes-en-casa/
-- **Preview (v3.0+):** https://capinimx.github.io/likes-en-casa-preview/
+- **Preview (v3.1+):** https://capinimx.github.io/likes-en-casa-preview/
 
 ## Características
 
+### Selector rápido de Likes (⚡ nuevo en v3.1)
+Al tocar **👍 Dar like** aparece un modal compacto con 7 motivos generales + Otro motivo:
+
+- 📚 Escuela y aprendizaje
+- 🧹 Orden y limpieza
+- 🪥 Higiene y autocuidado
+- 🏡 Ayuda en casa
+- 🤝 Convivencia y respeto
+- 🌟 Responsabilidad
+- 🎨 Actividades y talentos
+- ✏️ Otro motivo
+
+Si el usuario creó **motivos personalizados** (en Ajustes > Gestionar motivos), aparecen automáticamente en una sección compacta **"⭐ Mis motivos"** debajo del grid principal.
+
 ### Likes (👍)
-- Botón "Dar like" abre un catálogo con 18 motivos predefinidos
-- Buscador en tiempo real
-- 6 categorías: Escuela, Orden y limpieza, Higiene, Ayuda, Convivencia, Actividades
-- Motivos recientes arriba
-- Botón "Otro motivo" para crear personalizados
-- Autor (mamá/papá/ambos) y comentario opcional
+- Botón "Dar like" abre el selector rápido
+- Al elegir un motivo, se pide confirmar con autor (mamá/papá/ambos) y comentario opcional
+- Los motivos personalizados también están disponibles como tarjetas
 
 ### Mejoras (🩹)
-- Botón "Marcar mejora" registra algo que el niño necesita trabajar
+- Botón "Marcar mejora" registra una conducta a trabajar
 - Aparece en el historial con emoji 🩹
 
 ### Subsanación (❤️)
@@ -61,9 +73,11 @@ Aplicación web familiar para registrar likes (👍) y mejoras (🩹) de los hij
 - `localStorage["***"]` — datos de la app (kids, entries, motivos, config)
 - `IndexedDB["likes_en_casa_db"]` — fotografías de los perfiles
 
-La vista previa usa nombres con namespace (`preview:***` y `likes_en_casa_db_preview`)
-para aislarse de producción, ya que ambas URLs comparten origen
-(`capinimx.github.io`).
+El discriminador `APP_NAMESPACE` detecta la URL en runtime:
+- Producción (`/likes-en-casa/`): claves originales
+- Preview (`/likes-en-casa-preview/`): claves con namespace (`preview:***` y `likes_en_casa_db_preview`)
+
+Esto permite que ambas URLs compartan origen sin colisionar datos.
 
 ## Compatibilidad
 
@@ -84,8 +98,6 @@ para aislarse de producción, ya que ambas URLs comparten origen
 
 - `.gitignore` excluye capturas de UI, respaldos JSON y archivos personales
 - El repo solo contiene `index.html`, `README.md` y `.gitignore`
-- Los nombres de los 3 niños demo (Luke, Dalia, Iris) son los defaults;
-  no son datos reales de ninguna familia
 
 ## Repos relacionados
 
@@ -93,19 +105,31 @@ para aislarse de producción, ya que ambas URLs comparten origen
 - Preview: https://github.com/CapiniMX/likes-en-casa-preview
 - Respaldo histórico: https://github.com/piztian/likes-en-casa
 
+## Tags de respaldo
+
+- `v2.0-stable` — antes del merge v3.0 (catálogo, 3 estados, Logros)
+- `v3.0-pre-selector` — antes del merge v3.1 (selector simplificado)
+
 ## Changelog
 
-### v3.0 (2026-10-11) — commit c5e3087
-- 👍 Like con catálogo de 18 motivos (de EnseñandoLuk, sin montos de dinero)
-- 🩹 Mejora con emoji de curita
-- ❤️ Subsanada con autor (mamá/papá/ambos) y comentario
-- 🏆 Sección Mis Logros con tabs Directos/Superados y podio
-- 📸 Editor de fotos simplificado a 3 acciones
-- 🔒 Subsanar como botón visible en pantalla principal
-- 🔄 Compatibilidad con datos v2.0 (claves originales preservadas)
+### v3.1 (2026-10-11) — commit 199e268
+- ⚡ Selector rápido: 7 motivos generales + Otro motivo en grid 2x4
+- ⭐ Sección "Mis motivos" que muestra motivos personalizados activos
+- Sin barra de categorías ni buscador en el selector rápido
+- Modal más compacto, tarjetas más pequeñas
+- Compatibilidad total con datos v3.0 existentes
 
-### v2.0 (commit 568485c)
-- Editor de fotos con 3 acciones (Tomar/Subir/Quitar)
+### v3.0 (commit a4bbccc) — v3.0-pre-selector
+- 👍 Like con catálogo de 18 motivos
+- 🩹 Mejora pendiente con emoji de curita
+- ❤️ Subsanada con autor y comentario
+- 🏆 Mis Logros con tabs Directos/Superados y podio
+- 📸 Editor de fotos simplificado
+- 🔒 Subsanar como botón visible
+- 🔄 Compatibilidad con datos v2.0
+
+### v2.0 (commit 568485c) — v2.0-stable
+- Editor de fotos con 3 acciones
 - Compresión automática de imágenes
 - Almacenamiento en IndexedDB
 
