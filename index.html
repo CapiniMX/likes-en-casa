@@ -388,7 +388,14 @@
   }
 
   .actions-row {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+  }
+  @media (max-width: 380px) {
+    .actions-row { gap: 8px; }
+    .big-btn { padding: 18px 8px; min-height: 124px; }
+    .big-btn .title { font-size: 15px; }
+    .big-btn .sub { font-size: 11px; }
+    .big-btn .icon-wrap { width: 56px; height: 56px; font-size: 30px; }
   }
   .big-btn {
     border: none;
@@ -445,6 +452,20 @@
   .big-btn.mejora {
     background: linear-gradient(135deg, #FFB6C1 0%, #F06B7E 50%, #D9485F 100%);
     box-shadow: 0 10px 24px rgba(217, 72, 95, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+  .big-btn.subs {
+    background: linear-gradient(135deg, #F8B7CE 0%, #F48FB1 50%, #E06A92 100%);
+    box-shadow: 0 10px 24px rgba(240, 107, 126, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+  .big-btn.subs .icon-wrap { position: relative; }
+  .big-btn.subs .icon-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 50%;
+    transform: translateX(-50%);
+    width: 22px; height: 3px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
   }
   .big-btn:disabled {
     opacity: 0.45;
@@ -1251,6 +1272,117 @@
   }
 
   /* ============================================================
+     SUBSANAR PICKER
+     ============================================================ */
+  .subsanar-picker-modal {
+    max-width: 480px;
+    padding: 18px 16px 16px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .subsanar-picker-modal h2 { text-align: center; font-size: 20px; margin-bottom: 4px; }
+  .subsanar-picker-modal .sub { text-align: center; margin-bottom: 6px; }
+  .subsanar-picker-count {
+    text-align: center;
+    font-family: var(--font-soft);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .subsanar-picker-list {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0 -4px;
+    padding: 0 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .subsanar-picker-list::-webkit-scrollbar { width: 6px; }
+  .subsanar-picker-list::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+  .subsanar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-soft);
+    transition: all 0.15s;
+    width: 100%;
+  }
+  .subsanar-item:hover { border-color: #F48FB1; background: linear-gradient(135deg, #FCE4EC, white); transform: translateY(-1px); }
+  .subsanar-item:active { transform: scale(0.98); }
+  .subsanar-item-icon {
+    font-size: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #FFB6C1, #F06B7E);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    color: white;
+  }
+  .subsanar-item-body { flex: 1; min-width: 0; }
+  .subsanar-item-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-2);
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .subsanar-item-comment {
+    font-size: 12px;
+    color: var(--ink-2);
+    font-style: italic;
+    margin-bottom: 3px;
+    opacity: 0.85;
+    line-height: 1.2;
+  }
+  .subsanar-item-meta {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .subsanar-item-arrow {
+    font-size: 26px;
+    color: var(--muted);
+    flex: none;
+    line-height: 1;
+  }
+
+  .subsanar-empty {
+    text-align: center;
+    padding: 32px 20px;
+  }
+  .subsanar-empty .ico { font-size: 56px; margin-bottom: 12px; }
+  .subsanar-empty .msg {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--teal-700);
+    margin-bottom: 8px;
+  }
+  .subsanar-empty .sub-msg {
+    font-family: var(--font-soft);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* ============================================================
      CATÁLOGO DE MOTIVOS
      ============================================================ */
   .motivo-picker-modal {
@@ -1659,7 +1791,13 @@
           <span class="sheen"></span>
           <div class="icon-wrap">🩹</div>
           <div class="title">Marcar mejora</div>
-          <div class="sub">Algo para trabajar</div>
+          <div class="sub">A trabajar</div>
+        </button>
+        <button class="big-btn subs" onclick="openSubsanarPicker()" id="btnSubsanar" disabled>
+          <span class="sheen"></span>
+          <div class="icon-wrap">❤️</div>
+          <div class="title">Subsanar</div>
+          <div class="sub">Ya lo hizo</div>
         </button>
       </div>
       <div class="quick-cats" id="quickCats"></div>
@@ -2344,16 +2482,21 @@ function renderActions() {
   const title = $('actionsTitle');
   const btnLike = $('btnLike');
   const btnMejora = $('btnMejora');
+  const btnSubsanar = $('btnSubsanar');
   if (!title || !btnLike || !btnMejora) return;
   const kid = state.kids.find(k => k.id === state.lastSelectedKid);
   if (kid) {
     title.textContent = `Para: ${kid.emoji} ${kid.name}`;
     btnLike.disabled = false;
     btnMejora.disabled = false;
+    // Subsanar solo si el niño tiene mejoras pendientes
+    const hasPending = state.entries.some(e => e.kidId === kid.id && e.type === 'mejora' && !e.subsanada);
+    if (btnSubsanar) btnSubsanar.disabled = !hasPending;
   } else {
     title.textContent = 'Elige un hijo para empezar';
     btnLike.disabled = true;
     btnMejora.disabled = true;
+    if (btnSubsanar) btnSubsanar.disabled = true;
   }
 }
 
@@ -3831,6 +3974,65 @@ function saveMotivoCatForm() {
 }
 
 // ============================================================
+// SUBSANAR DESDE BOTÓN PRINCIPAL
+// Lista las mejoras pendientes del niño seleccionado y deja elegir cuál subsanar.
+// ============================================================
+function openSubsanarPicker() {
+  if (!state.lastSelectedKid) { showToast('Selecciona un hijo primero', 'like'); return; }
+  const kid = state.kids.find(k => k.id === state.lastSelectedKid);
+  if (!kid) return;
+  const pendientes = state.entries
+    .filter(e => e.kidId === kid.id && e.type === 'mejora' && !e.subsanada)
+    .sort((a, b) => b.ts - a.ts);
+  $('subsanarPickerKidName').innerHTML = `Para: <b>${kid.emoji} ${escapeHTML(kid.name)}</b>`;
+  $('subsanarPickerCount').textContent = pendientes.length === 0
+    ? 'Sin mejoras pendientes'
+    : (pendientes.length === 1 ? '1 mejora pendiente' : `${pendientes.length} mejoras pendientes`);
+  const list = $('subsanarPickerList');
+  list.innerHTML = '';
+  if (pendientes.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'subsanar-empty';
+    empty.innerHTML = `
+      <div class="ico">✨</div>
+      <div class="msg">¡No tienes mejoras pendientes!</div>
+      <div class="sub-msg">Cuando registres una mejora con 🩹, aparecerá aquí para que la marques como subsanada.</div>
+    `;
+    list.appendChild(empty);
+  } else {
+    pendientes.forEach(e => {
+      const cat = state.categories.find(c => c.id === e.catId);
+      const motivoEmoji = e.motivoEmoji || (cat ? cat.icon : '🩹');
+      const motivoText = e.motivoText || (cat ? cat.name : 'Mejora registrada');
+      const authorEmoji = e.author === 'papá' ? '👨' : e.author === 'ambos' ? '👨‍👩‍👧' : '👩';
+      const authorLabel = e.author === 'papá' ? 'Papá' : e.author === 'ambos' ? 'Ambos' : 'Mamá';
+      const card = document.createElement('button');
+      card.className = 'subsanar-item';
+      card.onclick = () => {
+        closeSubsanarPicker();
+        openSubsanadaModal(e.id);
+      };
+      card.innerHTML = `
+        <div class="subsanar-item-icon">🩹</div>
+        <div class="subsanar-item-body">
+          <div class="subsanar-item-title">${motivoEmoji} ${escapeHTML(motivoText)}</div>
+          ${e.comment ? `<div class="subsanar-item-comment">"${escapeHTML(e.comment)}"</div>` : ''}
+          <div class="subsanar-item-meta">${authorEmoji} ${authorLabel} · ${fmtTime(e.ts)}</div>
+        </div>
+        <div class="subsanar-item-arrow">›</div>
+      `;
+      list.appendChild(card);
+    });
+  }
+  $('subsanarPickerModal').classList.add('show');
+  playSound('click');
+}
+
+function closeSubsanarPicker() {
+  closeModal('subsanarPickerModal');
+}
+
+// ============================================================
 // INIT
 // ============================================================
 loadState();
@@ -3984,5 +4186,17 @@ render();
   </div>
 </div>
 
+<div class="modal-bg" id="subsanarPickerModal">
+  <div class="modal subsanar-picker-modal">
+    <div class="modal-grabber"></div>
+    <h2>❤️ Subsanar mejora</h2>
+    <p class="sub" id="subsanarPickerKidName">—</p>
+    <div class="subsanar-picker-count" id="subsanarPickerCount">—</div>
+    <div class="subsanar-picker-list" id="subsanarPickerList"></div>
+    <button class="btn btn-ghost simple-editor-close" onclick="closeSubsanarPicker()">Cerrar</button>
+  </div>
+</div>
+
 </body>
+</html></body>
 </html>
