@@ -1920,9 +1920,23 @@
 
 <script>
 // ============================================================
-// STATE
+// NAMESPACE & STORAGE
+// Detección por URL para aislar preview de producción.
+// Preview usa prefijo "preview_" en localStorage y base IndexedDB propia.
+// Producción mantiene las claves originales (compat con respaldos v1-v3).
 // ============================================================
-const STORAGE_KEY = '***';
+const APP_NAMESPACE = (function() {
+  try {
+    const path = (typeof location !== 'undefined' && location.pathname) || '';
+    return /\/likes-en-casa-preview\//.test(path) ? 'preview' : 'prod';
+  } catch (e) { return 'prod'; }
+})();
+
+const STORAGE_KEY = APP_NAMESPACE === 'preview' ? 'preview:***' : '***';
+const DB_NAME     = APP_NAMESPACE === 'preview' ? 'likes_en_casa_db_preview' : 'likes_en_casa_db';
+const DB_VERSION  = 1;
+const PHOTOS_STORE = 'photos';
+
 const DEFAULT_PIN = '1234';
 
 const DEFAULT_CATEGORIES = [
@@ -2019,12 +2033,8 @@ let editingMotivoCat = null; // categoría de motivo siendo editada
 let motivoFormState = { id: null, name: '', emoji: '', categoryId: null, isCustom: true, active: true };
 
 // ============================================================
-// INDEXED DB (para fotos)
+// INDEXED DB (para fotos) — DB_NAME definido arriba según namespace
 // ============================================================
-const DB_NAME = 'likes_en_casa_db';
-const DB_VERSION = 1;
-const PHOTOS_STORE = 'photos';
-
 function openDB() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
