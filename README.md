@@ -110,6 +110,12 @@ Esto permite que ambas URLs compartan origen sin colisionar datos.
 - `v2.0-stable` — antes del merge v3.0 (catálogo, 3 estados, Logros)
 - `v3.0-pre-selector` — antes del merge v3.1 (selector simplificado)
 
+## Decisiones definitivas (no se modifican)
+
+- **Sincronización entre dispositivos:** **DESCARTADA por decisión del usuario.** Cada quien mantiene sus registros locales. No es una feature futura.
+- **Nuevas funcionalidades:** **Esta aplicación está cerrada.** Solo se aceptan correcciones de seguridad y bugs críticos. No se agregan features nuevas.
+- **Procedimiento de rollback:** Se prioriza `git revert <commit>` + `git push capinimx main`. No se usa `--force` ni `--force-with-lease` en producción.
+
 ## Changelog
 
 ### v3.1 (2026-10-11) — commit 199e268
