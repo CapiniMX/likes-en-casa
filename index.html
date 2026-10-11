@@ -1708,70 +1708,19 @@
   }
 
   /* ============================================================
-     CATÁLOGO DE MOTIVOS
+     SELECTOR RÁPIDO DE MOTIVOS (al dar LIKE)
+     Modal compacto: 8 opciones en grid 2x4, sin buscador ni chips.
      ============================================================ */
   .motivo-picker-modal {
-    max-width: 520px;
-    padding: 18px 16px 16px;
-    max-height: 92vh;
+    max-width: 460px;
+    padding: 16px 14px 14px;
+    max-height: 88vh;
     display: flex;
     flex-direction: column;
   }
-  .motivo-picker-modal h2 { font-size: 20px; margin-bottom: 4px; text-align: center; }
-  .motivo-picker-modal .sub { text-align: center; margin-bottom: 14px; }
-  .motivo-search-wrap {
-    position: relative;
-    margin-bottom: 10px;
-  }
-  .motivo-search-icon {
-    position: absolute;
-    left: 14px; top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
-    opacity: 0.6;
-  }
-  .motivo-search-wrap input {
-    width: 100%;
-    padding: 12px 14px 12px 40px;
-    border: 1.5px solid var(--line);
-    border-radius: 14px;
-    font-size: 15px;
-    font-family: var(--font-soft);
-    background: var(--bg);
-    transition: border-color 0.15s;
-  }
-  .motivo-search-wrap input:focus { outline: none; border-color: var(--teal-400); background: white; }
-
-  .motivo-cat-chips {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    padding: 4px 2px 8px;
-    margin-bottom: 8px;
-    scrollbar-width: thin;
-  }
-  .motivo-cat-chips::-webkit-scrollbar { height: 4px; }
-  .motivo-cat-chips::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
-  .motivo-cat-chip {
-    flex: none;
-    padding: 7px 12px;
-    border: 1.5px solid var(--line);
-    background: white;
-    border-radius: 999px;
-    font-family: var(--font-soft);
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--ink-2);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-  }
-  .motivo-cat-chip:hover { border-color: var(--teal-300); }
-  .motivo-cat-chip.active {
-    background: var(--teal-400);
-    color: white;
-    border-color: var(--teal-500);
-  }
+  .motivo-picker-modal h2 { font-size: 19px; margin-bottom: 2px; text-align: center; }
+  .motivo-picker-modal .sub { text-align: center; margin-bottom: 12px; font-size: 12.5px; }
+  .motivo-picker-modal .simple-editor-close { margin-top: 10px; }
 
   .motivo-grid-wrap {
     flex: 1;
@@ -1782,6 +1731,7 @@
   }
   .motivo-grid-wrap::-webkit-scrollbar { width: 6px; }
   .motivo-grid-wrap::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  .motivo-grid-wrap-quick { margin: 0; padding: 0; }
 
   .motivo-section-title {
     font-family: var(--font-soft);
@@ -1800,34 +1750,63 @@
     gap: 8px;
     margin-bottom: 6px;
   }
-  @media (min-width: 480px) {
-    .motivo-grid { grid-template-columns: repeat(3, 1fr); }
-  }
+  .motivo-grid-quick { gap: 10px; }
+
   .motivo-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 14px 6px 10px;
+    padding: 12px 6px 10px;
     background: white;
     border: 1.5px solid var(--line);
-    border-radius: 16px;
+    border-radius: 14px;
     cursor: pointer;
     transition: all 0.15s;
     text-align: center;
-    min-height: 86px;
+    min-height: 80px;
     position: relative;
   }
   .motivo-btn:hover { border-color: var(--teal-300); background: var(--teal-50); transform: translateY(-1px); }
   .motivo-btn:active { transform: scale(0.97); }
   .motivo-btn.custom { border-style: dashed; }
-  .motivo-btn .motivo-emoji { font-size: 30px; line-height: 1; margin-bottom: 6px; }
+  .motivo-btn .motivo-emoji { font-size: 28px; line-height: 1; margin-bottom: 4px; }
   .motivo-btn .motivo-name {
     font-family: var(--font-soft);
     font-size: 12.5px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--ink-2);
-    line-height: 1.2;
+    line-height: 1.15;
+  }
+  .motivo-btn-quick {
+    min-height: 96px;
+    padding: 10px 6px 8px;
+    border-radius: 16px;
+  }
+  .motivo-btn-quick .motivo-emoji {
+    font-size: 30px;
+    margin-bottom: 4px;
+  }
+  .motivo-btn-quick .motivo-name {
+    font-size: 12.5px;
+    line-height: 1.15;
+    margin-bottom: 2px;
+  }
+  .motivo-btn-quick .motivo-hint {
+    font-family: var(--font-soft);
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.1;
+    font-weight: 600;
+    max-width: 100%;
+  }
+  .motivo-btn-otro {
+    background: linear-gradient(135deg, var(--gold-300), #FFF6D8);
+    border-color: var(--gold-400);
+  }
+  .motivo-btn-otro:hover {
+    background: linear-gradient(135deg, #FFDF80, var(--gold-300));
+    border-color: var(--gold-500);
   }
   .motivo-custom-badge {
     position: absolute;
@@ -2465,6 +2444,23 @@ const DEFAULT_MOTIVO_CATEGORIES = [
   { id: 'mc4', name: 'Ayuda en casa',             icon: '🍽️', isCustom: false, order: 4 },
   { id: 'mc5', name: 'Convivencia',               icon: '🤝', isCustom: false, order: 5 },
   { id: 'mc6', name: 'Actividades',               icon: '⚽', isCustom: false, order: 6 }
+];
+
+// ============================================================
+// MOTIVOS GENERALES (selector rápido)
+// 7 categorías amplias + "Otro motivo" para personalizar.
+// Reemplazan al catálogo de 18 motivos en el flujo de "Dar like".
+// Los 18 motivos detallados siguen disponibles en Ajustes > Gestionar motivos,
+// y los registros históricos los conservan.
+// ============================================================
+const GENERAL_MOTIVOS = [
+  { id: 'g1', name: 'Escuela y aprendizaje',   emoji: '📚', hint: 'tareas, lectura, mochila' },
+  { id: 'g2', name: 'Orden y limpieza',        emoji: '🧹', hint: 'cama, juguetes, ropa' },
+  { id: 'g3', name: 'Higiene y autocuidado',   emoji: '🪥', hint: 'dientes, baño, aseo' },
+  { id: 'g4', name: 'Ayuda en casa',            emoji: '🏡', hint: 'plantas, platos, compras' },
+  { id: 'g5', name: 'Convivencia y respeto',   emoji: '🤝', hint: 'compartir, modales' },
+  { id: 'g6', name: 'Responsabilidad',         emoji: '🌟', hint: 'cumplir, sin que pidan' },
+  { id: 'g7', name: 'Actividades y talentos',  emoji: '🎨', hint: 'deporte, música, arte' }
 ];
 
 const DEFAULT_MOTIVOS = [
@@ -3948,16 +3944,14 @@ async function removeKidPhoto() {
 }
 
 // ============================================================
-// CATÁLOGO DE MOTIVOS PARA LIKES
-// Modal con buscador, categorías, motivos recientes y personalizados.
+// SELECTOR RÁPIDO DE MOTIVOS (al dar LIKE)
+// 7 motivos generales + "Otro motivo" en grid 2x4 compacto.
+// Los 18 motivos detallados siguen disponibles en Ajustes > Gestionar motivos,
+// y los registros históricos los conservan tal cual.
 // ============================================================
 function openMotivoPicker() {
-  motivoPickerFilter = { catId: 'all', query: '' };
-  $('motivoSearch').value = '';
   renderMotivoPicker();
   $('motivoPickerModal').classList.add('show');
-  // Foco en buscador tras animación
-  setTimeout(() => $('motivoSearch').focus(), 200);
 }
 
 function closeMotivoPicker() {
@@ -3965,108 +3959,53 @@ function closeMotivoPicker() {
 }
 
 function renderMotivoPicker() {
-  const q = (motivoPickerFilter.query || '').toLowerCase().trim();
-  const activeCat = motivoPickerFilter.catId;
-
-  // Categorías como chips horizontales
-  const catChips = $('motivoCatChips');
-  catChips.innerHTML = '';
-  const allBtn = document.createElement('button');
-  allBtn.className = 'motivo-cat-chip' + (activeCat === 'all' ? ' active' : '');
-  allBtn.textContent = '✨ Todas';
-  allBtn.onclick = () => { motivoPickerFilter.catId = 'all'; renderMotivoPicker(); playSound('click'); };
-  catChips.appendChild(allBtn);
-  state.motivoCategories
-    .filter(c => c.active !== false)
-    .sort((a, b) => (a.order || 0) - (b.order || 0))
-    .forEach(cat => {
-      const b = document.createElement('button');
-      b.className = 'motivo-cat-chip' + (activeCat === cat.id ? ' active' : '');
-      b.textContent = `${cat.icon} ${cat.name}`;
-      b.onclick = () => { motivoPickerFilter.catId = cat.id; renderMotivoPicker(); playSound('click'); };
-      catChips.appendChild(b);
-    });
-
-  // Motivos filtrados
   const grid = $('motivoGrid');
+  if (!grid) return;
   grid.innerHTML = '';
-  let motivos = state.motivos.filter(m => m.active !== false);
-
-  // Si hay query, buscar en todas las categorías
-  if (q) {
-    motivos = motivos.filter(m => m.name.toLowerCase().includes(q));
-  } else if (activeCat !== 'all') {
-    motivos = motivos.filter(m => m.categoryId === activeCat);
-  }
-
-  // Sección de recientes (solo si no hay query ni filtro de categoría)
-  if (!q && activeCat === 'all' && state.motivoRecents && state.motivoRecents.length > 0) {
-    const recentsTitle = document.createElement('div');
-    recentsTitle.className = 'motivo-section-title';
-    recentsTitle.textContent = '⭐ Recientes';
-    grid.appendChild(recentsTitle);
-    const recentsWrap = document.createElement('div');
-    recentsWrap.className = 'motivo-grid';
-    const recentMotivos = state.motivoRecents
-      .map(id => state.motivos.find(m => m.id === id))
-      .filter(m => m && m.active !== false)
-      .slice(0, 6);
-    if (recentMotivos.length === 0) {
-      const empty = document.createElement('div');
-      empty.className = 'motivo-empty';
-      empty.textContent = 'Aún no hay motivos recientes. Selecciona uno abajo para empezar.';
-      recentsWrap.appendChild(empty);
-    } else {
-      recentMotivos.forEach(m => recentsWrap.appendChild(buildMotivoBtn(m)));
-    }
-    grid.appendChild(recentsWrap);
-  }
-
-  // Sección principal
-  const mainTitle = document.createElement('div');
-  mainTitle.className = 'motivo-section-title';
-  if (q) {
-    mainTitle.textContent = `🔍 Resultados para "${motivoPickerFilter.query}"`;
-  } else if (activeCat !== 'all') {
-    const cat = state.motivoCategories.find(c => c.id === activeCat);
-    mainTitle.textContent = `${cat ? cat.icon : ''} ${cat ? cat.name : 'Categoría'}`;
-  } else {
-    mainTitle.textContent = '📚 Todos los motivos';
-  }
-  grid.appendChild(mainTitle);
-
-  const mainWrap = document.createElement('div');
-  mainWrap.className = 'motivo-grid';
-  if (motivos.length === 0) {
-    const empty = document.createElement('div');
-    empty.className = 'motivo-empty';
-    if (q) {
-      empty.innerHTML = `Sin resultados para "<b>${escapeHTML(motivoPickerFilter.query)}</b>".<br>Prueba con "Otro motivo" abajo.`;
-    } else {
-      empty.textContent = 'No hay motivos en esta categoría. Crea uno desde Ajustes.';
-    }
-    mainWrap.appendChild(empty);
-  } else {
-    motivos.forEach(m => mainWrap.appendChild(buildMotivoBtn(m)));
-  }
-  grid.appendChild(mainWrap);
+  // 7 motivos generales
+  GENERAL_MOTIVOS.forEach(m => grid.appendChild(buildQuickMotivoBtn(m)));
+  // 8ª opción: Otro motivo
+  grid.appendChild(buildQuickOtroBtn());
 }
 
-function buildMotivoBtn(m) {
+function buildQuickMotivoBtn(m) {
   const b = document.createElement('button');
-  b.className = 'motivo-btn' + (m.isCustom ? ' custom' : '');
+  b.className = 'motivo-btn motivo-btn-quick';
   b.dataset.motivoId = m.id;
   b.innerHTML = `
-    <span class="motivo-emoji">${m.emoji || '⭐'}</span>
+    <span class="motivo-emoji">${m.emoji}</span>
     <span class="motivo-name">${escapeHTML(m.name)}</span>
-    ${m.isCustom ? '<span class="motivo-custom-badge">mío</span>' : ''}
+    <span class="motivo-hint">${escapeHTML(m.hint)}</span>
   `;
-  b.onclick = () => selectMotivo(m.id);
+  b.onclick = () => selectMotivo(m.id, m.name, m.emoji);
   return b;
 }
 
-function selectMotivo(motivoId) {
-  const m = state.motivos.find(x => x.id === motivoId);
+function buildQuickOtroBtn() {
+  const b = document.createElement('button');
+  b.className = 'motivo-btn motivo-btn-quick motivo-btn-otro';
+  b.innerHTML = `
+    <span class="motivo-emoji">✏️</span>
+    <span class="motivo-name">Otro motivo</span>
+    <span class="motivo-hint">escribe el tuyo</span>
+  `;
+  b.onclick = () => selectCustomMotivo();
+  return b;
+}
+
+function selectMotivo(motivoId, fallbackName, fallbackEmoji) {
+  // Buscar primero en motivos detallados (registros históricos / gestión).
+  // Si no, usar el motivo general de GENERAL_MOTIVOS.
+  let m = state.motivos.find(x => x.id === motivoId);
+  if (!m) {
+    const g = GENERAL_MOTIVOS.find(x => x.id === motivoId);
+    if (g) {
+      m = { id: g.id, name: g.name, emoji: g.emoji };
+    }
+  }
+  if (!m && fallbackName) {
+    m = { id: motivoId, name: fallbackName, emoji: fallbackEmoji || '⭐' };
+  }
   if (!m) return;
   pendingMotivoId = m.id;
   pendingMotivoText = m.name;
@@ -4673,20 +4612,12 @@ render();
   <div class="modal motivo-picker-modal">
     <div class="modal-grabber"></div>
     <h2>👍 ¿Por qué se lo gana?</h2>
-    <p class="sub" id="motivoPickerSub">Elige el motivo del reconocimiento</p>
+    <p class="sub" id="motivoPickerSub">Toca el motivo. Después podrás agregar un detalle.</p>
 
-    <div class="motivo-search-wrap">
-      <span class="motivo-search-icon">🔍</span>
-      <input type="text" id="motivoSearch" placeholder="Buscar motivo..." oninput="onMotivoSearchInput(event)" autocomplete="off">
+    <div class="motivo-grid-wrap motivo-grid-wrap-quick">
+      <div id="motivoGrid" class="motivo-grid motivo-grid-quick"></div>
     </div>
 
-    <div class="motivo-cat-chips" id="motivoCatChips"></div>
-
-    <div class="motivo-grid-wrap">
-      <div id="motivoGrid"></div>
-    </div>
-
-    <button class="btn btn-ghost motivo-custom-btn" onclick="selectCustomMotivo()">✏️ Otro motivo (escríbelo)</button>
     <button class="btn btn-ghost simple-editor-close" onclick="closeMotivoPicker()">Cancelar</button>
   </div>
 </div>
